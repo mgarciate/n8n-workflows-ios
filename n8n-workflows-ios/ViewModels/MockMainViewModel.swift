@@ -9,6 +9,7 @@
 import SwiftUI
 
 final class MockMainViewModel: MainViewModelProtocol {
+    @Published var isLoading: Bool = false
     @Published var workflows: [Workflow] = []
     
     func fetchData() async {

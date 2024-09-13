@@ -10,6 +10,7 @@ import SwiftUI
 
 final class MockWorkflowExecutionsViewModel: WorkflowExecutionsViewProtocol {
     var workflow: Workflow
+    @Published var isLoading: Bool = false
     @Published var executions: [Execution] = []
     
     init(workflow: Workflow) {

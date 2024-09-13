@@ -9,8 +9,9 @@
 import SwiftUI
 
 protocol MainViewModelProtocol: ObservableObject {
+    var isLoading: Bool { get set }
     var workflows: [Workflow] { get set }
 
     func fetchData() async
-    func toggleWorkflowActive(id: String, isActive: Bool)
+    func toggleWorkflowActive(id: String, isActive: Bool) async
 }

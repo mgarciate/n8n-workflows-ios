@@ -9,6 +9,7 @@ import SwiftUI
 
 final class WorkflowExecutionsViewModel: WorkflowExecutionsViewProtocol {
     var workflow: Workflow
+    @Published var isLoading: Bool = false
     @Published var executions: [Execution] = []
     
     init(workflow: Workflow) {
@@ -16,6 +17,7 @@ final class WorkflowExecutionsViewModel: WorkflowExecutionsViewProtocol {
     }
     
     func fetchData() async {
+        await isLoading(true)
         do {
             let executions = try await NetworkService<DataResponse<Execution>>().get(endpoint: "executions", params: ["workflowId": workflow.id]).data
             await MainActor.run {
@@ -25,6 +27,13 @@ final class WorkflowExecutionsViewModel: WorkflowExecutionsViewProtocol {
 #if DEBUG
             print("Error", error)
 #endif
+        }
+        await isLoading(false)
+    }
+    
+    private func isLoading(_ isLoading: Bool) async {
+        await MainActor.run {
+            self.isLoading = isLoading
         }
     }
 }

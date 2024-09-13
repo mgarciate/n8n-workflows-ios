@@ -8,6 +8,7 @@
 import SwiftUI
 
 protocol WorkflowExecutionsViewProtocol: ObservableObject {
+    var isLoading: Bool { get set }
     var workflow: Workflow { get }
     var executions: [Execution] { get set }
 

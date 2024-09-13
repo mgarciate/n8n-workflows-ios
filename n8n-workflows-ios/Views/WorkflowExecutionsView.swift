@@ -14,6 +14,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
             Text(execution.id)
         }
         .onAppear() {
+            print("WorkflowExecutionsView onAppear")
             Task {
                 await viewModel.fetchData()
             }
