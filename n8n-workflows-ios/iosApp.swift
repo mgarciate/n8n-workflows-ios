@@ -11,9 +11,7 @@ import SwiftUI
 struct iosApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                MainView(viewModel: MainViewModel())
-            }
+            MainView(viewModel: MainViewModel())
         }
     }
 }
