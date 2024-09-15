@@ -7,26 +7,18 @@
 
 import SwiftUI
 
-struct ActionButton: View {
-    let systemName: String
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: systemName)
-                .resizable()
-                .scaledToFit()
-                .padding(10)
-                .frame(width: 50, height: 50)
-                .foregroundColor(.white)
-                .background(Color.black)
-                .cornerRadius(25)
-        }
+enum MainActionSheet: Hashable, Identifiable {
+    case settings
+    case executions(workflow: Workflow)
+    
+    var id: Self {
+        return self
     }
 }
 
 struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     @StateObject var viewModel: ViewModel
+    @State var actionSheet: MainActionSheet?
     var body: some View {
         ZStack {
             VStack(alignment: .center, spacing: 20) {
@@ -36,12 +28,13 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     Spacer()
                     HStack {
                         ActionButton(systemName: "gearshape") {
-                            print("Action")
+                            actionSheet = .settings
                         }
                     }
                 }
+                .padding(.horizontal)
                 List(viewModel.workflows) { workflow in
-                    NavigationLink(destination: WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))) {
+                    VStack {
                         Toggle(workflow.name, isOn: Binding(
                             get: { workflow.active },
                             set: { newValue in
@@ -50,6 +43,17 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                                 }
                             }
                         ))
+                        HStack {
+                            Text(workflow.createdAt)
+                            Text(workflow.updatedAt)
+                            Spacer()
+                        }
+                        .foregroundStyle(Color("Gray"))
+                        .font(.caption.italic())
+                    }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
+                    .onTapGesture {
+                        actionSheet = .executions(workflow: workflow)
                     }
                 }
                 .disabled(viewModel.isLoading)
@@ -58,19 +62,33 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                         await viewModel.fetchData()
                     }
                 }
-                .onAppear() {
-                    print("MainView onAppear")
-                    Task {
-                        await viewModel.fetchData()
-                    }
-                }
+                .scrollContentBackground(.hidden)
             }
         }
-        .padding()
-//        .sheet(item: $actionSheet) { item in
-//        }
+        .sheet(item: $actionSheet) { item in
+            switch(item) {
+            case .settings:
+                SettingsView(actionSheet: $actionSheet)
+            case .executions(let workflow):
+                WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow), actionSheet: $actionSheet)
+            }
+        }
 //        .alert(isPresented: $viewModel.isMigrationAlertPresented) {
+//            Alert(title: Text(Resources.Strings.Common.appName),
+//                  message: Text(Resources.Strings.Migration.v150.message),
+//                  primaryButton: .cancel(),
+//                  secondaryButton: .destructive(Text(Resources.Strings.Common.signOut)) {
+//                viewModel.signOut()
+//            }
+//            )
 //        }
+
+        .onAppear() {
+            print("MainView onAppear")
+            Task {
+                await viewModel.fetchData()
+            }
+        }
     }
 }
 

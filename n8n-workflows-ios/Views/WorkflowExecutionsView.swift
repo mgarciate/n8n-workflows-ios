@@ -9,9 +9,15 @@ import SwiftUI
 
 struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutionsViewProtocol {
     @StateObject var viewModel: ViewModel
+    @Binding var actionSheet: MainActionSheet?
     var body: some View {
-        List(viewModel.executions) { execution in
-            Text(execution.id)
+        VStack {
+            SheetTitleView(title: viewModel.workflow.name, closeAction: {
+                actionSheet = nil
+            })
+            List(viewModel.executions) { execution in
+                Text(execution.id)
+            }
         }
         .onAppear() {
             print("WorkflowExecutionsView onAppear")
@@ -19,10 +25,10 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
                 await viewModel.fetchData()
             }
         }
-        .navigationTitle(viewModel.workflow.name)
     }
 }
 
 #Preview {
-    WorkflowExecutionsView(viewModel: MockWorkflowExecutionsViewModel(workflow: Workflow.dummyWorkflows[0]))
+    let workflow = Workflow.dummyWorkflows[0]
+    WorkflowExecutionsView(viewModel: MockWorkflowExecutionsViewModel(workflow: workflow), actionSheet: .constant(.executions(workflow: workflow)))
 }
