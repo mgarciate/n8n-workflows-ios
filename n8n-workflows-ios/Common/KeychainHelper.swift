@@ -9,19 +9,23 @@ import Foundation
 import Security
 
 class KeychainHelper: @unchecked Sendable {
+    // TODO: remove this static value
+    static let service = "api-key"
+    static let account = "Instance1"
     
     static let shared = KeychainHelper()
 
     private init() {}
 
     func saveApiKey(_ apiKey: String, service: String, account: String) -> Bool {
+        print("saveApiKey: \(apiKey)")
         let data = Data(apiKey.utf8)
 
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
-            kSecValueData as String: data
+            kSecValueData as String: data,
         ]
 
         SecItemDelete(query as CFDictionary)  // Remove existing item if any
@@ -31,12 +35,13 @@ class KeychainHelper: @unchecked Sendable {
     }
 
     func retrieveApiKey(service: String, account: String) -> String? {
+        print("retrieveApiKey")
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: account,
             kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne
+            kSecMatchLimit as String: kSecMatchLimitOne,
         ]
 
         var item: AnyObject?
@@ -53,7 +58,7 @@ class KeychainHelper: @unchecked Sendable {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
-            kSecAttrAccount as String: account
+            kSecAttrAccount as String: account,
         ]
 
         let status = SecItemDelete(query as CFDictionary)

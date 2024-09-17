@@ -7,10 +7,15 @@
 
 import Foundation
 
+enum WorkflowActionType {
+    case activate, deactivate
+}
+
 class NetworkService<T> where T: Codable {
     enum ApiError: Error {
         case missingURL
         case badResponse
+        case unauthorized
         case parsingError
     }
     private let urlSession: URLSession
@@ -18,7 +23,7 @@ class NetworkService<T> where T: Codable {
     
     init() {
         urlSession = URLSession.shared
-        baseURL = "http://10.0.0.100:5678/api/v1"
+        baseURL = "http://192.168.0.104:5678/api/v1"
     }
     
     func get(endpoint: String, params: [String: Any] = [:]) async throws -> T {
@@ -31,8 +36,10 @@ class NetworkService<T> where T: Codable {
         guard let url = urlComponents.url else {
             throw ApiError.missingURL
         }
+        guard let apiKey = KeychainHelper.shared.retrieveApiKey(service: KeychainHelper.service, account: KeychainHelper.account),
+                !apiKey.isEmpty else { throw ApiError.unauthorized }
         var urlRequest = URLRequest(url: url)
-        urlRequest.addValue("", forHTTPHeaderField: "X-N8N-API-KEY")
+        urlRequest.addValue(apiKey, forHTTPHeaderField: "X-N8N-API-KEY")
         let (data, response) = try await urlSession.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw ApiError.badResponse }
         do{
@@ -46,8 +53,11 @@ class NetworkService<T> where T: Codable {
     
     func post(endpoint: String, body: [String: Any]) async throws -> T {
         guard let url = URL(string: [baseURL, endpoint].joined(separator: "/")) else { throw ApiError.missingURL }
+        guard let apiKey = KeychainHelper.shared.retrieveApiKey(service: KeychainHelper.service, account: KeychainHelper.account),
+                !apiKey.isEmpty else { throw ApiError.unauthorized }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
+        urlRequest.addValue(apiKey, forHTTPHeaderField: "X-N8N-API-KEY")
         urlRequest.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
 

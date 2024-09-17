@@ -68,7 +68,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         .sheet(item: $actionSheet) { item in
             switch(item) {
             case .settings:
-                SettingsView(actionSheet: $actionSheet)
+                SettingsView(viewModel: SettingsViewModel(), actionSheet: $actionSheet)
             case .executions(let workflow):
                 WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow), actionSheet: $actionSheet)
             }

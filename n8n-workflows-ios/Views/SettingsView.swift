@@ -9,11 +9,40 @@ import SwiftUI
 
 
 
-struct SettingsView: View {
+
+final class SettingsViewModel: SettingsViewModelProtocol {
+    @Published var apiKey: String = ""
+    var apiKeyBinding: Binding<String> {
+        Binding(
+            get: { self.apiKey },
+            set: { newValue in
+                self.apiKey = newValue
+                self.saveApiKey()
+            }
+        )
+    }
+    
+    init() {
+        apiKey = KeychainHelper.shared.retrieveApiKey(
+            service: KeychainHelper.service,
+            account: KeychainHelper.account
+        ) ?? ""
+    }
+    
+    private func saveApiKey() {
+        _ = KeychainHelper.shared.saveApiKey(
+            apiKey,
+            service: KeychainHelper.service,
+            account: KeychainHelper.account
+        )
+    }
+}
+
+struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol {
+    @StateObject var viewModel: ViewModel
     @Binding var actionSheet: MainActionSheet?
     @AppStorage("autohost") var autohostIsOn: Bool = false
     @AppStorage("url") var url: String = ""
-    @AppStorage("apiKey") var apiKey: String = ""
     @State var isSecured: Bool = true
     var body: some View {
         VStack {
@@ -41,9 +70,9 @@ struct SettingsView: View {
                         ZStack(alignment: .trailing) {
                             Group {
                                 if isSecured {
-                                    SecureField("API-KEY", text: $apiKey)
+                                    SecureField("API-KEY", text: viewModel.apiKeyBinding)
                                 } else {
-                                    TextField("API-KEY", text: $apiKey, axis: .vertical)
+                                    TextField("API-KEY", text: viewModel.apiKeyBinding, axis: .vertical)
                                 }
                             }.padding(.trailing, 32)
                             Button(action: {
@@ -53,7 +82,7 @@ struct SettingsView: View {
                                     .accentColor(.gray)
                             }
                         }
-                        if apiKey.isEmpty {
+                        if viewModel.apiKey.isEmpty {
                             Text("Cannot be empty")
                                 .foregroundStyle(.red)
                                 .font(.caption.italic())
@@ -67,5 +96,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(actionSheet: .constant(.settings))
+    SettingsView(viewModel: MockSettingsViewModel(), actionSheet: .constant(.settings))
 }
