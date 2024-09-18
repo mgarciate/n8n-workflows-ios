@@ -25,22 +25,17 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     
     var body: some View {
         NavigationStack {
-            List(viewModel.workflows) { workflow in
-                NavigationLink {
-                    WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))
-                } label: {
-                    WorkflowItemView(workflow: workflow) { newValue in
-                        Task {
-                            await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
-                        }
-                    }
+            VStack {
+                if viewModel.workflows.isEmpty {
+                    ContentUnavailableCompatView(
+                        title: "No workflows",
+                        description: "description aksldñjf klñasdjfñlasdj flñadskj flsadkj fsadkl",
+                        systemImage: "flowchart"
+                    )
+                } else {
+                    content
                 }
             }
-            .disabled(viewModel.isLoading)
-            .refreshable {
-                fetchDataTask()
-            }
-            .scrollContentBackground(.hidden)
             .navigationTitle("Workflows")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -83,6 +78,25 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         .onAppear() {
             fetchDataTask()
         }
+    }
+    
+    var content: some View {
+        List(viewModel.workflows) { workflow in
+            NavigationLink {
+                WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))
+            } label: {
+                WorkflowItemView(workflow: workflow) { newValue in
+                    Task {
+                        await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
+                    }
+                }
+            }
+        }
+        .disabled(viewModel.isLoading)
+        .refreshable {
+            fetchDataTask()
+        }
+        .scrollContentBackground(.hidden)
     }
     
     private func fetchDataTask() {
