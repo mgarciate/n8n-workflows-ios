@@ -17,77 +17,78 @@ enum MainActionSheet: Hashable, Identifiable {
 }
 
 struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
+    @Environment(\.scenePhase) var scenePhase
+    
     @StateObject var viewModel: ViewModel
-    @State var actionSheet: MainActionSheet?
+    @State private var showSettings = false
+    @State private var isInactiveOrBackground = false
+    
     var body: some View {
-        ZStack {
-            VStack(alignment: .center, spacing: 20) {
-                HStack {
-                    Text("Workflows")
-                        .font(Font.title.bold())
-                    Spacer()
-                    HStack {
-                        ActionButton(systemName: "gearshape") {
-                            actionSheet = .settings
+        NavigationStack {
+            List(viewModel.workflows) { workflow in
+                NavigationLink {
+                    WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))
+                } label: {
+                    WorkflowItemView(workflow: workflow) { newValue in
+                        Task {
+                            await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
                         }
                     }
                 }
-                .padding(.horizontal)
-                List(viewModel.workflows) { workflow in
-                    VStack {
-                        Toggle(workflow.name, isOn: Binding(
-                            get: { workflow.active },
-                            set: { newValue in
-                                Task {
-                                    await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
-                                }
-                            }
-                        ))
-                        HStack {
-                            Text(workflow.createdAt)
-                            Text(workflow.updatedAt)
-                            Spacer()
-                        }
-                        .foregroundStyle(Color("Gray"))
-                        .font(.caption.italic())
-                    }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2))
-                    .onTapGesture {
-                        actionSheet = .executions(workflow: workflow)
+            }
+            .disabled(viewModel.isLoading)
+            .refreshable {
+                fetchDataTask()
+            }
+            .scrollContentBackground(.hidden)
+            .navigationTitle("Workflows")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gear")
                     }
                 }
-                .disabled(viewModel.isLoading)
-                .refreshable {
-                    Task {
-                        await viewModel.fetchData()
-                    }
-                }
-                .scrollContentBackground(.hidden)
             }
         }
-        .sheet(item: $actionSheet) { item in
-            switch(item) {
-            case .settings:
-                SettingsView(viewModel: SettingsViewModel(), actionSheet: $actionSheet)
-            case .executions(let workflow):
-                WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow), actionSheet: $actionSheet)
+        .fullScreenCover(isPresented: $showSettings, onDismiss: {
+            fetchDataTask()
+        }) {
+            SettingsView(viewModel: SettingsViewModel())
+        }
+        //        .alert(isPresented: $viewModel.isMigrationAlertPresented) {
+        //            Alert(title: Text(Resources.Strings.Common.appName),
+        //                  message: Text(Resources.Strings.Migration.v150.message),
+        //                  primaryButton: .cancel(),
+        //                  secondaryButton: .destructive(Text(Resources.Strings.Common.signOut)) {
+        //                viewModel.signOut()
+        //            }
+        //            )
+        //        }
+        .onChange(of: scenePhase) { newPhase in
+            switch newPhase {
+            case .inactive, .background:
+                isInactiveOrBackground = true
+            case .active:
+                guard isInactiveOrBackground else { return }
+                isInactiveOrBackground = false
+                fetchDataTask()
+            @unknown default:
+#if DEBUG
+                print("do nothing")
+#endif
             }
         }
-//        .alert(isPresented: $viewModel.isMigrationAlertPresented) {
-//            Alert(title: Text(Resources.Strings.Common.appName),
-//                  message: Text(Resources.Strings.Migration.v150.message),
-//                  primaryButton: .cancel(),
-//                  secondaryButton: .destructive(Text(Resources.Strings.Common.signOut)) {
-//                viewModel.signOut()
-//            }
-//            )
-//        }
-
         .onAppear() {
-            print("MainView onAppear")
-            Task {
-                await viewModel.fetchData()
-            }
+            fetchDataTask()
+        }
+    }
+    
+    private func fetchDataTask() {
+        print("fetchDataTask")
+        Task {
+            await viewModel.fetchData()
         }
     }
 }

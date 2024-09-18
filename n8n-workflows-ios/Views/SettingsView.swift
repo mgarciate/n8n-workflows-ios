@@ -9,46 +9,17 @@ import SwiftUI
 
 
 
-
-final class SettingsViewModel: SettingsViewModelProtocol {
-    @Published var apiKey: String = ""
-    var apiKeyBinding: Binding<String> {
-        Binding(
-            get: { self.apiKey },
-            set: { newValue in
-                self.apiKey = newValue
-                self.saveApiKey()
-            }
-        )
-    }
-    
-    init() {
-        apiKey = KeychainHelper.shared.retrieveApiKey(
-            service: KeychainHelper.service,
-            account: KeychainHelper.account
-        ) ?? ""
-    }
-    
-    private func saveApiKey() {
-        _ = KeychainHelper.shared.saveApiKey(
-            apiKey,
-            service: KeychainHelper.service,
-            account: KeychainHelper.account
-        )
-    }
-}
-
 struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol {
+    @Environment(\.dismiss) private var dismiss
+    
     @StateObject var viewModel: ViewModel
-    @Binding var actionSheet: MainActionSheet?
+    @State var isSecured: Bool = true
+    
     @AppStorage("autohost") var autohostIsOn: Bool = false
     @AppStorage("url") var url: String = ""
-    @State var isSecured: Bool = true
+    
     var body: some View {
-        VStack {
-            SheetTitleView(title: "Settings", closeAction: {
-                actionSheet = nil
-            })
+        NavigationStack {
             List {
                 Section("Host") {
                     Toggle("Self-hosted", isOn: $autohostIsOn)
@@ -90,11 +61,27 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                     }
                 }
             }
-            Spacer()
+            .navigationTitle("Settings")
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Save")
+                    }
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Cancel")
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
-    SettingsView(viewModel: MockSettingsViewModel(), actionSheet: .constant(.settings))
+    SettingsView(viewModel: MockSettingsViewModel())
 }
