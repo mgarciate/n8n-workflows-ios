@@ -16,8 +16,8 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
                 if viewModel.executions.isEmpty {
                     ContentUnavailableCompatView(
                         title: "No executions",
-                        description: "figure.run",
-                        systemImage: "description aksldñjf klñasdjfñlasdj flñadskj flsadkj fsadkl"
+                        description: "description aksldñjf klñasdjfñlasdj flñadskj flsadkj fsadkl",
+                        systemImage: "figure.run"
                     )
                 } else {
                     content
