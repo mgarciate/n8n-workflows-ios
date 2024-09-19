@@ -18,7 +18,7 @@ final class MockMainViewModel: MainViewModelProtocol {
     
     func toggleWorkflowActive(id: String, isActive: Bool) {
         if let index = workflows.firstIndex(where: { $0.id == id }) {
-            let updatedWorkflow = Workflow(id: workflows[index].id, name: workflows[index].name, active: isActive, createdAt: workflows[index].createdAt, updatedAt: workflows[index].updatedAt)
+            let updatedWorkflow = Workflow(id: workflows[index].id, name: workflows[index].name, active: isActive, createdAt: workflows[index].createdAt, updatedAt: workflows[index].updatedAt, nodes: workflows[index].nodes)
             workflows[index] = updatedWorkflow
         }
     }

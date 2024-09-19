@@ -29,7 +29,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 if viewModel.workflows.isEmpty {
                     ContentUnavailableCompatView(
                         title: "No workflows",
-                        description: "description aksldñjf klñasdjfñlasdj flñadskj flsadkj fsadkl",
+                        description: " description aksldñjf klñasdjfñlasdj ⚙️ ⤴  flñadskj flsadkj fsadkl",
                         systemImage: "flowchart"
                     )
                 } else {

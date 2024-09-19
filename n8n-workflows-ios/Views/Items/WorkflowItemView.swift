@@ -22,6 +22,13 @@ struct WorkflowItemView: View {
                 }
                 .foregroundStyle(Color("Gray"))
                 .font(.caption.italic())
+                ForEach(workflow.webhooks) { webhook in
+                    Button("Launch \(webhook.name)") {
+                        
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.mini)
+                }
             }
             Toggle("", isOn: Binding(
                 get: { workflow.active },
