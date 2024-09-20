@@ -8,13 +8,12 @@
 import SwiftUI
 
 final class MockSettingsViewModel: SettingsViewModelProtocol {
+    @Published var selfhostIsOn: Bool = false
+    @Published var url: String = ""
     @Published var apiKey: String = ""
-    var apiKeyBinding: Binding<String> {
-        Binding(
-            get: { self.apiKey },
-            set: { newValue in
-                self.apiKey = newValue
-            }
-        )
-    }
+    @Published var webhookAuthenticationType: WebhookAuthType = .none
+    @Published var webhookAuthenticationParam1: String = ""
+    @Published var webhookAuthenticationParam2: String = ""
+    
+    func save() {}
 }
