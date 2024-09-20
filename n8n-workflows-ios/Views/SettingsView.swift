@@ -24,40 +24,36 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 Section("Host") {
                     Toggle("Self-hosted", isOn: $autohostIsOn)
                     if autohostIsOn {
-                        VStack(alignment: .leading) {
-                            TextField("https://domain:port", text: $url)
-                                .keyboardType(.URL)
-                                .textInputAutocapitalization(.never)
-                            if url.isEmpty {
-                                Text("Cannot be empty")
-                                    .foregroundStyle(.red)
-                                    .font(.caption.italic())
-                            }
-                        }
-                    }
-                }
-                Section("Credentials") {
-                    VStack(alignment: .leading) {
-                        ZStack(alignment: .trailing) {
-                            Group {
-                                if isSecured {
-                                    SecureField("API-KEY", text: viewModel.apiKeyBinding)
-                                } else {
-                                    TextField("API-KEY", text: viewModel.apiKeyBinding, axis: .vertical)
-                                }
-                            }.padding(.trailing, 32)
-                            Button(action: {
-                                isSecured.toggle()
-                            }) {
-                                Image(systemName: self.isSecured ? "eye.slash" : "eye")
-                                    .accentColor(.gray)
-                            }
-                        }
-                        if viewModel.apiKey.isEmpty {
+                        TextField("https://domain:port", text: $url)
+                            .keyboardType(.URL)
+                            .textInputAutocapitalization(.never)
+                        if url.isEmpty {
                             Text("Cannot be empty")
                                 .foregroundStyle(.red)
                                 .font(.caption.italic())
                         }
+                    }
+                }
+                Section("Credentials") {
+                    ZStack(alignment: .trailing) {
+                        Group {
+                            if isSecured {
+                                SecureField("API-KEY", text: viewModel.apiKeyBinding)
+                            } else {
+                                TextField("API-KEY", text: viewModel.apiKeyBinding, axis: .vertical)
+                            }
+                        }.padding(.trailing, 32)
+                        Button(action: {
+                            isSecured.toggle()
+                        }) {
+                            Image(systemName: self.isSecured ? "eye.slash" : "eye")
+                                .accentColor(.gray)
+                        }
+                    }
+                    if viewModel.apiKey.isEmpty {
+                        Text("Cannot be empty")
+                            .foregroundStyle(.red)
+                            .font(.caption.italic())
                     }
                 }
             }
