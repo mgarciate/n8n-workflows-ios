@@ -24,7 +24,7 @@ struct WorkflowItemView: View {
                 .font(.caption.italic())
                 ForEach(workflow.webhooks) { webhook in
                     Button("Launch \(webhook.name)") {
-                        
+                        print("webhook \(webhook.path)")
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.mini)

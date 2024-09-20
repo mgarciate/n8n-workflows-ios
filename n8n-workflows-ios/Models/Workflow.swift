@@ -10,6 +10,7 @@ import AppIntents
 struct Webhook: Codable, Identifiable {
     let id: String
     let name: String
+    let path: String
 }
 
 enum WorkflowNodeType: String {
@@ -30,10 +31,15 @@ extension WorkflowNodeType: Codable {
     }
 }
 
+struct WorkflowNodeParameters: Codable, Hashable {
+    let path: String?
+}
+
 struct WorkflowNode: Codable, Hashable {
     let name: String
     let type: WorkflowNodeType?
     let webhookId: String?
+    let parameters: WorkflowNodeParameters?
 }
 
 struct Workflow: Codable, Identifiable, Hashable {
@@ -49,16 +55,17 @@ extension Workflow {
     var webhooks: [Webhook] {
         nodes.compactMap {
             guard $0.type == .workflow,
-                    let webhookId = $0.webhookId,
-                    !webhookId.isEmpty else { return nil }
-            return Webhook(id: webhookId, name: $0.name)
+                  let webhookId = $0.webhookId,
+                  let path = $0.parameters?.path,
+                  !path.isEmpty else { return nil }
+            return Webhook(id: webhookId, name: $0.name, path: path)
         }
     }
 }
 
 extension Workflow {
     static let dummyWorkflows = (0...10).map {
-        let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)") : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil)
+        let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)")) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
         return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: "createdAt", updatedAt: "updatedAt", nodes: [node])
     }
 }
