@@ -15,9 +15,10 @@ struct WorkflowItemView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(workflow.name)
+                    .fontWeight(.bold)
                 HStack {
-                    Text(workflow.createdAt)
-                    Text(workflow.updatedAt)
+                    Text("Last update")
+                    Text(workflow.updatedAt.date?.timeAgoDisplay ?? "-")
                     Spacer()
                 }
                 .foregroundStyle(Color("Gray"))

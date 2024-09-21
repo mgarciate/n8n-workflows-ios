@@ -64,9 +64,20 @@ extension Workflow {
 }
 
 extension Workflow {
-    static let dummyWorkflows = (0...10).map {
-        let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)")) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
-        return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: "createdAt", updatedAt: "updatedAt", nodes: [node])
+    static private func format(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter.string(from: date)
+    }
+    static var dummyWorkflows: [Workflow] {
+        var date = "2024-09-20T21:11:58.094Z".date ?? Date.now
+        return (0...10).map {
+            let createdDate = date
+            let updatedDate = date.addingTimeInterval(60) // add 1 minute
+            date.addTimeInterval(3600) // add 1 hour
+            let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)")) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
+            return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: format(date: createdDate), updatedAt: format(date: updatedDate), nodes: [node])
+        }
     }
 }
 

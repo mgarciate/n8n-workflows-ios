@@ -16,7 +16,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
                 if viewModel.executions.isEmpty {
                     ContentUnavailableCompatView(
                         title: "No executions",
-                        description: "description aksldñjf klñasdjfñlasdj flñadskj flsadkj fsadkl",
+                        description: "",
                         systemImage: "figure.run"
                     )
                 } else {
@@ -26,16 +26,26 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
             .navigationTitle(viewModel.workflow.name)
             .onAppear() {
                 print("WorkflowExecutionsView onAppear")
-                Task {
-                    await viewModel.fetchData()
-                }
+                fetchDataTask()
             }
         }
     }
     
     var content: some View {
         List(viewModel.executions) { execution in
-            Text(execution.id)
+            ExecutionItemView(execution: execution)
+        }
+        .disabled(viewModel.isLoading)
+        .refreshable {
+            fetchDataTask()
+        }
+        .scrollContentBackground(.hidden)
+    }
+    
+    private func fetchDataTask() {
+        print("fetchDataTask")
+        Task {
+            await viewModel.fetchData()
         }
     }
 }
