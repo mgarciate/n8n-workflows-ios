@@ -44,15 +44,13 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
     var sectionHost: some View {
         Section("Host") {
             Toggle("Self-hosted", isOn: $viewModel.selfhostIsOn)
-            if viewModel.selfhostIsOn {
-                TextField("https://domain:port", text: $viewModel.url)
-                    .keyboardType(.URL)
-                    .textInputAutocapitalization(.never)
-                if viewModel.url.isEmpty {
-                    Text("Cannot be empty")
-                        .foregroundStyle(.red)
-                        .font(.caption.italic())
-                }
+            TextField(viewModel.selfhostIsOn ? "https://domain:port" : "appname.app.n8n.cloud", text: $viewModel.url)
+                .keyboardType(.URL)
+                .textInputAutocapitalization(.never)
+            if viewModel.url.isEmpty {
+                Text("Cannot be empty")
+                    .foregroundStyle(.red)
+                    .font(.caption.italic())
             }
         }
     }
