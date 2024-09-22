@@ -9,7 +9,7 @@ enum WebhookAuthType: Codable, CaseIterable {
     case basic
     case header
     case jwt
-    case none
+    case noAuth
     
     var string: String {
         switch self {
@@ -19,7 +19,7 @@ enum WebhookAuthType: Codable, CaseIterable {
             "Header Auth"
         case .jwt:
             "JWT Auth"
-        case .none:
+        case .noAuth:
             "None"
         }
     }

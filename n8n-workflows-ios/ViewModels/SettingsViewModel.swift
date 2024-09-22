@@ -18,7 +18,7 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     init() {
         selfhostIsOn = UserDefaults.standard.bool(forKey: "selfhost")
         url = UserDefaults.standard.string(forKey: "host-url") ?? ""
-        webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .none
+        webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .noAuth
         webhookAuthenticationParam1 = UserDefaults.standard.string(forKey: "webhook-authentication-param1") ?? ""
         webhookAuthenticationParam2 = UserDefaults.standard.string(forKey: "webhook-authentication-param2") ?? ""
         
@@ -29,7 +29,7 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     }
     
     private func resetWebhookAuth() {
-        webhookAuthenticationType = .none
+        webhookAuthenticationType = .noAuth
         webhookAuthenticationParam1 = ""
         webhookAuthenticationParam2 = ""
     }
@@ -41,7 +41,7 @@ final class SettingsViewModel: SettingsViewModelProtocol {
                 resetWebhookAuth()
                 break
             }
-        case .jwt, .none:
+        case .jwt, .noAuth:
             resetWebhookAuth()
         }
     }

@@ -18,12 +18,30 @@ class NetworkService<T> where T: Codable {
         case unauthorized
         case parsingError
     }
+    private let headerFieldName = "X-N8N-API-KEY"
     private let urlSession: URLSession
     private let baseURL: String
+    private var authHeader: (key: String, value: String)?
     
     init() {
         urlSession = URLSession.shared
-        baseURL = "http://192.168.0.104:5678/api/v1"
+        let url = UserDefaults.standard.string(forKey: "host-url") ?? ""
+        baseURL = "\(url)/api/v1"
+        let webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .noAuth
+        switch webhookAuthenticationType {
+        case .basic:
+            guard let username = UserDefaults.standard.string(forKey: "webhook-authentication-param1"),
+                  let password = UserDefaults.standard.string(forKey: "webhook-authentication-param2") else { break }
+            let loginString = String(format: "%@:%@", username, password)
+            guard let loginData = loginString.data(using: String.Encoding.utf8) else { break }
+            let base64LoginString = loginData.base64EncodedString()
+            authHeader = ("Authorization", "Basic \(base64LoginString)")
+        case .header:
+            guard let key = UserDefaults.standard.string(forKey: "webhook-authentication-param1"),
+                  let value = UserDefaults.standard.string(forKey: "webhook-authentication-param2") else { break }
+            authHeader = (key, value)
+        case .jwt, .noAuth: break
+        }
     }
     
     func get(endpoint: String, params: [String: Any] = [:]) async throws -> T {
@@ -39,7 +57,7 @@ class NetworkService<T> where T: Codable {
         guard let apiKey = KeychainHelper.shared.retrieveApiKey(service: KeychainHelper.service, account: KeychainHelper.account),
                 !apiKey.isEmpty else { throw ApiError.unauthorized }
         var urlRequest = URLRequest(url: url)
-        urlRequest.addValue(apiKey, forHTTPHeaderField: "X-N8N-API-KEY")
+        urlRequest.setValue(apiKey, forHTTPHeaderField: headerFieldName)
         let (data, response) = try await urlSession.data(for: urlRequest)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw ApiError.badResponse }
         do{
@@ -57,8 +75,8 @@ class NetworkService<T> where T: Codable {
                 !apiKey.isEmpty else { throw ApiError.unauthorized }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "POST"
-        urlRequest.addValue(apiKey, forHTTPHeaderField: "X-N8N-API-KEY")
         urlRequest.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
+        urlRequest.setValue(apiKey, forHTTPHeaderField: headerFieldName)
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let (data, response) = try await urlSession.data(for: urlRequest)

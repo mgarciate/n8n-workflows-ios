@@ -11,7 +11,7 @@ final class MockSettingsViewModel: SettingsViewModelProtocol {
     @Published var selfhostIsOn: Bool = false
     @Published var url: String = ""
     @Published var apiKey: String = ""
-    @Published var webhookAuthenticationType: WebhookAuthType = .none
+    @Published var webhookAuthenticationType: WebhookAuthType = .noAuth
     @Published var webhookAuthenticationParam1: String = ""
     @Published var webhookAuthenticationParam2: String = ""
     

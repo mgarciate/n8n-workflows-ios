@@ -110,7 +110,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 Text("Not supported yet")
                     .foregroundStyle(.red)
                     .font(.caption.italic())
-            case .none:
+            case .noAuth:
                 EmptyView()
             }
         }
