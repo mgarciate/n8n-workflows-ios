@@ -15,13 +15,13 @@ struct ExecutionItemView: View {
             Text("#\(execution.id)")
                 .fontWeight(.bold)
             VStack(alignment: .leading) {
-                HStack(alignment: .bottom) {
+                HStack(alignment: .bottom, spacing: 5) {
                     Text("Executed at")
                         .font(.caption.italic())
                     Text(execution.startedAt.date?.dateString ?? "-")
                         .font(.subheadline.bold())
                 }
-                HStack(alignment: .bottom) {
+                HStack(alignment: .bottom, spacing: 5) {
                     if execution.finished {
                         Text("Succeeded in")
                             .foregroundStyle(Color("Green"))
