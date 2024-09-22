@@ -16,13 +16,14 @@ struct WorkflowItemView: View {
             VStack(alignment: .leading) {
                 Text(workflow.name)
                     .fontWeight(.bold)
-                HStack {
+                HStack(alignment: .bottom, spacing: 5) {
                     Text("Last update")
+                        .font(.caption.italic())
                     Text(workflow.updatedAt.date?.timeAgoDisplay ?? "-")
+                        .font(.subheadline.bold())
                     Spacer()
                 }
                 .foregroundStyle(Color("Gray"))
-                .font(.caption.italic())
                 ForEach(workflow.webhooks) { webhook in
                     Button("Launch \(webhook.name)") {
                         print("webhook \(webhook.path)")

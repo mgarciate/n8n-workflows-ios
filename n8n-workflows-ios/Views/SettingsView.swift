@@ -10,6 +10,8 @@ import SwiftUI
 struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol {
     @Environment(\.dismiss) private var dismiss
     
+    @State private var selfhostedPopoverPresented = false
+    @State private var apikeyPopoverPresented = false
     @StateObject var viewModel: ViewModel
     
     var body: some View {
@@ -42,7 +44,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
     }
     
     var sectionHost: some View {
-        Section("Host") {
+        Section(content: {
             Toggle("Self-hosted", isOn: $viewModel.selfhostIsOn)
             TextField(viewModel.selfhostIsOn ? "https://domain:port" : "appname.app.n8n.cloud", text: $viewModel.url)
                 .keyboardType(.URL)
@@ -52,18 +54,57 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                     .foregroundStyle(.red)
                     .font(.caption.italic())
             }
-        }
+        }, header: {
+            HStack {
+                Text("Host")
+                Button {
+                    selfhostedPopoverPresented = true
+                } label: {
+                    Image(systemName: "info.circle")
+                }
+                .buttonStyle(PlainButtonStyle())
+                .foregroundStyle(.blue)
+                .popover(isPresented: $selfhostedPopoverPresented,
+                         attachmentAnchor: .point(.center),
+                         arrowEdge: .top) {
+                    Text("Hello, World, asdijfklkaj sdkfñj asd falksdñf jklñasd jflñkasd jflñkas djfñlasd jfñlasd jflaksdñ jfñl")
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                        .presentationCompactAdaptation(.none)
+                }
+            }
+        })
     }
     
     var sectionCredentials: some View {
-        Section("Credentials") {
+        Section(content: {
             SecureView(titleKey: "API-KEY", text: $viewModel.apiKey)
             if viewModel.apiKey.isEmpty {
                 Text("Cannot be empty")
                     .foregroundStyle(.red)
                     .font(.caption.italic())
             }
-        }
+        }, header: {
+            HStack {
+                Text("Credentials")
+                Button {
+                    apikeyPopoverPresented = true
+                } label: {
+                    Image(systemName: "info.circle")
+                }
+                .buttonStyle(PlainButtonStyle())
+                .foregroundStyle(.blue)
+                .popover(isPresented: $apikeyPopoverPresented,
+                         attachmentAnchor: .point(.center),
+                         arrowEdge: .top) {
+                    Text("Create an API key\n1. Log in to n8n.\n2. Go to Settings > n8n API.\n3. Select Create an API key.\n4. Copy My API Key and use this key to authenticate your calls.")
+                        .textCase(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding()
+                        .presentationCompactAdaptation(.none)
+                }
+            }
+        })
     }
     
     var sectionAuthentication: some View {
