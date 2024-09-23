@@ -46,7 +46,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
     var sectionHost: some View {
         Section(content: {
             Toggle("Self-hosted", isOn: $viewModel.selfhostIsOn)
-            TextField(viewModel.selfhostIsOn ? "https://domain:port" : "appname.app.n8n.cloud", text: $viewModel.url)
+            TextField(viewModel.selfhostIsOn ? "http://ip-address:port" : "https://appname.app.n8n.cloud", text: $viewModel.url)
                 .keyboardType(.URL)
                 .textInputAutocapitalization(.never)
             if viewModel.url.isEmpty {
@@ -67,7 +67,8 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 .popover(isPresented: $selfhostedPopoverPresented,
                          attachmentAnchor: .point(.center),
                          arrowEdge: .top) {
-                    Text("Hello, World, asdijfklkaj sdkfñj asd falksdñf jklñasd jflñkasd jflñkas djfñlasd jfñlasd jflaksdñ jfñl")
+                    Text("\nIf you have n8n self-hosted, a normal configuration would be accessed via http://ip-address:port or https://your-domain.\nIf you're using n8n Cloud, the configuration would be accessed through https://appname.app.n8n.cloud\n")
+                        .textCase(nil)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding()
                         .presentationCompactAdaptation(.none)
