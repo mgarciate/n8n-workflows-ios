@@ -10,6 +10,7 @@ import SwiftUI
 struct WorkflowItemView: View {
     let workflow: Workflow
     let action: (Bool) -> Void
+    let launchWebhook: (Webhook) -> Void
     
     var body: some View {
         HStack {
@@ -26,7 +27,7 @@ struct WorkflowItemView: View {
                 .foregroundStyle(Color("Gray"))
                 ForEach(workflow.webhooks) { webhook in
                     Button("Launch \(webhook.name)") {
-                        print("webhook \(webhook.path)")
+                        launchWebhook(webhook)
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.mini)
@@ -45,7 +46,9 @@ struct WorkflowItemView: View {
 
 @available(iOS 17, *)
 #Preview(traits: .sizeThatFitsLayout) {
-    WorkflowItemView(workflow: Workflow.dummyWorkflows[0]) {_ in 
+    WorkflowItemView(workflow: Workflow.dummyWorkflows[0], action: { _ in
         
-    }
+    }, launchWebhook: { webhook in
+        
+    })
 }

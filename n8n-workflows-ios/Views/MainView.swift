@@ -20,12 +20,13 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     @Environment(\.scenePhase) var scenePhase
     
     @StateObject var viewModel: ViewModel
+    @State var navigationPath = NavigationPath()
     @State private var showSettings = false
     @State private var infoPopoverPresented = false
     @State private var isInactiveOrBackground = false
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             VStack {
                 if viewModel.workflows.isEmpty {
                     ContentUnavailableCompatView(
@@ -50,13 +51,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     HStack {
                         Text("")
                         NavigationLink {
-                            VStack(alignment: .leading, spacing: 20) {
-                                Text("About n8n")
-                                    .font(.title.bold())
-                                Text("n8n (pronounced n-eight-n) helps you to connect any app with an API with any other, and manipulate its data with little or no code.\n\n- Customizable: highly flexible workflows and the option to build custom nodes.\n- Convenient: use the npm or Docker to try out n8n, or the Cloud hosting option if you want us to handle the infrastructure.\n- Privacy-focused: self-host n8n for privacy and security.")
-                                Spacer()
-                            }
-                            .padding()
+                            AboutN8nView()
                         } label: {
                             Image(systemName: "info.circle")
                         }
@@ -100,14 +95,15 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     
     var content: some View {
         List(viewModel.workflows) { workflow in
-            NavigationLink {
-                WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))
-            } label: {
-                WorkflowItemView(workflow: workflow) { newValue in
-                    Task {
-                        await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
-                    }
+            WorkflowItemView(workflow: workflow, action: { newValue in
+                Task {
+                    await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
                 }
+            }, launchWebhook: { webhook in
+                navigationPath.append(webhook)
+            })
+            .onTapGesture {
+                navigationPath.append(workflow)
             }
         }
         .disabled(viewModel.isLoading)
@@ -115,6 +111,12 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             fetchDataTask()
         }
         .scrollContentBackground(.hidden)
+        .navigationDestination(for: Workflow.self) { workflow in
+            WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))
+        }
+        .navigationDestination(for: Webhook.self) { webhook in
+            LaunchWebhookView(viewModel: LaunchWebhookViewModel(webhook: webhook))
+        }
     }
     
     private func fetchDataTask() {

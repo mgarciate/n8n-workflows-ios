@@ -11,6 +11,11 @@ enum WorkflowActionType {
     case activate, deactivate
 }
 
+enum HTTPMethod: String, Codable, CaseIterable {
+    case get = "GET"
+    case post = "POST"
+}
+
 class NetworkService<T> where T: Codable {
     enum ApiError: Error {
         case missingURL

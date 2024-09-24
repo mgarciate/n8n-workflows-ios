@@ -7,12 +7,6 @@
 
 import AppIntents
 
-struct Webhook: Codable, Identifiable {
-    let id: String
-    let name: String
-    let path: String
-}
-
 enum WorkflowNodeType: String {
     case workflow = "n8n-nodes-base.webhook"
     case unknown

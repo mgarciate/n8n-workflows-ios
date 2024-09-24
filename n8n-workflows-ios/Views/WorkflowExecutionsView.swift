@@ -11,23 +11,21 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
     @StateObject var viewModel: ViewModel
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                if viewModel.executions.isEmpty {
-                    ContentUnavailableCompatView(
-                        title: "No executions",
-                        description: "",
-                        systemImage: "figure.run"
-                    )
-                } else {
-                    content
-                }
+        VStack {
+            if viewModel.executions.isEmpty {
+                ContentUnavailableCompatView(
+                    title: "No executions",
+                    description: "",
+                    systemImage: "figure.run"
+                )
+            } else {
+                content
             }
-            .navigationTitle(viewModel.workflow.name)
-            .onAppear() {
-                print("WorkflowExecutionsView onAppear")
-                fetchDataTask()
-            }
+        }
+        .navigationTitle(viewModel.workflow.name)
+        .onAppear() {
+            print("WorkflowExecutionsView onAppear")
+            fetchDataTask()
         }
     }
     

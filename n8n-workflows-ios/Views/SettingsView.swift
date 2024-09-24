@@ -46,7 +46,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
     var sectionHost: some View {
         Section(content: {
             Toggle("Self-hosted", isOn: $viewModel.selfhostIsOn)
-            TextField(viewModel.selfhostIsOn ? "http://ip-address:port" : "https://appname.app.n8n.cloud", text: $viewModel.url)
+            TextField(viewModel.selfhostIsOn ? "http://ip-address:port" : "https:// appname.app.n8n.cloud", text: $viewModel.url)
                 .keyboardType(.URL)
                 .textInputAutocapitalization(.never)
             if viewModel.url.isEmpty {
