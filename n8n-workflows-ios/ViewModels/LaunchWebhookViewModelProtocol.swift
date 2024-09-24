@@ -15,6 +15,6 @@ protocol LaunchWebhookViewModelProtocol: ObservableObject {
     var jsonText: String { get set }
     var queryParams: [QueryParam] { get set }
     
-    func send()
+    func send() async
     func validateJson() -> Bool
 }

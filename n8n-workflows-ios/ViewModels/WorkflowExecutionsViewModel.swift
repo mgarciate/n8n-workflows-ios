@@ -19,9 +19,9 @@ final class WorkflowExecutionsViewModel: WorkflowExecutionsViewProtocol {
     func fetchData() async {
         await isLoading(true)
         do {
-            let executions = try await NetworkService<DataResponse<Execution>>().get(endpoint: "executions", params: ["workflowId": workflow.id]).data
+            let response: DataResponse<Execution> = try await WorkflowApiRequest().get(endpoint: .executions, params: ["workflowId": workflow.id])
             await MainActor.run {
-                self.executions = executions
+                self.executions = response.data
             }
         } catch {
 #if DEBUG

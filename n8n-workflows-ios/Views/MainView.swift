@@ -106,6 +106,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 navigationPath.append(workflow)
             }
         }
+        .padding(.horizontal, -20)
         .disabled(viewModel.isLoading)
         .refreshable {
             fetchDataTask()

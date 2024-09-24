@@ -20,24 +20,38 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
         webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .noAuth
     }
     
-    func send() {
-        let params: [String: Any]
+    func send() async {
         switch httpMethod {
         case .get:
-            queryParams.removeAll(where: {
-                $0.key.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty  ||
-                $0.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            })
-            params = Dictionary(uniqueKeysWithValues: queryParams.map { ($0.key, $0.value) })
-        case .post:
-            if !validateJson() { jsonText = "{}" }
-            guard let dict = convertJsonTextToDict() else {
-                params = [:]
-                break
+            await MainActor.run {
+                queryParams.removeAll(where: {
+                    $0.key.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty  ||
+                    $0.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                })
             }
-            params = dict
+            let params = Dictionary(uniqueKeysWithValues: queryParams.map { ($0.key, $0.value) })
+            do {
+                let response: [String: String] = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: test), params: params)
+                print("Response: \(response)")
+            } catch {
+#if DEBUG
+                print("Error", error)
+#endif
+            }
+        case .post:
+            await MainActor.run {
+                if !validateJson() { jsonText = "{}" }
+            }
+            let body = convertJsonTextToDict() ?? [:]
+            do {
+                let response: [String: String] = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: test), body: body)
+                print("Response: \(response)")
+            } catch {
+#if DEBUG
+                print("Error", error)
+#endif
+            }
         }
-        print(params)
     }
     
     private func convertJsonTextToDict() -> [String: Any]? {

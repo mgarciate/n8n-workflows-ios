@@ -17,7 +17,7 @@ struct DisableWorkflowIntent: AppIntent {
     
     func perform() async throws -> some IntentResult {
         let actionType: WorkflowActionType = .deactivate
-        let _ = try await NetworkService<Workflow>().post(endpoint: "workflows/\(workflow.id)/\(actionType)", body: [:])
+        let _: Workflow = try await WorkflowApiRequest().get(endpoint: .workflowAction(id: workflow.id, actionType: actionType))
         return .result()
     }
 }

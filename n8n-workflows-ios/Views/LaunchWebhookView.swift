@@ -59,7 +59,9 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button("", systemImage: "paperplane") {
-                    viewModel.send()
+                    Task {
+                        await viewModel.send()
+                    }
                 }
             }
         }

@@ -16,9 +16,9 @@ final class MainViewModel: MainViewModelProtocol {
     func fetchData() async {
         await isLoading(true)
         do {
-            let workflows = try await NetworkService<DataResponse<Workflow>>().get(endpoint: "workflows").data
+            let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
             await MainActor.run {
-                self.workflows = workflows
+                self.workflows = response.data
             }
         } catch {
 #if DEBUG
@@ -32,7 +32,7 @@ final class MainViewModel: MainViewModelProtocol {
         await isLoading(true)
         let actionType: WorkflowActionType = isActive ? .activate : .deactivate
         do {
-            let updatedWorkflow = try await NetworkService<Workflow>().post(endpoint: "workflows/\(id)/\(actionType)", body: [:])
+            let updatedWorkflow: Workflow = try await WorkflowApiRequest().get(endpoint: .workflowAction(id: id, actionType: actionType))
             if let index = workflows.firstIndex(where: { $0.id == id }) {
                 await MainActor.run {
                     workflows[index] = updatedWorkflow

@@ -85,10 +85,12 @@ extension Workflow: AppEntity {
 
 struct WorkflowQuery: EntityQuery {
     func entities(for identifiers: [String]) async throws -> [Workflow] {
-        try await NetworkService<DataResponse<Workflow>>().get(endpoint: "workflows").data
+        let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
+        return response.data
     }
     
     func suggestedEntities() async throws -> [Workflow] {
-        try await NetworkService<DataResponse<Workflow>>().get(endpoint: "workflows").data
+        let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
+        return response.data
     }
 }

@@ -14,25 +14,28 @@ struct WorkflowItemView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(workflow.name)
-                    .fontWeight(.bold)
-                HStack(alignment: .bottom, spacing: 5) {
-                    Text("Last update")
-                        .font(.caption.italic())
-                    Text(workflow.updatedAt.date?.timeAgoDisplay ?? "-")
-                        .font(.subheadline.bold())
-                    Spacer()
-                }
-                .foregroundStyle(Color("Gray"))
-                ForEach(workflow.webhooks) { webhook in
-                    Button("Launch \(webhook.name)") {
-                        launchWebhook(webhook)
+            ZStack {
+                VStack(alignment: .leading) {
+                    Text(workflow.name)
+                        .fontWeight(.bold)
+                    HStack(alignment: .bottom, spacing: 5) {
+                        Text("Last update")
+                            .font(.caption.italic())
+                        Text(workflow.updatedAt.date?.timeAgoDisplay ?? "-")
+                            .font(.subheadline.bold())
+                        Spacer()
                     }
-                    .buttonStyle(.bordered)
-                    .controlSize(.mini)
+                    .foregroundStyle(Color("Gray"))
+                    ForEach(workflow.webhooks) { webhook in
+                        Button("Launch \(webhook.name)") {
+                            launchWebhook(webhook)
+                        }
+                        .buttonStyle(.bordered)
+                        .controlSize(.mini)
+                    }
                 }
             }
+            .contentShape(Rectangle()) // makes all area clickable
             Toggle("", isOn: Binding(
                 get: { workflow.active },
                 set: { newValue in
