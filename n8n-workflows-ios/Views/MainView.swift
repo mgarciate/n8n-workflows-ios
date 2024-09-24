@@ -38,7 +38,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     content
                 }
             }
-            .navigationTitle("Workflows")
+            .navigationTitle("n8n workflows")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
@@ -105,6 +105,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             .onTapGesture {
                 navigationPath.append(workflow)
             }
+            .listRowSeparator(.hidden)
         }
         .padding(.horizontal, -20)
         .disabled(viewModel.isLoading)

@@ -46,6 +46,9 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
     var sectionHost: some View {
         Section(content: {
             Toggle("Self-hosted", isOn: $viewModel.selfhostIsOn)
+                .onChange(of: viewModel.selfhostIsOn) { _ in // Supported from iOS 14
+                    viewModel.url = ""
+                }
             TextField(viewModel.selfhostIsOn ? "http://ip-address:port" : "https:// appname.app.n8n.cloud", text: $viewModel.url)
                 .keyboardType(.URL)
                 .textInputAutocapitalization(.never)
@@ -115,7 +118,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                     Text(value.string)
                 }
             }
-            .onChange(of: viewModel.webhookAuthenticationType) { value in // Supported from iOS 14
+            .onChange(of: viewModel.webhookAuthenticationType) { _ in // Supported from iOS 14
                 viewModel.webhookAuthenticationParam1 = ""
                 viewModel.webhookAuthenticationParam2 = ""
             }

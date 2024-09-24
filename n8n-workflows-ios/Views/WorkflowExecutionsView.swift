@@ -32,6 +32,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
     var content: some View {
         List(viewModel.executions) { execution in
             ExecutionItemView(execution: execution)
+                .listRowSeparator(.hidden)
         }
         .padding(.horizontal, -20)
         .disabled(viewModel.isLoading)
