@@ -31,7 +31,11 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                     ForEach($viewModel.queryParams) { $query in
                         HStack {
                             TextField("Key", text: $query.key)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled()
                             TextField("Value", text: $query.value)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled()
                         }
                     }
                     .onDelete(perform: delete)
@@ -45,6 +49,8 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                         TextField("{}", text: $viewModel.jsonText, axis: .vertical)
                             .foregroundStyle(.gray)
                             .keyboardType(.asciiCapable)
+                            .autocapitalization(.none)
+                            .autocorrectionDisabled()
                         if !viewModel.validateJson() {
                             Text("Invalid Json")
                                 .foregroundStyle(.red)

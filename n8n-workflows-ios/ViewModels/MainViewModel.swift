@@ -32,7 +32,7 @@ final class MainViewModel: MainViewModelProtocol {
         await isLoading(true)
         let actionType: WorkflowActionType = isActive ? .activate : .deactivate
         do {
-            let updatedWorkflow: Workflow = try await WorkflowApiRequest().get(endpoint: .workflowAction(id: id, actionType: actionType))
+            let updatedWorkflow: Workflow = try await WorkflowApiRequest().post(endpoint: .workflowAction(id: id, actionType: actionType))
             if let index = workflows.firstIndex(where: { $0.id == id }) {
                 await MainActor.run {
                     workflows[index] = updatedWorkflow

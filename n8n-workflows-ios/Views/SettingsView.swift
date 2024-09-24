@@ -122,6 +122,8 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
             switch viewModel.webhookAuthenticationType {
             case .basic:
                 TextField("User", text: $viewModel.webhookAuthenticationParam1)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled()
                 if viewModel.webhookAuthenticationParam1.isEmpty {
                     Text("Cannot be empty")
                         .foregroundStyle(.red)
@@ -135,12 +137,16 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 }
             case .header:
                 TextField("Name", text: $viewModel.webhookAuthenticationParam1)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled()
                 if viewModel.webhookAuthenticationParam1.isEmpty {
                     Text("Cannot be empty")
                         .foregroundStyle(.red)
                         .font(.caption.italic())
                 }
                 TextField("Value", text: $viewModel.webhookAuthenticationParam2, axis: .vertical)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled()
                 if viewModel.webhookAuthenticationParam2.isEmpty {
                     Text("Cannot be empty")
                         .foregroundStyle(.red)
