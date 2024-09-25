@@ -19,8 +19,8 @@ final class MainViewModel: MainViewModelProtocol {
         do {
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
             await MainActor.run {
-                isFirstTime = false
                 workflows = response.data
+                isFirstTime = false
             }
         } catch {
 #if DEBUG

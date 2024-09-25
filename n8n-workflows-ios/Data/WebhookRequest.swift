@@ -51,12 +51,10 @@ class WebhookRequest: HTTPClient {
     }
     
     func get<T: Codable>(endpoint: Endpoint, params: [String: Any] = [:]) async throws -> T {
-        print(endpoint.path)
-        return try await get(endpoint: endpoint.path, params: params)
+        try await get(endpoint: endpoint.path, params: params)
     }
 
     func post<T: Codable>(endpoint: Endpoint, body: [String: Any] = [:], isTest: Bool = false) async throws -> T {
-        print(endpoint.path)
-        return try await post(endpoint: endpoint.path, body: body)
+        try await post(endpoint: endpoint.path, body: body)
     }
 }

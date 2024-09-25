@@ -23,6 +23,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     }
     
     func send() async {
+        let result: Result<WebhookResponse, ApiError>
         switch httpMethod {
         case .get:
             await MainActor.run {
@@ -34,20 +35,13 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
             let params = Dictionary(uniqueKeysWithValues: queryParams.map { ($0.key, $0.value) })
             do {
                 let response: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: test), params: params)
-                print("Response: \(response)")
-                await MainActor.run {
-                    isAlertPresented = true
-                    apiResult = .success(response)
-                }
+                result = .success(response)
             } catch {
 #if DEBUG
                 print("Error", error)
 #endif
                 guard let error = error as? ApiError else { return }
-                await MainActor.run {
-                    isAlertPresented = true
-                    apiResult = .failure(error)
-                }
+                result = .failure(error)
             }
         case .post:
             await MainActor.run {
@@ -56,15 +50,18 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
             let body = convertJsonTextToDict() ?? [:]
             do {
                 let response: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: test), body: body)
-                print("Response: \(response)")
-                await MainActor.run {
-                    isAlertPresented = true
-                }
+                result = .success(response)
             } catch {
 #if DEBUG
                 print("Error", error)
 #endif
+                guard let error = error as? ApiError else { return }
+                result = .failure(error)
             }
+        }
+        await MainActor.run {
+            isAlertPresented = true
+            apiResult = result
         }
     }
     

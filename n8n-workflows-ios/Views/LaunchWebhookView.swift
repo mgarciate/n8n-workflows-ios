@@ -85,9 +85,6 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                 Alert(title: Text(error.title),
                       message: Text(error.message),
                       primaryButton: .cancel() {
-                    if case ApiError.unauthorized == error {
-                        
-                    }
 //                    do nothing
                 }, secondaryButton: .default(Text("Retry action")) {
                     Task {
