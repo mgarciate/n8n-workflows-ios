@@ -38,7 +38,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     content
                 }
             }
-            .navigationTitle("n8n workflows")
+            .navigationTitle("n8n Workflows")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
