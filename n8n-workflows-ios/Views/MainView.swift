@@ -27,8 +27,8 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            VStack {
-                if viewModel.workflows.isEmpty {
+            ZStack {
+                if !viewModel.isLoading, viewModel.workflows.isEmpty {
                     ContentUnavailableCompatView(
                         title: "No workflows",
                         description: " description aksldñjf klñasdjfñlasdj ⚙️ ⤴  flñadskj flsadkj fsadkl",
@@ -36,6 +36,21 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     )
                 } else {
                     content
+                }
+                if viewModel.isLoading, viewModel.isFirstTime {
+                    ZStack {
+                        Color.clear
+                        ZStack {
+                            ProgressView("Loading n8n data...")
+                                .tint(.white)
+                                .foregroundStyle(.white)
+                                .controlSize(.large)
+                                .padding()
+                                .background(.black.opacity(0.7))
+                        }
+                    }
+                    .transition(.opacity.animation(.easeInOut(duration: 0.5)))
+                    .allowsHitTesting(!viewModel.isLoading)
                 }
             }
             .navigationTitle("n8n Workflows")

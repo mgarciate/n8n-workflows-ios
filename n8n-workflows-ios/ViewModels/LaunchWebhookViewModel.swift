@@ -14,6 +14,8 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     @Published var httpMethod: HTTPMethod = .get
     @Published var jsonText: String = "{}"
     @Published var queryParams: [QueryParam] = []
+    @Published var isAlertPresented: Bool = false
+    @Published var apiResult: Result<WebhookResponse, ApiError>?
     
     init(webhook: Webhook) {
         self.webhook = webhook
@@ -31,12 +33,21 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
             }
             let params = Dictionary(uniqueKeysWithValues: queryParams.map { ($0.key, $0.value) })
             do {
-                let response: [String: String] = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: test), params: params)
+                let response: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: test), params: params)
                 print("Response: \(response)")
+                await MainActor.run {
+                    isAlertPresented = true
+                    apiResult = .success(response)
+                }
             } catch {
 #if DEBUG
                 print("Error", error)
 #endif
+                guard let error = error as? ApiError else { return }
+                await MainActor.run {
+                    isAlertPresented = true
+                    apiResult = .failure(error)
+                }
             }
         case .post:
             await MainActor.run {
@@ -44,8 +55,11 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
             }
             let body = convertJsonTextToDict() ?? [:]
             do {
-                let response: [String: String] = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: test), body: body)
+                let response: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: test), body: body)
                 print("Response: \(response)")
+                await MainActor.run {
+                    isAlertPresented = true
+                }
             } catch {
 #if DEBUG
                 print("Error", error)

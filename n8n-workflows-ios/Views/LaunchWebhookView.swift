@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewModelProtocol {
+    @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: ViewModel
     
     var body: some View {
@@ -69,6 +70,38 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                         await viewModel.send()
                     }
                 }
+            }
+        }
+        .alert(isPresented: $viewModel.isAlertPresented) {
+            switch viewModel.apiResult {
+            case .success(let response):
+                Alert(title: Text(viewModel.webhook.name),
+                      message: Text(response.message),
+                      dismissButton: .default(Text("OK")) {
+                    dismiss()
+                }
+                )
+            case .failure(let error):
+                Alert(title: Text(error.title),
+                      message: Text(error.message),
+                      primaryButton: .cancel() {
+                    if case ApiError.unauthorized == error {
+                        
+                    }
+//                    do nothing
+                }, secondaryButton: .default(Text("Retry action")) {
+                    Task {
+                        await viewModel.send()
+                    }
+                }
+                )
+            case .none:
+                Alert(title: Text("Unknown"),
+                      message: Text(""),
+                      dismissButton: .default(Text("OK")) {
+                    dismiss()
+                }
+                )
             }
         }
     }

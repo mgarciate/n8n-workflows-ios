@@ -9,6 +9,7 @@
 import SwiftUI
 
 protocol MainViewModelProtocol: ObservableObject {
+    var isFirstTime: Bool { get set }
     var isLoading: Bool { get set }
     var workflows: [Workflow] { get set }
 

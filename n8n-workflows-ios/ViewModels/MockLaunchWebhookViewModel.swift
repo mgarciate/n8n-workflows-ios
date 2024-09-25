@@ -14,6 +14,8 @@ final class MockLaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     @Published var httpMethod: HTTPMethod = .get
     @Published var jsonText: String = "{}"
     @Published var queryParams: [QueryParam] = []
+    @Published var isAlertPresented: Bool = false
+    @Published var apiResult: Result<WebhookResponse, ApiError>?
     
     init(webhook: Webhook) {
         self.webhook = webhook

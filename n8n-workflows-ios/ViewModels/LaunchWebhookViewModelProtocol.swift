@@ -14,6 +14,8 @@ protocol LaunchWebhookViewModelProtocol: ObservableObject {
     var httpMethod: HTTPMethod { get set }
     var jsonText: String { get set }
     var queryParams: [QueryParam] { get set }
+    var isAlertPresented: Bool { get set }
+    var apiResult: Result<WebhookResponse, ApiError>? { get set }
     
     func send() async
     func validateJson() -> Bool

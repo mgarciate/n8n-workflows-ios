@@ -50,8 +50,7 @@ class WebhookRequest: HTTPClient {
         }
     }
     
-    //func get<T: Codable>(endpoint: Endpoint, params: [String: Any] = [:]) async throws -> T {
-    func get(endpoint: Endpoint, params: [String: Any] = [:]) async throws -> [String: String] {
+    func get<T: Codable>(endpoint: Endpoint, params: [String: Any] = [:]) async throws -> T {
         print(endpoint.path)
         return try await get(endpoint: endpoint.path, params: params)
     }

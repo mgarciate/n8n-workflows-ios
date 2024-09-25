@@ -9,6 +9,7 @@ import SwiftUI
 
 final class MainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = false
+    @Published var isFirstTime: Bool = true
     @Published var workflows: [Workflow] = []
     
     init() {}
@@ -18,7 +19,8 @@ final class MainViewModel: MainViewModelProtocol {
         do {
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
             await MainActor.run {
-                self.workflows = response.data
+                isFirstTime = false
+                workflows = response.data
             }
         } catch {
 #if DEBUG

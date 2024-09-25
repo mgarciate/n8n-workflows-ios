@@ -16,11 +16,55 @@ enum HTTPMethod: String, Codable, CaseIterable {
     case post = "POST"
 }
 
+struct ResponseFailed: Codable {
+    let code: Int?
+    let message: String
+    let hint: String?
+}
+
 enum ApiError: Error {
     case missingURL
     case badResponse
     case unauthorized
     case parsingError
+    case error(details: ResponseFailed)
+}
+
+extension ApiError {
+    var title: String {
+        switch self {
+        case .missingURL:
+            return "URL error"
+        case .badResponse:
+            return "Bad response"
+        case .unauthorized:
+            return "Unauthorized"
+        case .parsingError:
+            return "Parsing error"
+        case .error(let error):
+            guard let errorCode = error.code else { return "Error" }
+            return "Code \(errorCode)"
+        }
+    }
+    
+    var message: String {
+        switch self {
+        case .missingURL:
+            return "URL error"
+        case .badResponse:
+            return "Bad response"
+        case .unauthorized:
+            return "Unauthorized"
+        case .parsingError:
+            return "Parsing error"
+        case .error(let error):
+            var message = error.message
+            if let hint = error.hint {
+                message += "\n\(hint)"
+            }
+            return message
+        }
+    }
 }
 
 protocol HTTPClient {
@@ -46,10 +90,7 @@ extension HTTPClient {
         var urlRequest = URLRequest(url: url)
         headers.forEach { urlRequest.setValue($0.value, forHTTPHeaderField: $0.key) }
         let (data, response) = try await urlSession.data(for: urlRequest)
-#if DEBUG
-        print("Data: \(String(data: data, encoding: .utf8))")
-#endif
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw ApiError.badResponse }
+        try validate(data: data, response: response)
         do {
             let element = try JSONDecoder().decode(T.self, from: data)
             return element
@@ -66,15 +107,27 @@ extension HTTPClient {
         headers.forEach { urlRequest.setValue($0.value, forHTTPHeaderField: $0.key) }
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let (data, response) = try await urlSession.data(for: urlRequest)
-#if DEBUG
-        print("Data: \(String(data: data, encoding: .utf8))")
-#endif
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw ApiError.badResponse }
+        try validate(data: data, response: response)
         do {
             let element = try JSONDecoder().decode(T.self, from: data)
             return element
         } catch {
             throw ApiError.parsingError
+        }
+    }
+    
+    private func validate(data: Data, response: URLResponse) throws {
+#if DEBUG
+        print("Data: \(String(data: data, encoding: .utf8))")
+#endif
+        guard let response = response as? HTTPURLResponse else { throw ApiError.badResponse }
+        guard response.statusCode == 200 else {
+            switch response.statusCode {
+            case 401: throw ApiError.unauthorized
+            default: break
+            }
+            guard let responseFailed = try? JSONDecoder().decode(ResponseFailed.self, from: data) else { throw ApiError.badResponse }
+            throw ApiError.error(details: responseFailed)
         }
     }
 }
