@@ -31,13 +31,14 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 if !viewModel.isLoading, viewModel.workflows.isEmpty {
                     ContentUnavailableCompatView(
                         title: "No workflows",
-                        description: " description aksldñjf klñasdjfñlasdj ⚙️ ⤴  flñadskj flsadkj fsadkl",
+                        description: "It might be because you haven’t created any workflow in n8n yet, or the host and credentials are not configured correctly. You can check and set them up using the button ⚙️ in the top right corner  ⤴.",
                         systemImage: "flowchart"
                     )
                 } else {
-                    content
+                    
                 }
-                if viewModel.isLoading, viewModel.isFirstTime {
+                content
+                if viewModel.isLoading {
                     ZStack {
                         Color.clear
                         ZStack {
@@ -76,19 +77,36 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             }
         }
         .fullScreenCover(isPresented: $showSettings, onDismiss: {
+            viewModel.isLoading = true
             fetchDataTask()
         }) {
             SettingsView(viewModel: SettingsViewModel())
         }
-        //        .alert(isPresented: $viewModel.isMigrationAlertPresented) {
-        //            Alert(title: Text(Resources.Strings.Common.appName),
-        //                  message: Text(Resources.Strings.Migration.v150.message),
-        //                  primaryButton: .cancel(),
-        //                  secondaryButton: .destructive(Text(Resources.Strings.Common.signOut)) {
-        //                viewModel.signOut()
-        //            }
-        //            )
-        //        }
+        .alert(isPresented: $viewModel.isAlertPresented) {
+            switch viewModel.apiResult {
+            case .success(let response):
+                Alert(title: Text(""),
+                      message: Text(response.message),
+                      dismissButton: .default(Text("OK")) {
+                    // do nothing
+                }
+                )
+            case .failure(let error):
+                Alert(title: Text(error.title),
+                      message: Text(error.message),
+                      dismissButton: .cancel() {
+//                    do nothing
+                }
+                )
+            case .none:
+                Alert(title: Text("Unknown"),
+                      message: Text(""),
+                      dismissButton: .default(Text("OK")) {
+                    // do nothing
+                }
+                )
+            }
+        }
         .onChange(of: scenePhase) { newPhase in
             switch newPhase {
             case .inactive, .background:
@@ -125,7 +143,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         .padding(.horizontal, -20)
         .disabled(viewModel.isLoading)
         .refreshable {
-            fetchDataTask()
+            fetchDataTask(showLoading: false)
         }
         .scrollContentBackground(.hidden)
         .navigationDestination(for: Workflow.self) { workflow in
@@ -136,7 +154,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         }
     }
     
-    private func fetchDataTask() {
+    private func fetchDataTask(showLoading: Bool = true) {
         print("fetchDataTask")
         Task {
             await viewModel.fetchData()
