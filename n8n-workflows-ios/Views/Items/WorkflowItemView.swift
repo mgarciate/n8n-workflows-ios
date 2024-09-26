@@ -60,7 +60,7 @@ struct WorkflowItemView: View {
                                 }
                             }
                             .buttonStyle(
-                                LaunchWebhookButtonStyle(backgroundColor: Color(red: 0.0, green: 0.68, blue: 1.0))
+                                LaunchWebhookButtonStyle(backgroundColor: Color(red: 66/255, green: 95/255, blue: 185/255))
                             )
                         }
                     }
