@@ -9,9 +9,10 @@
 import SwiftUI
 
 final class MockMainViewModel: MainViewModelProtocol {
-    @Published var isFirstTime: Bool = true
     @Published var isLoading: Bool = false
     @Published var workflows: [Workflow] = []
+    @Published var isAlertPresented: Bool = false
+    @Published var apiResult: Result<WebhookResponse, ApiError>?
     
     func fetchData() async {
         workflows = Workflow.dummyWorkflows

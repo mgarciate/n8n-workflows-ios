@@ -9,9 +9,10 @@
 import SwiftUI
 
 protocol MainViewModelProtocol: ObservableObject {
-    var isFirstTime: Bool { get set }
     var isLoading: Bool { get set }
     var workflows: [Workflow] { get set }
+    var isAlertPresented: Bool { get set }
+    var apiResult: Result<WebhookResponse, ApiError>? { get set }
 
     func fetchData() async
     func toggleWorkflowActive(id: String, isActive: Bool) async

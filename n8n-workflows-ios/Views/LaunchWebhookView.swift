@@ -86,7 +86,7 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                       message: Text(error.message),
                       primaryButton: .cancel() {
 //                    do nothing
-                }, secondaryButton: .default(Text("Retry action")) {
+                }, secondaryButton: .default(Text("Retry")) {
                     Task {
                         await viewModel.send()
                     }

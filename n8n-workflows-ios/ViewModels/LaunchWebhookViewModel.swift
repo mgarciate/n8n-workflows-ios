@@ -55,8 +55,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
 #if DEBUG
                 print("Error", error)
 #endif
-                guard let error = error as? ApiError else { return }
-                result = .failure(error)
+                result = .failure(error as? ApiError ?? .error(details: ResponseFailed(code: nil, message: error.localizedDescription, hint: nil)))
             }
         }
         await MainActor.run {
