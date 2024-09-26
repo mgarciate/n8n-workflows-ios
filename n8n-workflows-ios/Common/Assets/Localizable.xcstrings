@@ -1,0 +1,170 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "\nIf you have n8n self-hosted, a normal configuration would be accessed via http://ip-address:port or https://your-domain.\nIf you're using n8n Cloud, the configuration would be accessed through https://appname.app.n8n.cloud\n" : {
+
+    },
+    "{}" : {
+
+    },
+    "#%@" : {
+
+    },
+    "%@" : {
+
+    },
+    "%@s" : {
+
+    },
+    "+ Add parameter" : {
+
+    },
+    "About n8n" : {
+
+    },
+    "Activate workflow" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar workflow"
+          }
+        }
+      }
+    },
+    "API-KEY" : {
+
+    },
+    "Authentication" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Cannot be empty" : {
+
+    },
+    "Create an API key\n1. Log in to n8n.\n2. Go to Settings > n8n API.\n3. Select Create an API key.\n4. Copy My API Key and use this key to authenticate your calls." : {
+
+    },
+    "Credentials" : {
+
+    },
+    "Deactivate workflow " : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivar workflow"
+          }
+        }
+      }
+    },
+    "Disables a workflow to prevent it from running during specific events or conditions." : {
+
+    },
+    "Error in" : {
+
+    },
+    "Executed at" : {
+
+    },
+    "Host" : {
+
+    },
+    "HTTP Body (json):" : {
+
+    },
+    "HTTP Method" : {
+
+    },
+    "http://ip-address:port" : {
+
+    },
+    "https:// appname.app.n8n.cloud" : {
+
+    },
+    "Invalid Json" : {
+
+    },
+    "Key" : {
+
+    },
+    "Last update" : {
+
+    },
+    "Launch %@" : {
+
+    },
+    "Loading n8n data..." : {
+
+    },
+    "n8n (pronounced n-eight-n) helps you to connect any app with an API with any other, and manipulate its data with little or no code.\n\n- Customizable: highly flexible workflows and the option to build custom nodes.\n- Convenient: use the npm or Docker to try out n8n, or the Cloud hosting option if you want us to handle the infrastructure.\n- Privacy-focused: self-host n8n for privacy and security.\n\nCheck the project at: %@" : {
+
+    },
+    "n8n Workflows" : {
+
+    },
+    "Name" : {
+
+    },
+    "Not supported yet" : {
+
+    },
+    "OK" : {
+
+    },
+    "Password" : {
+
+    },
+    "Query parameters:" : {
+
+    },
+    "Reactivates a previously disabled workflow, allowing it to run again based on defined triggers and events." : {
+
+    },
+    "Retry" : {
+
+    },
+    "Save" : {
+
+    },
+    "Select a Workflow" : {
+
+    },
+    "Self-hosted" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Succeeded in" : {
+
+    },
+    "Test" : {
+
+    },
+    "Unknown" : {
+
+    },
+    "User" : {
+
+    },
+    "Value" : {
+
+    },
+    "Webhook authentication" : {
+
+    },
+    "Webhook request" : {
+
+    },
+    "Workflow" : {
+
+    }
+  },
+  "version" : "1.0"
+}

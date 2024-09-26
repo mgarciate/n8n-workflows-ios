@@ -2,7 +2,7 @@
 //  Bundle+Version.swift
 //  n8n-workflows-ios
 //
-//  Created by Marcelino on 24/9/24.
+//  Created by mgarciate on 24/9/24.
 //
 
 import Foundation
