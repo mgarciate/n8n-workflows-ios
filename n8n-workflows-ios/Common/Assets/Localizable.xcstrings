@@ -37,12 +37,6 @@
     "About n8n" : {
 
     },
-    "Abre la aplicación **Shortcuts**.\n\nEn la parte inferior, selecciona la pestaña **Shortcuts** y pulsa + para crear un nuevo Shortcut" : {
-
-    },
-    "Abrir la aplicación **Shortcuts**" : {
-
-    },
     "Activate workflow" : {
       "localizations" : {
         "es" : {
@@ -65,6 +59,9 @@
     "Cannot be empty" : {
 
     },
+    "Choose the **n8n Workouts** app" : {
+
+    },
     "Create an API key\n1. Log in to n8n.\n2. Go to Settings > n8n API.\n3. Select Create an API key.\n4. Copy My API Key and use this key to authenticate your calls." : {
 
     },
@@ -81,13 +78,7 @@
         }
       }
     },
-    "Desliza hacia abajo y selecciona **Aplicación**" : {
-
-    },
     "Disables a workflow to prevent it from running during specific events or conditions." : {
-
-    },
-    "Elige la aplicación **n8n Workouts** y " : {
 
     },
     "Error in" : {
@@ -144,7 +135,10 @@
     "OK" : {
 
     },
-    "Paso a paso" : {
+    "Open the **Shortcuts** app" : {
+
+    },
+    "Open the **Shortcuts** app.\n\nAt the bottom, select the **Shortcuts** tab and tap + to create a new Shortcut." : {
 
     },
     "Password" : {
@@ -162,13 +156,25 @@
     "Save" : {
 
     },
+    "Search for and select the **n8n Workflows** app." : {
+
+    },
     "Select a Workflow" : {
+
+    },
+    "Select the **Add Action** button to add the action to the workflow." : {
 
     },
     "Self-hosted" : {
 
     },
     "Settings" : {
+
+    },
+    "Show onboarding" : {
+
+    },
+    "Step by step" : {
 
     },
     "Succeeded in" : {

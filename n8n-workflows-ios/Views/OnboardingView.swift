@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct ShortcutsHelpView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         List {
             Section {
-                Text("How to create Shortcuts using workflows")
-                    .font(.title3)
+                HStack {
+                    Text("How to create Shortcuts using workflows")
+                        .font(.title3)
+                    Spacer()
+                    CloseButtonView {
+                        dismiss()
+                    }
+                }
             }
             Section("Step by step") {
                 HStack(alignment: .top, spacing: 10.0) {
@@ -56,14 +64,11 @@ struct ShortcutsHelpView: View {
                         .foregroundStyle(.white)
                         .background(.gray)
                         .clipShape(.circle)
-                    Text("Choose the **n8n Workouts** app")
+                    Text("Search for and select the **n8n Workflows** app.")
                 }
-                HStack {
-                    Text("TODO: Image here")
-                        .padding()
-                        .foregroundStyle(.white)
-                        .background(.red)
-                }
+                Image("shortcuts_setup3")
+                    .resizable()
+                    .scaledToFit()
             }
             Section {
                 HStack(alignment: .top, spacing: 10.0) {
