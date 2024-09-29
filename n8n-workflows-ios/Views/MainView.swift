@@ -82,6 +82,9 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         }) {
             SettingsView(viewModel: SettingsViewModel())
         }
+        .sheet(isPresented: $viewModel.isOnboardingPresented) {
+            OnboardingView()
+        }
         .alert(isPresented: $viewModel.isAlertPresented) {
             switch viewModel.apiResult {
             case .success(let response):

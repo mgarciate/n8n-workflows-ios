@@ -22,7 +22,25 @@
     "+ Add parameter" : {
 
     },
+    "1" : {
+
+    },
+    "2" : {
+
+    },
+    "3" : {
+
+    },
+    "4" : {
+
+    },
     "About n8n" : {
+
+    },
+    "Abre la aplicación **Shortcuts**.\n\nEn la parte inferior, selecciona la pestaña **Shortcuts** y pulsa + para crear un nuevo Shortcut" : {
+
+    },
+    "Abrir la aplicación **Shortcuts**" : {
 
     },
     "Activate workflow" : {
@@ -63,7 +81,13 @@
         }
       }
     },
+    "Desliza hacia abajo y selecciona **Aplicación**" : {
+
+    },
     "Disables a workflow to prevent it from running during specific events or conditions." : {
+
+    },
+    "Elige la aplicación **n8n Workouts** y " : {
 
     },
     "Error in" : {
@@ -73,6 +97,9 @@
 
     },
     "Host" : {
+
+    },
+    "How to create Shortcuts using workflows" : {
 
     },
     "HTTP Body (json):" : {
@@ -117,6 +144,9 @@
     "OK" : {
 
     },
+    "Paso a paso" : {
+
+    },
     "Password" : {
 
     },
@@ -145,6 +175,9 @@
 
     },
     "Test" : {
+
+    },
+    "TODO: Image here" : {
 
     },
     "Unknown" : {

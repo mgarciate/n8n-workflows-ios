@@ -11,6 +11,7 @@ final class MainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = true
     @Published var workflows: [Workflow] = []
     @Published var isAlertPresented: Bool = false
+    @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
     
     init() {}
@@ -19,7 +20,12 @@ final class MainViewModel: MainViewModelProtocol {
         await isLoading(true)
         do {
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
+            let onboardingDisplayed = UserDefaults.standard.bool(forKey: "onboarding-displayed")
             await MainActor.run {
+                if !response.data.isEmpty, !onboardingDisplayed {
+                    isOnboardingPresented = true
+                    UserDefaults.standard.set(true, forKey: "onboarding-displayed")
+                }
                 workflows = response.data
             }
         } catch {
