@@ -42,14 +42,11 @@ struct ShortcutsHelpView: View {
                         .foregroundStyle(.white)
                         .background(.gray)
                         .clipShape(.circle)
-                    Text("Scroll down and select **App**")
+                    Text("Select the **Add Action** button to add the action to the workflow.")
                 }
-                HStack {
-                    Text("TODO: Image here")
-                        .padding()
-                        .foregroundStyle(.white)
-                        .background(.red)
-                }
+                Image("shortcuts_setup2")
+                    .resizable()
+                    .scaledToFit()
             }
             Section {
                 HStack(alignment: .top, spacing: 10.0) {
