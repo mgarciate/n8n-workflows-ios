@@ -25,6 +25,9 @@
     "1" : {
 
     },
+    "1. Search for and select the **n8n Workflows** app.\n\n2. And also select the action you want: activate or deactivate workflow." : {
+
+    },
     "2" : {
 
     },
@@ -57,9 +60,6 @@
 
     },
     "Cannot be empty" : {
-
-    },
-    "Choose the **n8n Workouts** app" : {
 
     },
     "Create an API key\n1. Log in to n8n.\n2. Go to Settings > n8n API.\n3. Select Create an API key.\n4. Copy My API Key and use this key to authenticate your calls." : {
@@ -156,9 +156,6 @@
     "Save" : {
 
     },
-    "Search for and select the **n8n Workflows** app." : {
-
-    },
     "Select a Workflow" : {
 
     },
@@ -183,7 +180,7 @@
     "Test" : {
 
     },
-    "TODO: Image here" : {
+    "The next step is to configure the action. To do this:\n\n1. Expand the configuration.\n\n2. Choose the workflow you would like to select." : {
 
     },
     "Unknown" : {
