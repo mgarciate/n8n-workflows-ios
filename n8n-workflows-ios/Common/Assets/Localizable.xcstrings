@@ -10,6 +10,12 @@
     "{}" : {
 
     },
+    "**Important:** You can rename the **Shortcut** so that it's more intuitive to launch it by calling Siri. For example, \"Start my custom workout.\"" : {
+
+    },
+    "**One more thing:** Additionally, you can use actions to activate or deactivate workflows to include them in your iPhone's automations." : {
+
+    },
     "#%@" : {
 
     },
@@ -35,6 +41,15 @@
 
     },
     "4" : {
+
+    },
+    "5" : {
+
+    },
+    "6" : {
+
+    },
+    "7" : {
 
     },
     "About n8n" : {
@@ -85,6 +100,9 @@
 
     },
     "Executed at" : {
+
+    },
+    "For example, you can activate or deactivate your n8n workflows when you arrive at a location (your home?), when you receive an email with a specific subject, when you start an app and want to have a service running on your server and shut it down when the app is closed, when you get in the car, when you connect to a specific Wi-Fi, when your iPhone is running low on battery, etc." : {
 
     },
     "Host" : {

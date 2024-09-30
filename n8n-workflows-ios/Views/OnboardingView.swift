@@ -33,7 +33,7 @@ struct ShortcutsHelpView: View {
                     Text("Open the **Shortcuts** app.\n\nAt the bottom, select the **Shortcuts** tab and tap + to create a new Shortcut.")
                 }
                 Button("Open the **Shortcuts** app") {
-                    guard let url = URL(string: "shortcuts://create-shortcut") else { return }
+                    guard let url = URL(string: "shortcuts://create-shortcut"), UIApplication.shared.canOpenURL(url) else { return }
                     UIApplication.shared.open(url)
                 }
                 .buttonStyle(.borderedProminent)
