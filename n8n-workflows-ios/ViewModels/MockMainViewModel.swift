@@ -14,6 +14,7 @@ final class MockMainViewModel: MainViewModelProtocol {
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
+    var shouldShowSettings: Bool = false
     
     func fetchData() async {
         workflows = Workflow.dummyWorkflows

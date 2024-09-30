@@ -15,7 +15,6 @@ struct ShortcutsHelpView: View {
             Section {
                 HStack {
                     Text("How to create Shortcuts using workflows")
-                        .font(.title3)
                     Spacer()
                     CloseButtonView {
                         dismiss()
@@ -32,6 +31,7 @@ struct ShortcutsHelpView: View {
                         .clipShape(.circle)
                     Text("Open the **Shortcuts** app.\n\nAt the bottom, select the **Shortcuts** tab and tap + to create a new Shortcut.")
                 }
+                .listRowSeparator(.hidden)
                 Button("Open the **Shortcuts** app") {
                     guard let url = URL(string: "shortcuts://create-shortcut"), UIApplication.shared.canOpenURL(url) else { return }
                     UIApplication.shared.open(url)

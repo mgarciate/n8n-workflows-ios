@@ -399,7 +399,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"n8n-workflows-ios/Preview Content\"";
-				DEVELOPMENT_TEAM = M3XA3ETRDV;
+				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "";
@@ -414,7 +414,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "es.mgarciate.n8n-workflows-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -430,7 +430,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"n8n-workflows-ios/Preview Content\"";
-				DEVELOPMENT_TEAM = M3XA3ETRDV;
+				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "";
@@ -445,7 +445,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "es.mgarciate.n8n-workflows-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

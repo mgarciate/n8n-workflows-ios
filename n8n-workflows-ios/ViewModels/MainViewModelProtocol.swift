@@ -14,6 +14,7 @@ protocol MainViewModelProtocol: ObservableObject {
     var isAlertPresented: Bool { get set }
     var isOnboardingPresented: Bool { get set }
     var apiResult: Result<WebhookResponse, ApiError>? { get set }
+    var shouldShowSettings: Bool { get }
 
     func fetchData() async
     func toggleWorkflowActive(id: String, isActive: Bool) async

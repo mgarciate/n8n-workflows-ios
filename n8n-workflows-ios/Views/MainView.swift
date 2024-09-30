@@ -21,7 +21,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     
     @StateObject var viewModel: ViewModel
     @State var navigationPath = NavigationPath()
-    @State private var showSettings = false
+    @State private var isSettingsPresented = false
     @State private var infoPopoverPresented = false
     @State private var isInactiveOrBackground = false
     
@@ -31,7 +31,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 if !viewModel.isLoading, viewModel.workflows.isEmpty {
                     ContentUnavailableCompatView(
                         title: "No workflows",
-                        description: "It might be because you haven’t created any workflow in n8n yet, or the host and credentials are not configured correctly. You can check and set them up using the button ⚙️ in the top right corner  ⤴.",
+                        description: "It might be because you haven't created any workflow in n8n yet, or the host and credentials are not configured correctly. You can check and set them up using the button ⚙️ in the top right corner  ⤴.",
                         systemImage: "flowchart"
                     )
                 } else {
@@ -58,7 +58,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        showSettings = true
+                        isSettingsPresented = true
                     } label: {
                         Image(systemName: "gear")
                     }
@@ -76,7 +76,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 }
             }
         }
-        .fullScreenCover(isPresented: $showSettings, onDismiss: {
+        .fullScreenCover(isPresented: $isSettingsPresented, onDismiss: {
             viewModel.isLoading = true
             fetchDataTask()
         }) {
@@ -125,6 +125,10 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             }
         }
         .onAppear() {
+            guard !viewModel.shouldShowSettings else {
+                isSettingsPresented = true
+                return
+            }
             fetchDataTask()
         }
     }

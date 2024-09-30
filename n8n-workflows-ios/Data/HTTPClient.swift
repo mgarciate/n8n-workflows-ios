@@ -50,13 +50,13 @@ extension ApiError {
     var message: String {
         switch self {
         case .missingURL:
-            return "URL error"
+            return "The URL the application is trying to access is incorrect."
         case .badResponse:
-            return "Bad response"
+            return "The server cannot find the requested resource."
         case .unauthorized:
-            return "Unauthorized"
+            return "The host and credentials are not configured correctly. You can check and set them up using the button ⚙️ in the top right corner  ⤴."
         case .parsingError:
-            return "Parsing error"
+            return "Error parsing the server response: the data format is invalid or unexpected."
         case .error(let error):
             var message = error.message
             if let hint = error.hint {

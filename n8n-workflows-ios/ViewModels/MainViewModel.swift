@@ -13,6 +13,15 @@ final class MainViewModel: MainViewModelProtocol {
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
+    var shouldShowSettings: Bool {
+        guard let url = UserDefaults.standard.string(forKey: "host-url"),
+              !url.isEmpty,
+              let apiKey = KeychainHelper.shared.retrieveApiKey(service: KeychainHelper.service, account: KeychainHelper.account),
+              !apiKey.isEmpty else {
+            return true
+        }
+        return false
+    }
     
     init() {}
     
@@ -67,6 +76,7 @@ final class MainViewModel: MainViewModelProtocol {
     
     private func isLoading(_ isLoading: Bool) async {
         await MainActor.run {
+            if isLoading { isAlertPresented = false }
             self.isLoading = isLoading
         }
     }
