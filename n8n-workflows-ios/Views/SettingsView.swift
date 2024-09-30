@@ -70,7 +70,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 .popover(isPresented: $selfhostedPopoverPresented,
                          attachmentAnchor: .point(.center),
                          arrowEdge: .top) {
-                    Text("\nIf you have n8n self-hosted, a normal configuration would be accessed via http://ip-address:port or https://your-domain.\nIf you're using n8n Cloud, the configuration would be accessed through https://appname.app.n8n.cloud\n")
+                    Text("\n\nIf you have n8n self-hosted, a normal configuration would be accessed via http://ip-address:port or https://your-domain. It is necessary to grant permission to access your local network.\nIf you're using n8n Cloud, the configuration would be accessed through https://appname.app.n8n.cloud\n\n")
                         .textCase(nil)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding()
@@ -101,7 +101,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 .popover(isPresented: $apikeyPopoverPresented,
                          attachmentAnchor: .point(.center),
                          arrowEdge: .top) {
-                    Text("Create an API key\n1. Log in to n8n.\n2. Go to Settings > n8n API.\n3. Select Create an API key.\n4. Copy My API Key and use this key to authenticate your calls.")
+                    Text("Create an API key\n1. Log in to n8n.\n2. Go to **Settings > n8n API**.\n3. Select **Create an API key**.\n4. Copy **My API Key** and use this key to authenticate your calls.")
                         .textCase(nil)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding()
