@@ -29,9 +29,22 @@
 		09EBD7072C92D01A00F05F4B /* n8n-workflows-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		09295BBA2CAC6FA300BA4F56 /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-ios" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		09EBD6EF2C92D01800F05F4B /* n8n-workflows-ios */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				09295BBA2CAC6FA300BA4F56 /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-ios" target */,
+			);
 			path = "n8n-workflows-ios";
 			sourceTree = "<group>";
 		};
@@ -402,7 +415,7 @@
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "n8n-workflows-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "n8n Workflows";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -438,7 +451,7 @@
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = "n8n-workflows-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "n8n Workflows";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
