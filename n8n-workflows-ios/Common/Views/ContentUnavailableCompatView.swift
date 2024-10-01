@@ -13,26 +13,9 @@ struct ContentUnavailableCompatView: View {
     let systemImage: String
     
     var body: some View {
-        if #available(iOS 17.0, *) {
-            ContentUnavailableView(title,
-                                   systemImage: systemImage,
-                                   description: Text(description))
-        } else {
-            VStack(spacing: 5) {
-                Image.init(systemName: systemImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50.0, height: 50.0)
-                    .foregroundStyle(.gray)
-                    .multilineTextAlignment(.center)
-                Text(title)
-                    .font(.title2.bold())
-                Text(description)
-                    .font(.callout)
-                    .foregroundStyle(.gray)
-                    .multilineTextAlignment(.center)
-            }
-        }
+        ContentUnavailableView(title,
+                               systemImage: systemImage,
+                               description: Text(description))
     }
 }
 

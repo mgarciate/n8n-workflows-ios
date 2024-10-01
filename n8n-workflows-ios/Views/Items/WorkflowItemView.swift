@@ -84,7 +84,6 @@ struct WorkflowItemView: View {
     }
 }
 
-@available(iOS 17, *)
 #Preview(traits: .sizeThatFitsLayout) {
     WorkflowItemView(workflow: Workflow.dummyWorkflows[0], action: { _ in
         
