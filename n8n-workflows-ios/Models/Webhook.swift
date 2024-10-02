@@ -5,13 +5,20 @@
 //  Created by mgarciate on 23/9/24.
 //
 
+import Foundation
+import SwiftData
 
-import AppIntents
-
-struct Webhook: Codable, Identifiable, Hashable {
-    let id: String
-    let name: String
-    let path: String
+@Model
+final class Webhook {
+    @Attribute(.unique) var id: String
+    var name: String
+    var path: String
+    
+    init(id: String, name: String, path: String) {
+        self.id = id
+        self.name = name
+        self.path = path
+    }
 }
 
 extension Webhook {
