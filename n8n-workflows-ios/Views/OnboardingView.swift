@@ -64,7 +64,7 @@ struct ShortcutsHelpView: View {
                         .foregroundStyle(.white)
                         .background(.gray)
                         .clipShape(.circle)
-                    Text("1. Search for and select the **n8n Workflows** app.\n\n2. And also select the action you want: activate or deactivate workflow.")
+                    Text("1. Search for and select the **My Workflows Manager** app.\n\n2. And also select the action you want: activate or deactivate workflow.")
                 }
                 Image("shortcuts_setup3")
                     .resizable()

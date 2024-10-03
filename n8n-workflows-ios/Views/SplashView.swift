@@ -385,7 +385,7 @@ struct SplashView: View {
                     AnimatedSVGView()
                         .frame(width: 200, height: 200)
                 }
-                Text("n8n Workflows")
+                Text("My Workflows Manager")
                     .font(.title.bold())
                     .opacity(circleIsHiden ? 0 : 1)
             }
