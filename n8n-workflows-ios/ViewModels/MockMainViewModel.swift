@@ -11,6 +11,7 @@ import SwiftUI
 final class MockMainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = false
     @Published var workflows: [Workflow] = []
+    @Published var tags: [Tag] = []
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?

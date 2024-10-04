@@ -11,6 +11,7 @@ import SwiftUI
 protocol MainViewModelProtocol: ObservableObject {
     var isLoading: Bool { get set }
     var workflows: [Workflow] { get set }
+    var tags: [Tag] { get set }
     var isAlertPresented: Bool { get set }
     var isOnboardingPresented: Bool { get set }
     var apiResult: Result<WebhookResponse, ApiError>? { get set }

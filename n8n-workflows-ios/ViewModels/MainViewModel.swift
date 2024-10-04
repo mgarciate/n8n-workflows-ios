@@ -26,8 +26,7 @@ final class MainViewModel: MainViewModelProtocol {
     
     init() {}
     
-    func fetchData() async {
-        await isLoading(true)
+    private func fetchTags() async {
         do {
             let response: DataResponse<Tag> = try await WorkflowApiRequest().get(endpoint: .tags)
             await MainActor.run {
@@ -38,6 +37,9 @@ final class MainViewModel: MainViewModelProtocol {
             print("Error", error)
 #endif
         }
+    }
+    
+    private func fetchWorkflows() async {
         do {
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
             let onboardingDisplayed = UserDefaults.standard.bool(forKey: "onboarding-displayed")
@@ -58,6 +60,12 @@ final class MainViewModel: MainViewModelProtocol {
                 apiResult = .failure(error as? ApiError ?? .error(details: ResponseFailed(code: nil, message: error.localizedDescription, hint: nil)))
             }
         }
+    }
+    
+    func fetchData() async {
+        await isLoading(true)
+        await fetchTags()
+        await fetchWorkflows()
         await isLoading(false)
     }
     
