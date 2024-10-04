@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+
+
 final class MainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = true
     @Published var workflows: [Workflow] = []
-    @Published var tags: [Tag] = []
+    @Published var tags: [SelectableTag] = []
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
@@ -27,10 +29,13 @@ final class MainViewModel: MainViewModelProtocol {
     init() {}
     
     private func fetchTags() async {
+        let selectedTagIds = tags.filter { $0.isSelected }.map { $0.id }
         do {
             let response: DataResponse<Tag> = try await WorkflowApiRequest().get(endpoint: .tags)
             await MainActor.run {
-                tags = response.data
+                tags = response.data.map { tag in
+                    SelectableTag(tag: tag, isSelected: selectedTagIds.contains(tag.id))
+                }
             }
         } catch {
 #if DEBUG
@@ -41,7 +46,12 @@ final class MainViewModel: MainViewModelProtocol {
     
     private func fetchWorkflows() async {
         do {
-            let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
+            var params: [String: Any] = [:]
+            let selectedTagsName = tags.filter { $0.isSelected }.map { $0.tag.name }
+            if !selectedTagsName.isEmpty {
+                params = ["tags": selectedTagsName.joined(separator: ",")]
+            }
+            let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows, params: params)
             let onboardingDisplayed = UserDefaults.standard.bool(forKey: "onboarding-displayed")
             await MainActor.run {
                 if !response.data.isEmpty, !onboardingDisplayed {
@@ -91,6 +101,15 @@ final class MainViewModel: MainViewModelProtocol {
         }
         
         await isLoading(false)
+    }
+    
+    func toggleTag(id: String) async {
+        if let index = tags.firstIndex(where: { $0.id == id }) {
+            await MainActor.run {
+                tags[index].isSelected.toggle()
+            }
+            await fetchData()
+        }
     }
     
     private func isLoading(_ isLoading: Bool) async {

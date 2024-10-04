@@ -11,7 +11,7 @@ import SwiftUI
 protocol MainViewModelProtocol: ObservableObject {
     var isLoading: Bool { get set }
     var workflows: [Workflow] { get set }
-    var tags: [Tag] { get set }
+    var tags: [SelectableTag] { get set }
     var isAlertPresented: Bool { get set }
     var isOnboardingPresented: Bool { get set }
     var apiResult: Result<WebhookResponse, ApiError>? { get set }
@@ -19,4 +19,5 @@ protocol MainViewModelProtocol: ObservableObject {
 
     func fetchData() async
     func toggleWorkflowActive(id: String, isActive: Bool) async
+    func toggleTag(id: String) async
 }

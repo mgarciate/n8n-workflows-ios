@@ -132,20 +132,42 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             fetchDataTask()
         }
     }
-    
+
     var content: some View {
-        List(viewModel.workflows) { workflow in
-            WorkflowItemView(workflow: workflow, action: { newValue in
-                Task {
-                    await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
+        List {
+            if !viewModel.tags.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 10) {
+                        ForEach(viewModel.tags) { selectableTag in
+                            Text(selectableTag.tag.name)
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .background(Color.blue.opacity(selectableTag.isSelected ? 0.6 : 0.2))
+                                .cornerRadius(20)
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(selectableTag.isSelected ? .white : .blue)
+                                .onTapGesture {
+                                    Task {
+                                        await viewModel.toggleTag(id: selectableTag.id)
+                                    }
+                                }
+                        }
+                    }
                 }
-            }, launchWebhook: { webhook in
-                navigationPath.append(webhook)
-            })
-            .onTapGesture {
-                navigationPath.append(workflow)
             }
-            .listRowSeparator(.hidden)
+            ForEach(viewModel.workflows) { workflow in
+                WorkflowItemView(workflow: workflow, action: { newValue in
+                    Task {
+                        await viewModel.toggleWorkflowActive(id: workflow.id, isActive: newValue)
+                    }
+                }, launchWebhook: { webhook in
+                    navigationPath.append(webhook)
+                })
+                .onTapGesture {
+                    navigationPath.append(workflow)
+                }
+                .listRowSeparator(.hidden)
+            }
         }
         .padding(.horizontal, -20)
         .disabled(viewModel.isLoading)

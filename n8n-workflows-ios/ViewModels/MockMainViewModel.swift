@@ -11,7 +11,9 @@ import SwiftUI
 final class MockMainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = false
     @Published var workflows: [Workflow] = []
-    @Published var tags: [Tag] = []
+    @Published var tags: [SelectableTag]  = {
+        (1...5).map { SelectableTag(tag: Tag(id: "tagId\($0)", name: "tagName\($0)"), isSelected: $0 == 2) }
+    }()
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
@@ -25,6 +27,12 @@ final class MockMainViewModel: MainViewModelProtocol {
         if let index = workflows.firstIndex(where: { $0.id == id }) {
             let updatedWorkflow = Workflow(id: workflows[index].id, name: workflows[index].name, active: isActive, createdAt: workflows[index].createdAt, updatedAt: workflows[index].updatedAt, nodes: workflows[index].nodes)
             workflows[index] = updatedWorkflow
+        }
+    }
+    
+    func toggleTag(id: String) async {
+        if let index = tags.firstIndex(where: { $0.id == id }) {
+            tags[index].isSelected.toggle()
         }
     }
 }
