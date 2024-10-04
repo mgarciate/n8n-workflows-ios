@@ -29,7 +29,7 @@ final class MainViewModel: MainViewModelProtocol {
     init() {}
     
     private func fetchTags() async {
-        let selectedTagIds = tags.filter { $0.isSelected }.map { $0.id }
+        let selectedTagIds = tags.filter { $0.isSelected }.map { $0.tag.id }
         do {
             let response: DataResponse<Tag> = try await WorkflowApiRequest().get(endpoint: .tags)
             await MainActor.run {

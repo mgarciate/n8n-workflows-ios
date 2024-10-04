@@ -142,10 +142,16 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                             Text(selectableTag.tag.name)
                                 .padding(.vertical, 8)
                                 .padding(.horizontal, 16)
-                                .background(Color.blue.opacity(selectableTag.isSelected ? 0.6 : 0.2))
-                                .cornerRadius(20)
+                                .background(Color("Red").opacity(selectableTag.isSelected ? 0.8 : 0.0))
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(selectableTag.isSelected ? .white : .blue)
+                                .foregroundColor(selectableTag.isSelected ? .white : Color("Black"))
+                                .cornerRadius(20)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color("Red"), lineWidth: 2)
+                                        .padding(.leading, 1)
+                                )
+                                .frame(height: 40)
                                 .onTapGesture {
                                     Task {
                                         await viewModel.toggleTag(id: selectableTag.id)
