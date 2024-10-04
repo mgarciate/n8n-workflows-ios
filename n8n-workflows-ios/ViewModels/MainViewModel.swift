@@ -10,6 +10,7 @@ import SwiftUI
 final class MainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = true
     @Published var workflows: [Workflow] = []
+    @Published var tags: [Tag] = []
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
@@ -27,6 +28,16 @@ final class MainViewModel: MainViewModelProtocol {
     
     func fetchData() async {
         await isLoading(true)
+        do {
+            let response: DataResponse<Tag> = try await WorkflowApiRequest().get(endpoint: .tags)
+            await MainActor.run {
+                tags = response.data
+            }
+        } catch {
+#if DEBUG
+            print("Error", error)
+#endif
+        }
         do {
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
             let onboardingDisplayed = UserDefaults.standard.bool(forKey: "onboarding-displayed")

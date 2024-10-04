@@ -13,17 +13,15 @@ class WorkflowApiRequest: HTTPClient {
         case executions
         case projects
         case workflowAction(id: String, actionType: WorkflowActionType)
+        case tags
         
         var path: String {
             switch self {
-            case .workflows:
-                return "/workflows"
-            case .executions:
-                return "/executions"
-            case .projects:
-                return "/projects"
-            case .workflowAction(let id, let actionType):
-                return "/workflows/\(id)/\(actionType)"
+            case .workflows: "/workflows"
+            case .executions: "/executions"
+            case .projects: "/projects"
+            case .workflowAction(let id, let actionType): "/workflows/\(id)/\(actionType)"
+            case .tags: "/tags"
             }
         }
     }
