@@ -17,7 +17,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
                                        systemImage: "figure.run")
             } else {
                 List(viewModel.executions) { execution in
-                    Text(execution.startedAt)
+                    ExecutionItemView(execution: execution)
                 }
                 .disabled(viewModel.isLoading)
                 .refreshable {
