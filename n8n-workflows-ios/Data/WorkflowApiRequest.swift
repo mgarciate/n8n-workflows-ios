@@ -32,7 +32,7 @@ class WorkflowApiRequest: HTTPClient {
     private let headerFieldName = "X-N8N-API-KEY"
 
     init() throws {
-        let url = UserDefaults.standard.string(forKey: "host-url") ?? ""
+        let url = UserDefaultsHelper.shared.hostUrl ?? ""
         baseURL = "\(url)/api/v1"
         urlSession = URLSession.shared
 

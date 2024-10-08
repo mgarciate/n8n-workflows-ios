@@ -19,7 +19,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     
     init(webhook: Webhook) {
         self.webhook = webhook
-        webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .noAuth
+        webhookAuthenticationType = UserDefaultsHelper.shared.webhookAuthType ?? .noAuth
     }
     
     func send() async {
