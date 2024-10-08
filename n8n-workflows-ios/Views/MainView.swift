@@ -190,7 +190,6 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     }
     
     private func fetchDataTask(showLoading: Bool = true) {
-        print("fetchDataTask")
         Task {
             await viewModel.fetchData()
         }
