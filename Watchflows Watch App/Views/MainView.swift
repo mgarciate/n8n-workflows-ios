@@ -12,10 +12,62 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     @StateObject var viewModel: ViewModel
     
     var body: some View {
-        //            ContentUnavailableView("No workflows",
-        //                                   systemImage: "flowchart",
-        //                                   description: Text("Create workflows or configure you n8n instance in your iPhone"))
+        ZStack {
+            if !viewModel.isLoading, viewModel.workflows.isEmpty {
+                ContentUnavailableView("No workflows",
+                                       systemImage: "flowchart",
+                                       description: Text("Create workflows or configure you n8n instance in your iPhone")
+                )
+            } else {
+                content
+            }
+            if viewModel.isLoading {
+                ZStack {
+                    Color.clear
+                    ZStack {
+                        ProgressView("Loading n8n data...")
+                            .tint(.white)
+                            .foregroundStyle(.white)
+                            .controlSize(.large)
+                            .padding()
+                            .background(.black.opacity(0.7))
+                    }
+                }
+                .transition(.opacity.animation(.easeInOut(duration: 0.5)))
+                .allowsHitTesting(!viewModel.isLoading)
+            }
+        }
+        .alert(isPresented: $viewModel.isAlertPresented) {
+            switch viewModel.apiResult {
+            case .success(let response):
+                Alert(title: Text(""),
+                      message: Text(response.message),
+                      dismissButton: .default(Text("OK")) {
+                    // do nothing
+                }
+                )
+            case .failure(let error):
+                Alert(title: Text(error.title),
+                      message: Text(error.message),
+                      dismissButton: .cancel() {
+//                    do nothing
+                }
+                )
+            case .none:
+                Alert(title: Text("Unknown"),
+                      message: Text(""),
+                      dismissButton: .default(Text("OK")) {
+                    // do nothing
+                }
+                )
+            }
+        }
+        .onAppear() {
+            fetchDataTask()
+        }
+    }
         
+    var content: some View {
         List(viewModel.workflows) { workflow in
             VStack {
                 Toggle(workflow.name, isOn: Binding(
@@ -53,9 +105,6 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         .disabled(viewModel.isLoading)
         .refreshable {
             fetchDataTask(showLoading: false)
-        }
-        .onAppear() {
-            fetchDataTask()
         }
     }
     
