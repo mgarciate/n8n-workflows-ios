@@ -99,7 +99,7 @@ class UserConfigurationManager {
     }
     
     private func setRecordFields(_ record: CKRecord, from userConfig: UserConfiguration) throws {
-        Sets the fields of a CKRecord from a UserConfiguration instance.
+        // Sets the fields of a CKRecord from a UserConfiguration instance.
         if let hostUrl = userConfig.hostUrl {
             record["hostUrl"] = hostUrl as CKRecordValue
         } else {
