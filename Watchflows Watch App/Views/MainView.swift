@@ -16,7 +16,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             if !viewModel.isLoading, viewModel.workflows.isEmpty {
                 ContentUnavailableView("No workflows",
                                        systemImage: "flowchart",
-                                       description: Text("Create workflows or configure you n8n instance in your iPhone")
+                                       description: Text("It might be because you haven't created any workflow in n8n yet, or the host and credentials are not configured correctly in your iPhone 📱")
                 )
             } else {
                 content
