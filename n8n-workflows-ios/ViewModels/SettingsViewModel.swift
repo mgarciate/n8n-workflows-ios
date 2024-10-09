@@ -58,5 +58,23 @@ final class SettingsViewModel: SettingsViewModelProtocol {
             service: KeychainHelper.service,
             account: KeychainHelper.account
         )
+        Task {
+            do {
+                try await UserConfigurationManager.shared.updateSettings(UserConfiguration(
+                    selfHost: selfhostIsOn,
+                    hostUrl: url,
+                    webhookAuthType: webhookAuthenticationType,
+                    webhookAuthParam1: webhookAuthenticationParam1,
+                    webhookAuthParam2: webhookAuthenticationParam2
+                ))
+#if DEBUG
+                print("Configuration updated successfully.")
+#endif
+            } catch {
+#if DEBUG
+                print("Error updating CloudKit configuration: \(error.localizedDescription)")
+#endif
+            }
+        }
     }
 }

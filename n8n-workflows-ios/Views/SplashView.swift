@@ -400,6 +400,14 @@ struct SplashView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 isMainViewPresented.toggle()
             }
+            Task {
+                let userConfig = try? await UserConfigurationManager.shared.fetchSettings()
+                guard userConfig == nil else { return }
+#if DEBUG
+                print("Update local config to CloudKit")
+#endif
+                try? await UserConfigurationManager.shared.updateSettings(UserDefaultsHelper.shared.userConfig)
+            }
         }
     }
 }

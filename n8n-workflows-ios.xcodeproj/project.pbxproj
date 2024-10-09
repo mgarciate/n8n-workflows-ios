@@ -819,6 +819,7 @@
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Watchflows-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Watchflows;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mgarciate.n8n-workflows";
@@ -850,6 +851,7 @@
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Watchflows-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Watchflows;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mgarciate.n8n-workflows";

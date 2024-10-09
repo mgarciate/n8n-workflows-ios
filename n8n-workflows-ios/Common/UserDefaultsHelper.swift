@@ -42,4 +42,33 @@ class UserDefaultsHelper {
         get { defaults.bool(forKey: "selfhost") }
         set { defaults.set(newValue, forKey: "selfhost") }
     }
+    
+    func clearAll() -> Bool {
+        guard let appDomain = Bundle.main.bundleIdentifier else { return false }
+        defaults.removePersistentDomain(forName: appDomain)
+        defaults.synchronize()
+        return true
+    }
+}
+
+extension UserDefaultsHelper {
+    func saveUserConfig(_ userConfig: UserConfiguration) {
+        hostUrl = userConfig.hostUrl
+        selfHost = userConfig.selfHost ?? false
+        webhookAuthType = userConfig.webhookAuthType
+        webhookAuthParam1 = userConfig.webhookAuthParam1
+        webhookAuthParam2 = userConfig.webhookAuthParam2
+    }
+    
+    var userConfig: UserConfiguration {
+        get {
+            UserConfiguration(
+                selfHost: selfHost,
+                hostUrl: hostUrl,
+                webhookAuthType: webhookAuthType,
+                webhookAuthParam1: webhookAuthParam1,
+                webhookAuthParam2: webhookAuthParam2
+            )
+        }
+    }
 }

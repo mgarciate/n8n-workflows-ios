@@ -125,11 +125,23 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             }
         }
         .onAppear() {
-            guard !viewModel.shouldShowSettings else {
-                isSettingsPresented = true
-                return
+            Task {
+                do {
+                    let userConfig = try await UserConfigurationManager.shared.fetchSettings()
+                    if let _ = userConfig.hostUrl {
+                        UserDefaultsHelper.shared.saveUserConfig(userConfig)
+                    }
+                } catch {
+#if DEBUG
+                    print("Error getting CloudKit configuration: \(error.localizedDescription)")
+#endif
+                }
+                guard !viewModel.shouldShowSettings else {
+                    isSettingsPresented = true
+                    return
+                }
+                fetchDataTask()
             }
-            fetchDataTask()
         }
     }
 

@@ -5,7 +5,7 @@
 //  Created by mgarciate on 20/9/24.
 //
 
-enum WebhookAuthType: Codable, CaseIterable {
+enum WebhookAuthType: String, Codable, CaseIterable {
     case basic
     case header
     case jwt
