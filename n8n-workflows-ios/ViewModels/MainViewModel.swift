@@ -17,7 +17,7 @@ final class MainViewModel: MainViewModelProtocol {
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
     var shouldShowSettings: Bool {
-        guard let url = UserDefaults.standard.string(forKey: "host-url"),
+        guard let url = UserDefaultsHelper.shared.hostUrl,
               !url.isEmpty,
               let apiKey = KeychainHelper.shared.retrieveApiKey(service: KeychainHelper.service, account: KeychainHelper.account),
               !apiKey.isEmpty else {
@@ -52,11 +52,11 @@ final class MainViewModel: MainViewModelProtocol {
                 params = ["tags": selectedTagsName.joined(separator: ",")]
             }
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows, params: params)
-            let onboardingDisplayed = UserDefaults.standard.bool(forKey: "onboarding-displayed")
+            let onboardingDisplayed = UserDefaultsHelper.shared.onboardingDisplayed
             await MainActor.run {
                 if !response.data.isEmpty, !onboardingDisplayed {
                     isOnboardingPresented = true
-                    UserDefaults.standard.set(true, forKey: "onboarding-displayed")
+                    UserDefaultsHelper.shared.onboardingDisplayed = true
                 }
                 workflows = response.data
             }

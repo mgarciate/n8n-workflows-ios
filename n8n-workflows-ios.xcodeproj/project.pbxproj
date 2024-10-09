@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		09FC4D4F2CB5231B00B5D31E /* Watchflows Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		09EBD6FE2C92D01A00F05F4B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +25,50 @@
 			remoteGlobalIDString = 09EBD6EC2C92D01800F05F4B;
 			remoteInfo = "n8n-workflows-ios";
 		};
+		09FC4D3C2CB5231B00B5D31E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09EBD6E52C92D01800F05F4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09FC4D2B2CB5231A00B5D31E;
+			remoteInfo = "Watchflows Watch App";
+		};
+		09FC4D462CB5231B00B5D31E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09EBD6E52C92D01800F05F4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09FC4D2B2CB5231A00B5D31E;
+			remoteInfo = "Watchflows Watch App";
+		};
+		09FC4D4D2CB5231B00B5D31E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09EBD6E52C92D01800F05F4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09FC4D2B2CB5231A00B5D31E;
+			remoteInfo = "Watchflows Watch App";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		09FC4D502CB5231B00B5D31E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				09FC4D4F2CB5231B00B5D31E /* Watchflows Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		09EBD6ED2C92D01800F05F4B /* n8n-workflows-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "n8n-workflows-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EBD6FD2C92D01A00F05F4B /* n8n-workflows-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EBD7072C92D01A00F05F4B /* n8n-workflows-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Watchflows Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09FC4D3B2CB5231B00B5D31E /* Watchflows Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watchflows Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09FC4D452CB5231B00B5D31E /* Watchflows Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Watchflows Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -37,6 +79,35 @@
 			);
 			target = 09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */;
 		};
+		09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Common/Extensions/Bundle+Version.swift",
+				"Common/Extensions/Date+String.swift",
+				"Common/Extensions/String+Date.swift",
+				"Common/Extensions/UserDefaults+Decodable.swift",
+				Common/KeychainHelper.swift,
+				Common/UserConfigurationManager.swift,
+				Common/UserDefaultsHelper.swift,
+				Data/DataResponse.swift,
+				Data/HTTPClient.swift,
+				Data/WebhookRequest.swift,
+				Data/WebhookResponse.swift,
+				Data/WorkflowApiRequest.swift,
+				Models/Execution.swift,
+				Models/Tag.swift,
+				Models/Webhook.swift,
+				Models/WebhookAuthType.swift,
+				Models/Workflow.swift,
+				ViewModels/MainViewModel.swift,
+				ViewModels/MainViewModelProtocol.swift,
+				ViewModels/MockMainViewModel.swift,
+				ViewModels/MockWorkflowExecutionsViewModel.swift,
+				ViewModels/WorkflowExecutionsViewModel.swift,
+				ViewModels/WorkflowExecutionsViewProtocol.swift,
+			);
+			target = 09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +115,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				09295BBA2CAC6FA300BA4F56 /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-ios" target */,
+				09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */,
 			);
 			path = "n8n-workflows-ios";
 			sourceTree = "<group>";
@@ -56,6 +128,21 @@
 		09EBD70A2C92D01A00F05F4B /* n8n-workflows-iosUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "n8n-workflows-iosUITests";
+			sourceTree = "<group>";
+		};
+		09FC4D2D2CB5231A00B5D31E /* Watchflows Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Watchflows Watch App";
+			sourceTree = "<group>";
+		};
+		09FC4D3E2CB5231B00B5D31E /* Watchflows Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Watchflows Watch AppTests";
+			sourceTree = "<group>";
+		};
+		09FC4D482CB5231B00B5D31E /* Watchflows Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Watchflows Watch AppUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -82,6 +169,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		09FC4D292CB5231A00B5D31E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D382CB5231B00B5D31E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D422CB5231B00B5D31E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +199,9 @@
 				09EBD6EF2C92D01800F05F4B /* n8n-workflows-ios */,
 				09EBD7002C92D01A00F05F4B /* n8n-workflows-iosTests */,
 				09EBD70A2C92D01A00F05F4B /* n8n-workflows-iosUITests */,
+				09FC4D2D2CB5231A00B5D31E /* Watchflows Watch App */,
+				09FC4D3E2CB5231B00B5D31E /* Watchflows Watch AppTests */,
+				09FC4D482CB5231B00B5D31E /* Watchflows Watch AppUITests */,
 				09EBD6EE2C92D01800F05F4B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +212,9 @@
 				09EBD6ED2C92D01800F05F4B /* n8n-workflows-ios.app */,
 				09EBD6FD2C92D01A00F05F4B /* n8n-workflows-iosTests.xctest */,
 				09EBD7072C92D01A00F05F4B /* n8n-workflows-iosUITests.xctest */,
+				09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */,
+				09FC4D3B2CB5231B00B5D31E /* Watchflows Watch AppTests.xctest */,
+				09FC4D452CB5231B00B5D31E /* Watchflows Watch AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,10 +229,12 @@
 				09EBD6E92C92D01800F05F4B /* Sources */,
 				09EBD6EA2C92D01800F05F4B /* Frameworks */,
 				09EBD6EB2C92D01800F05F4B /* Resources */,
+				09FC4D502CB5231B00B5D31E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				09FC4D4E2CB5231B00B5D31E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				09EBD6EF2C92D01800F05F4B /* n8n-workflows-ios */,
@@ -176,6 +292,74 @@
 			productReference = 09EBD7072C92D01A00F05F4B /* n8n-workflows-iosUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09FC4D572CB5231B00B5D31E /* Build configuration list for PBXNativeTarget "Watchflows Watch App" */;
+			buildPhases = (
+				09FC4D282CB5231A00B5D31E /* Sources */,
+				09FC4D292CB5231A00B5D31E /* Frameworks */,
+				09FC4D2A2CB5231A00B5D31E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				09FC4D2D2CB5231A00B5D31E /* Watchflows Watch App */,
+			);
+			name = "Watchflows Watch App";
+			packageProductDependencies = (
+			);
+			productName = "Watchflows Watch App";
+			productReference = 09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		09FC4D3A2CB5231B00B5D31E /* Watchflows Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09FC4D582CB5231B00B5D31E /* Build configuration list for PBXNativeTarget "Watchflows Watch AppTests" */;
+			buildPhases = (
+				09FC4D372CB5231B00B5D31E /* Sources */,
+				09FC4D382CB5231B00B5D31E /* Frameworks */,
+				09FC4D392CB5231B00B5D31E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				09FC4D3D2CB5231B00B5D31E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				09FC4D3E2CB5231B00B5D31E /* Watchflows Watch AppTests */,
+			);
+			name = "Watchflows Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "Watchflows Watch AppTests";
+			productReference = 09FC4D3B2CB5231B00B5D31E /* Watchflows Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		09FC4D442CB5231B00B5D31E /* Watchflows Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09FC4D592CB5231B00B5D31E /* Build configuration list for PBXNativeTarget "Watchflows Watch AppUITests" */;
+			buildPhases = (
+				09FC4D412CB5231B00B5D31E /* Sources */,
+				09FC4D422CB5231B00B5D31E /* Frameworks */,
+				09FC4D432CB5231B00B5D31E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				09FC4D472CB5231B00B5D31E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				09FC4D482CB5231B00B5D31E /* Watchflows Watch AppUITests */,
+			);
+			name = "Watchflows Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "Watchflows Watch AppUITests";
+			productReference = 09FC4D452CB5231B00B5D31E /* Watchflows Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,6 +381,17 @@
 						CreatedOnToolsVersion = 16.0;
 						TestTargetID = 09EBD6EC2C92D01800F05F4B;
 					};
+					09FC4D2B2CB5231A00B5D31E = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					09FC4D3A2CB5231B00B5D31E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 09FC4D2B2CB5231A00B5D31E;
+					};
+					09FC4D442CB5231B00B5D31E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 09FC4D2B2CB5231A00B5D31E;
+					};
 				};
 			};
 			buildConfigurationList = 09EBD6E82C92D01800F05F4B /* Build configuration list for PBXProject "n8n-workflows-ios" */;
@@ -217,6 +412,9 @@
 				09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */,
 				09EBD6FC2C92D01A00F05F4B /* n8n-workflows-iosTests */,
 				09EBD7062C92D01A00F05F4B /* n8n-workflows-iosUITests */,
+				09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */,
+				09FC4D3A2CB5231B00B5D31E /* Watchflows Watch AppTests */,
+				09FC4D442CB5231B00B5D31E /* Watchflows Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -237,6 +435,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		09EBD7052C92D01A00F05F4B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D2A2CB5231A00B5D31E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D392CB5231B00B5D31E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D432CB5231B00B5D31E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -267,6 +486,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		09FC4D282CB5231A00B5D31E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D372CB5231B00B5D31E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09FC4D412CB5231B00B5D31E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -279,6 +519,21 @@
 			isa = PBXTargetDependency;
 			target = 09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */;
 			targetProxy = 09EBD7082C92D01A00F05F4B /* PBXContainerItemProxy */;
+		};
+		09FC4D3D2CB5231B00B5D31E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */;
+			targetProxy = 09FC4D3C2CB5231B00B5D31E /* PBXContainerItemProxy */;
+		};
+		09FC4D472CB5231B00B5D31E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */;
+			targetProxy = 09FC4D462CB5231B00B5D31E /* PBXContainerItemProxy */;
+		};
+		09FC4D4E2CB5231B00B5D31E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */;
+			targetProxy = 09FC4D4D2CB5231B00B5D31E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -409,8 +664,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "n8n-workflows-ios/n8n-workflows-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"n8n-workflows-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
@@ -422,12 +678,12 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -445,8 +701,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "n8n-workflows-ios/n8n-workflows-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"n8n-workflows-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
@@ -458,12 +715,12 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -484,7 +741,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M3XA3ETRDV;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "es.mgarciate.n8n-workflows-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -503,7 +760,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M3XA3ETRDV;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "es.mgarciate.n8n-workflows-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -521,6 +778,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M3XA3ETRDV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "es.mgarciate.n8n-workflows-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -538,6 +796,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = M3XA3ETRDV;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "es.mgarciate.n8n-workflows-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -545,6 +804,148 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = "n8n-workflows-ios";
+			};
+			name = Release;
+		};
+		09FC4D512CB5231B00B5D31E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Watchflows Watch App/Watchflows Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Watchflows Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = ZR272F7CTF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Watchflows-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Watchflows;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mgarciate.n8n-workflows";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+			};
+			name = Debug;
+		};
+		09FC4D522CB5231B00B5D31E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Watchflows Watch App/Watchflows Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Watchflows Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = ZR272F7CTF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Watchflows-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = Watchflows;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mgarciate.n8n-workflows";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+			};
+			name = Release;
+		};
+		09FC4D532CB5231B00B5D31E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M3XA3ETRDV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp.Watchflows-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Watchflows Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Watchflows Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		09FC4D542CB5231B00B5D31E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M3XA3ETRDV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp.Watchflows-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Watchflows Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Watchflows Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		09FC4D552CB5231B00B5D31E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M3XA3ETRDV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp.Watchflows-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Watchflows Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		09FC4D562CB5231B00B5D31E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M3XA3ETRDV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp.Watchflows-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "Watchflows Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -583,6 +984,33 @@
 			buildConfigurations = (
 				09EBD7182C92D01A00F05F4B /* Debug */,
 				09EBD7192C92D01A00F05F4B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09FC4D572CB5231B00B5D31E /* Build configuration list for PBXNativeTarget "Watchflows Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09FC4D512CB5231B00B5D31E /* Debug */,
+				09FC4D522CB5231B00B5D31E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09FC4D582CB5231B00B5D31E /* Build configuration list for PBXNativeTarget "Watchflows Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09FC4D532CB5231B00B5D31E /* Debug */,
+				09FC4D542CB5231B00B5D31E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09FC4D592CB5231B00B5D31E /* Build configuration list for PBXNativeTarget "Watchflows Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09FC4D552CB5231B00B5D31E /* Debug */,
+				09FC4D562CB5231B00B5D31E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

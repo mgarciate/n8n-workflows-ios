@@ -9,6 +9,8 @@ import Foundation
 import Security
 
 class KeychainHelper: @unchecked Sendable {
+    static let teamId = "ZR272F7CTF"
+    static let accessGroup = "\(teamId).com.mgarciate.n8n-workflows"
     // TODO: remove this static value
     static let service = "api-key"
     static let account = "Instance1"
@@ -21,12 +23,14 @@ class KeychainHelper: @unchecked Sendable {
         print("saveApiKey: \(apiKey)")
         let data = Data(apiKey.utf8)
 
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecAttrAccount as String: account,
-            kSecValueData as String: data,
-        ]
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
+            kSecAttrAccessGroup: KeychainHelper.accessGroup,
+            kSecValueData: data,
+            kSecAttrSynchronizable: true,
+        ] as [String: Any]
 
         SecItemDelete(query as CFDictionary)  // Remove existing item if any
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -36,13 +40,15 @@ class KeychainHelper: @unchecked Sendable {
 
     func retrieveApiKey(service: String, account: String) -> String? {
         print("retrieveApiKey")
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecAttrAccount as String: account,
-            kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne,
-        ]
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
+            kSecAttrAccessGroup: KeychainHelper.accessGroup,
+            kSecReturnData: true,
+            kSecMatchLimit: kSecMatchLimitOne,
+            kSecAttrSynchronizable: true,
+        ] as [String: Any]
 
         var item: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
@@ -55,11 +61,13 @@ class KeychainHelper: @unchecked Sendable {
     }
 
     func deleteApiKey(service: String, account: String) -> Bool {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecAttrAccount as String: account,
-        ]
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: service,
+            kSecAttrAccount: account,
+            kSecAttrAccessGroup: KeychainHelper.accessGroup,
+            kSecAttrSynchronizable: true,
+        ] as [String: Any]
 
         let status = SecItemDelete(query as CFDictionary)
         return status == errSecSuccess

@@ -16,11 +16,11 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     @Published var webhookAuthenticationParam2: String
     
     init() {
-        selfhostIsOn = UserDefaults.standard.bool(forKey: "selfhost")
-        url = UserDefaults.standard.string(forKey: "host-url") ?? ""
-        webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .noAuth
-        webhookAuthenticationParam1 = UserDefaults.standard.string(forKey: "webhook-authentication-param1") ?? ""
-        webhookAuthenticationParam2 = UserDefaults.standard.string(forKey: "webhook-authentication-param2") ?? ""
+        selfhostIsOn = UserDefaultsHelper.shared.selfHost
+        url = UserDefaultsHelper.shared.hostUrl ?? ""
+        webhookAuthenticationType = UserDefaultsHelper.shared.webhookAuthType ?? .noAuth
+        webhookAuthenticationParam1 = UserDefaultsHelper.shared.webhookAuthParam1 ?? ""
+        webhookAuthenticationParam2 = UserDefaultsHelper.shared.webhookAuthParam2 ?? ""
         
         apiKey = KeychainHelper.shared.retrieveApiKey(
             service: KeychainHelper.service,
@@ -48,15 +48,33 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     
     func save() {
         validateWebhookAuth()
-        UserDefaults.standard.set(selfhostIsOn, forKey: "selfhost")
-        UserDefaults.standard.set(url, forKey: "host-url")
-        UserDefaults.standard.encode(webhookAuthenticationType, forKey: "webhook-authentication-type")
-        UserDefaults.standard.set(webhookAuthenticationParam1, forKey: "webhook-authentication-param1")
-        UserDefaults.standard.set(webhookAuthenticationParam2, forKey: "webhook-authentication-param2")
+        UserDefaultsHelper.shared.selfHost = selfhostIsOn
+        UserDefaultsHelper.shared.hostUrl = url
+        UserDefaultsHelper.shared.webhookAuthType = webhookAuthenticationType
+        UserDefaultsHelper.shared.webhookAuthParam1 = webhookAuthenticationParam1
+        UserDefaultsHelper.shared.webhookAuthParam2 = webhookAuthenticationParam2
         _ = KeychainHelper.shared.saveApiKey(
             apiKey,
             service: KeychainHelper.service,
             account: KeychainHelper.account
         )
+        Task {
+            do {
+                try await UserConfigurationManager.shared.updateSettings(UserConfiguration(
+                    selfHost: selfhostIsOn,
+                    hostUrl: url,
+                    webhookAuthType: webhookAuthenticationType,
+                    webhookAuthParam1: webhookAuthenticationParam1,
+                    webhookAuthParam2: webhookAuthenticationParam2
+                ))
+#if DEBUG
+                print("Configuration updated successfully.")
+#endif
+            } catch {
+#if DEBUG
+                print("Error updating CloudKit configuration: \(error.localizedDescription)")
+#endif
+            }
+        }
     }
 }

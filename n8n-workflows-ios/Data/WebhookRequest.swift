@@ -24,16 +24,16 @@ class WebhookRequest: HTTPClient {
     var headers: [String: String] = [:]
     
     init() {
-        let url = UserDefaults.standard.string(forKey: "host-url") ?? ""
+        let url = UserDefaultsHelper.shared.hostUrl ?? ""
         baseURL = "\(url)"
         urlSession = URLSession.shared
         
         // Configure headers for Basic Auth or other headers
-        let webhookAuthenticationType = UserDefaults.standard.decode(WebhookAuthType.self, forKey: "webhook-authentication-type") ?? .noAuth
+        let webhookAuthenticationType = UserDefaultsHelper.shared.webhookAuthType ?? .noAuth
         switch webhookAuthenticationType {
         case .basic:
-            if let username = UserDefaults.standard.string(forKey: "webhook-authentication-param1"),
-               let password = UserDefaults.standard.string(forKey: "webhook-authentication-param2") {
+            if let username = UserDefaultsHelper.shared.webhookAuthParam1,
+               let password = UserDefaultsHelper.shared.webhookAuthParam2 {
                 let loginString = "\(username):\(password)"
                 if let loginData = loginString.data(using: .utf8) {
                     let base64LoginString = loginData.base64EncodedString()
@@ -41,8 +41,8 @@ class WebhookRequest: HTTPClient {
                 }
             }
         case .header:
-            if let key = UserDefaults.standard.string(forKey: "webhook-authentication-param1"),
-               let value = UserDefaults.standard.string(forKey: "webhook-authentication-param2") {
+            if let key = UserDefaultsHelper.shared.webhookAuthParam1,
+               let value = UserDefaultsHelper.shared.webhookAuthParam2 {
                 headers[key] = value
             }
         case .jwt, .noAuth:
