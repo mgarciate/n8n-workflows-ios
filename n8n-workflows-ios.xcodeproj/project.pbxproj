@@ -98,6 +98,7 @@
 				Models/Tag.swift,
 				Models/Webhook.swift,
 				Models/WebhookAuthType.swift,
+				Models/WebhookConfiguration.swift,
 				Models/Workflow.swift,
 				ViewModels/MainViewModel.swift,
 				ViewModels/MainViewModelProtocol.swift,
