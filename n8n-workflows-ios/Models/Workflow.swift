@@ -27,6 +27,7 @@ extension WorkflowNodeType: Codable {
 
 struct WorkflowNodeParameters: Codable, Hashable {
     let path: String?
+    let httpMethod: HTTPMethod?
 }
 
 struct WorkflowNode: Codable, Hashable {
@@ -52,7 +53,7 @@ extension Workflow {
                   let webhookId = $0.webhookId,
                   let path = $0.parameters?.path,
                   !path.isEmpty else { return nil }
-            return Webhook(id: webhookId, name: $0.name, path: path)
+            return Webhook(id: webhookId, name: $0.name, path: path, httpMethod: $0.parameters?.httpMethod)
         }
     }
 }
@@ -69,7 +70,7 @@ extension Workflow {
             let createdDate = date
             let updatedDate = date.addingTimeInterval(60) // add 1 minute
             date.addTimeInterval(3600) // add 1 hour
-            let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)")) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
+            let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)", httpMethod: .get)) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
             return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: format(date: createdDate), updatedAt: format(date: updatedDate), nodes: [node])
         }
     }

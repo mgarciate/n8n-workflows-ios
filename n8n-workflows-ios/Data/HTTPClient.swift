@@ -11,11 +11,6 @@ enum WorkflowActionType {
     case activate, deactivate
 }
 
-enum HTTPMethod: String, Codable, CaseIterable {
-    case get = "GET"
-    case post = "POST"
-}
-
 struct ResponseFailed: Codable {
     let code: Int?
     let message: String
