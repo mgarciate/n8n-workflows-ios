@@ -54,7 +54,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     .allowsHitTesting(!viewModel.isLoading)
                 }
             }
-            .navigationTitle("Workflows")
+            .navigationTitle("n-eight-n Workflows")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
