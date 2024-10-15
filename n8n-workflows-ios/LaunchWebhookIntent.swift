@@ -27,7 +27,7 @@ struct LaunchWebhookIntent: AppIntent {
     var webhook: Webhook
     
     static var parameterSummary: some ParameterSummary {
-        Summary("Select webhook from \(\.$workflow)") {
+        Summary("Launch webhook from \(\.$workflow)") {
             \.$webhook
         }
     }
