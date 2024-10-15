@@ -13,6 +13,8 @@ final class MainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = true
     @Published var workflows: [Workflow] = []
     @Published var tags: [SelectableTag] = []
+    @Published var projects: [Project] = []
+    @Published var selectedProjectId: String = Project.allProjectsId // All project by default
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
@@ -27,6 +29,25 @@ final class MainViewModel: MainViewModelProtocol {
     }
     
     init() {}
+    
+    private func fetchProjects() async {
+        do {
+            let response: DataResponse<Project> = try await WorkflowApiRequest().get(endpoint: .projects)
+            let teamProjects = response.data.filter { $0.type == .team }
+            await MainActor.run {
+                guard !teamProjects.isEmpty else {
+                    projects = []
+                    return
+                }
+                projects = [Project.allProjectsObject]
+                projects.append(contentsOf: teamProjects)
+            }
+        } catch {
+#if DEBUG
+            print("Error", error)
+#endif
+        }
+    }
     
     private func fetchTags() async {
         let selectedTagIds = tags.filter { $0.isSelected }.map { $0.tag.id }
@@ -49,7 +70,10 @@ final class MainViewModel: MainViewModelProtocol {
             var params: [String: Any] = [:]
             let selectedTagsName = tags.filter { $0.isSelected }.map { $0.tag.name }
             if !selectedTagsName.isEmpty {
-                params = ["tags": selectedTagsName.joined(separator: ",")]
+                params["tags"] = selectedTagsName.joined(separator: ",")
+            }
+            if !selectedProjectId.isEmpty {
+                params["projectId"] = selectedProjectId
             }
             let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows, params: params)
             let onboardingDisplayed = UserDefaultsHelper.shared.onboardingDisplayed
@@ -74,6 +98,7 @@ final class MainViewModel: MainViewModelProtocol {
     
     func fetchData() async {
         await isLoading(true)
+        await fetchProjects()
         await fetchTags()
         await fetchWorkflows()
         await isLoading(false)
@@ -110,6 +135,10 @@ final class MainViewModel: MainViewModelProtocol {
             }
             await fetchData()
         }
+    }
+    
+    func toggleProject(id: String) async {
+        await fetchData()
     }
     
     private func isLoading(_ isLoading: Bool) async {

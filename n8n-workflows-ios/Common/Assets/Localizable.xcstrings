@@ -138,6 +138,9 @@
     "Launch %@" : {
 
     },
+    "Launch webhook from ${workflow}" : {
+
+    },
     "Loading n8n data..." : {
 
     },
@@ -165,6 +168,9 @@
     "Password" : {
 
     },
+    "Project" : {
+
+    },
     "Query parameters:" : {
 
     },
@@ -181,9 +187,6 @@
 
     },
     "Select the **Add Action** button to add the action to the workflow." : {
-
-    },
-    "Select webhook from ${workflow}" : {
 
     },
     "Self-hosted" : {

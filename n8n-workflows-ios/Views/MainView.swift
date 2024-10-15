@@ -147,6 +147,19 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
 
     var content: some View {
         List {
+            if !viewModel.projects.isEmpty {
+                Picker("Project", selection: $viewModel.selectedProjectId) {
+                    ForEach(viewModel.projects, id: \.id) { project in
+                        Text(project.name).tag(project.id as String?)
+                    }
+                }
+                .pickerStyle(.menu)
+                .onChange(of: viewModel.selectedProjectId, initial: false) { oldId, newId in
+                    Task {
+                        await viewModel.toggleProject(id: newId)
+                    }
+                }
+            }
             if !viewModel.tags.isEmpty {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {

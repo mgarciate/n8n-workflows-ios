@@ -96,6 +96,7 @@
 				Data/WebhookResponse.swift,
 				Data/WorkflowApiRequest.swift,
 				Models/Execution.swift,
+				Models/Project.swift,
 				Models/Tag.swift,
 				Models/Webhook.swift,
 				Models/WebhookAuthType.swift,
