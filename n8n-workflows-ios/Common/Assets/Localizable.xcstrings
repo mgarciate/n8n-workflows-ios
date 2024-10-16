@@ -31,7 +31,7 @@
     "%@s" : {
 
     },
-    "%lf" : {
+    "%lfs" : {
 
     },
     "+ Add parameter" : {
@@ -61,7 +61,7 @@
     "7" : {
 
     },
-    "About workflows" : {
+    "About n-eight-n" : {
 
     },
     "Activate workflow" : {
@@ -211,6 +211,9 @@
 
     },
     "Self-hosted" : {
+
+    },
+    "Series" : {
 
     },
     "Settings" : {

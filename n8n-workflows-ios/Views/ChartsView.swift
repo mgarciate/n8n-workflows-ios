@@ -6,7 +6,13 @@
 //
 
 import SwiftUI
-import Charts
+
+struct ChartData: Identifiable, Equatable {
+    var id = UUID()
+    var category: String
+    var value: Double
+    var series: String
+}
 
 struct GraphEntry: Identifiable, Equatable {
     let id: UUID = UUID()
@@ -52,24 +58,24 @@ extension GraphEntry {
 }
 
 protocol ChartsViewModelProtocol: ObservableObject {
-    var entries: [GraphEntry] { get set }
+    var chartData: [ChartData] { get set }
     
     func fetchData()
 }
 
 final class ChartsViewModel: ChartsViewModelProtocol {
-    @Published var entries: [GraphEntry] = []
+    @Published var chartData: [ChartData] = []
     
     func fetchData() {
-        
+        chartData = ChartData.dummyChartData
     }
 }
 
 final class MockChartsViewModel: ChartsViewModelProtocol {
-    @Published var entries: [GraphEntry] = []
+    @Published var chartData: [ChartData] = []
     
     func fetchData() {
-        entries = GraphEntry.dummyWeeklyData
+        chartData = ChartData.dummyChartData
     }
 }
 
@@ -90,12 +96,12 @@ struct ChartsView<ViewModel>: View where ViewModel: ChartsViewModelProtocol {
             .padding(.horizontal)
             .padding(.top, 10)
             VStack {
-                GroupBox("_24h") {
-                    ChartLineMarksView(entries: viewModel.entries)
+                GroupBox("Last 24h") {
+                    ChartLineMarksView(chartData: viewModel.chartData)
                 }
                 .frame(minHeight: 0, maxHeight: .infinity)
-                GroupBox("_7d") {
-                    ChartLineMarksView(entries: viewModel.entries)
+                GroupBox("Last executions (max. 250)") {
+                    ChartLineMarksView(chartData: viewModel.chartData)
                 }
                 .frame(minHeight: 0, maxHeight: .infinity)
                 Spacer()
