@@ -72,7 +72,16 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                             Image(systemName: "info.circle")
                         }
                     }
-                    
+                }
+                ToolbarItem(placement: .automatic) {
+                    HStack {
+                        Text("")
+                        NavigationLink {
+                            ChartsView(viewModel: ChartsViewModel())
+                        } label: {
+                            Image(systemName: "chart.xyaxis.line")
+                        }
+                    }
                 }
             }
         }

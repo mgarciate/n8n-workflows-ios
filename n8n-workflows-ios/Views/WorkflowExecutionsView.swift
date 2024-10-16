@@ -22,7 +22,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
                 content
             }
         }
-        .navigationTitle(viewModel.workflow.name)
+        .navigationTitle("Executions")
         .onAppear() {
             print("WorkflowExecutionsView onAppear")
             fetchDataTask()
@@ -40,6 +40,18 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
             fetchDataTask()
         }
         .scrollContentBackground(.hidden)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                HStack {
+                    Text("")
+                    NavigationLink {
+                        ChartsView(viewModel: ChartsViewModel())
+                    } label: {
+                        Image(systemName: "chart.xyaxis.line")
+                    }
+                }
+            }
+        }
     }
     
     private func fetchDataTask() {
@@ -52,5 +64,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
 
 #Preview {
     let workflow = Workflow.dummyWorkflows[0]
-    WorkflowExecutionsView(viewModel: MockWorkflowExecutionsViewModel(workflow: workflow))
+    NavigationStack {
+        WorkflowExecutionsView(viewModel: MockWorkflowExecutionsViewModel(workflow: workflow))
+    }
 }

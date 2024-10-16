@@ -7,6 +7,12 @@
     "\n\nIf you have n8n self-hosted, a normal configuration would be accessed via http://ip-address:port or https://your-domain. It is necessary to grant permission to access your local network.\nIf you're using n8n Cloud, the configuration would be accessed through https://appname.app.n8n.cloud\n\n" : {
 
     },
+    "_7d" : {
+
+    },
+    "_24h" : {
+
+    },
     "{}" : {
 
     },
@@ -23,6 +29,9 @@
 
     },
     "%@s" : {
+
+    },
+    "%lf" : {
 
     },
     "+ Add parameter" : {
@@ -68,6 +77,9 @@
     "API-KEY" : {
 
     },
+    "appName" : {
+
+    },
     "Authentication" : {
 
     },
@@ -84,6 +96,9 @@
 
     },
     "Credentials" : {
+
+    },
+    "Date" : {
 
     },
     "Deactivate workflow " : {
@@ -103,6 +118,9 @@
 
     },
     "Executed at" : {
+
+    },
+    "Executions" : {
 
     },
     "For example, you can activate or deactivate your n8n workflows when you arrive at a location (your home?), when you receive an email with a specific subject, when you start an app and want to have a service running on your server and shut it down when the app is closed, when you get in the car, when you connect to a specific Wi-Fi, when your iPhone is running low on battery, etc." : {
@@ -145,6 +163,9 @@
 
     },
     "My Workflows Manager" : {
+
+    },
+    "n-eight-n Workflows" : {
 
     },
     "n8n (pronounced n-eight-n) helps you to connect any app with an API with any other, and manipulate its data with little or no code.\n\n- Customizable: highly flexible workflows and the option to build custom nodes.\n- Convenient: use the npm or Docker to try out n8n, or the Cloud hosting option if you want us to handle the infrastructure.\n- Privacy-focused: self-host n8n for privacy and security.\n\nCheck the project at: %@" : {
@@ -219,6 +240,9 @@
     "User" : {
 
     },
+    "value" : {
+
+    },
     "Value" : {
 
     },
@@ -232,9 +256,6 @@
 
     },
     "Workflow" : {
-
-    },
-    "Workflows" : {
 
     }
   },
