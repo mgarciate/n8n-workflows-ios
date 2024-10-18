@@ -48,7 +48,7 @@ struct ChartLineMarksView: View {
                 }
                 .chartXAxis {
                     AxisMarks(preset: .extended, values: .automatic) { value in
-                        switch chartData.type {
+                        switch chartData.categoryType {
                         case .hour:
                             AxisValueLabel(format: .dateTime.hour())
                         case .day:
@@ -129,9 +129,6 @@ struct ChartLineMarksView: View {
                     }
                 }
             }
-        }
-        .onAppear() {
-            
         }
     }
     

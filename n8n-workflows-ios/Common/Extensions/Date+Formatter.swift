@@ -1,5 +1,5 @@
 //
-//  Date+String.swift
+//  Date+Formatter.swift
 //  n8n-workflows-ios
 //
 //  Created by mgarciate on 21/9/24.
@@ -20,5 +20,16 @@ extension Date {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .full
         return formatter.localizedString(for: self, relativeTo: Date())
+    }
+    
+    var timeToDouble: Double {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.hour, .minute], from: self)
+        
+        guard let hour = components.hour, let minute = components.minute else {
+            return 0.0
+        }
+        let minuteAsFraction = Double(minute) / 60.0
+        return Double(hour) + minuteAsFraction
     }
 }

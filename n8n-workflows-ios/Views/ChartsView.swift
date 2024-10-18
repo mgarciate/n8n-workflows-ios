@@ -11,11 +11,16 @@ enum ChartCategoryType {
     case hour, day, value
 }
 
+enum ChartType {
+    case line, point
+}
+
 struct ChartData: Identifiable {
     let id = UUID()
     let title: String
     let data: [SeriesData]
-    let type: ChartCategoryType
+    let type: ChartType
+    let categoryType: ChartCategoryType
 }
 
 extension ChartData {
@@ -23,7 +28,8 @@ extension ChartData {
         ChartData(
             title: "Chart 1",
             data: SeriesData.dummyData,
-            type: .hour
+            type: .line,
+            categoryType: .day
         )
     }
 }
@@ -133,7 +139,7 @@ final class ChartsViewModel: ChartsViewModelProtocol {
         return components.day ?? 0
     }
 
-    private func groupExecutionsByDay(executions: [Execution], startDate: Date) -> [SeriesData] {
+    private func groupExecutionsByDay(executions: [Execution], startDate: Date, dateFormat: String) -> [SeriesData] {
         let calendar = Calendar.current
         let currentDate = Date()
         let daysToGroup = daysBetween(start: startDate, end: currentDate) + 1
@@ -141,7 +147,7 @@ final class ChartsViewModel: ChartsViewModelProtocol {
 
         var groupedData: [String: Int] = [:]
         let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "yyyy-MM-dd'T'00:00:00.000'Z'"
+        dayFormatter.dateFormat = dateFormat
 
         var allDays: [String] = []
         var currentDay = startDate
@@ -192,39 +198,51 @@ final class ChartsViewModel: ChartsViewModelProtocol {
         } else {
             last24hSeriesData = []
         }
-        let last24hChartData = ChartData(title: "Last 24h", data: last24hSeriesData, type: .hour)
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())
+        let last24hChartData = ChartData(title: "Last 24h", data: last24hSeriesData, type: .line, categoryType: .hour)
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         let last7dExecutions = executions.filter {
-            guard let date = $0.startedAt.date, let sevenDaysAgo else { return false }
+            guard let date = $0.startedAt.date else { return false }
             return date > sevenDaysAgo
         }
         let last7dSeriesData: [SeriesData]
-        if let firstDate = last7dExecutions.first?.startedAt.date {
-            last7dSeriesData = groupExecutionsByDay(executions: last7dExecutions, startDate: firstDate)
+        if !last7dExecutions.isEmpty {
+            last7dSeriesData = groupExecutionsByDay(executions: last7dExecutions, startDate: sevenDaysAgo, dateFormat: "yyyy-MM-dd'T'00:00:00.000'Z'")
         } else {
             last7dSeriesData = []
         }
-        let last7dChartData = ChartData(title: "Last 7 days (max. 250 executions)", data: last7dSeriesData, type: .day)
+        let last7dChartData = ChartData(title: "Last 7 days (max. 250 executions)", data: last7dSeriesData, type: .line, categoryType: .day)
         let durationChartData = ChartData(
             title: "Duration in seconds",
             data: executions.enumerated().compactMap { index, execution in
                 guard let duration = execution.executionTimeInSeconds else { return nil }
                 return SeriesData(category: "\(index + 1)", value: duration, series: "Duration")
             },
-            type: .value
+            type: .line,
+            categoryType: .value
         )
         let lastErrorExecutions = executions.filter {
             !$0.finished
         }
         let lastErrorSeriesData: [SeriesData]
         if let firstDate = lastErrorExecutions.first?.startedAt.date {
-            lastErrorSeriesData = groupExecutionsByDay(executions: lastErrorExecutions, startDate: firstDate)
+            lastErrorSeriesData = groupExecutionsByDay(executions: lastErrorExecutions, startDate: firstDate, dateFormat: "yyyy-MM-dd'T'00:00:00.000'Z'")
         } else {
             lastErrorSeriesData = []
         }
-        let lastErrorChartData = ChartData(title: "Last errors (max. 250 executions)", data: lastErrorSeriesData, type: .day)
+        let lastErrorChartData = ChartData(title: "Last errors (max. 250 executions)", data: lastErrorSeriesData, type: .line, categoryType: .day)
+        let last7dPointSeriesData: [SeriesData] = last7dExecutions.compactMap { execution in
+            guard let date = execution.startedAt.date else { return nil }
+            return SeriesData(category: execution.startedAt, value: date.timeToDouble, series: "Executions")
+        }
+        let last7dPointChartData = ChartData(title: "Weekly", data: last7dPointSeriesData, type: .point, categoryType: .day)
         await MainActor.run {
-            chartData = [last24hChartData, last7dChartData, durationChartData, lastErrorChartData]
+            chartData = [
+                last7dPointChartData,
+                last24hChartData,
+                last7dChartData,
+                durationChartData,
+                lastErrorChartData,
+            ]
         }
     }
     
@@ -321,19 +339,30 @@ final class MockChartsViewModel: ChartsViewModelProtocol {
                 let oneDayAgo = Calendar.current.date(byAdding: .day, value: -1, to: Date()) else { return false }
             return date > oneDayAgo
         }
-        let last24ChartData = ChartData(title: "Last 24h", data: groupExecutionsByHour(executions: last24hExecutions), type: .hour)
+        let last24ChartData = ChartData(title: "Last 24h", data: groupExecutionsByHour(executions: last24hExecutions), type: .line, categoryType: .hour)
         guard let lastDate = executions.last?.startedAt.date else { return }
-        let last250ChartData = ChartData(title: "Last 250 executions", data: groupExecutionsByDay(executions: executions, startDate: lastDate), type: .day)
+        let last250ChartData = ChartData(title: "Last 250 executions", data: groupExecutionsByDay(executions: executions, startDate: lastDate), type: .line, categoryType: .day)
         let durationChartData = ChartData(
             title: "Duration",
             data: executions.enumerated().compactMap { index, execution in
                 guard let duration = execution.executionTimeInSeconds else { return nil }
                 return SeriesData(category: "\(index + 1)", value: duration, series: "Duration")
             },
-            type: .value
+            type: .line,
+            categoryType: .value
         )
+        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())
+        let last7dExecutions = executions.filter {
+            guard let date = $0.startedAt.date, let sevenDaysAgo else { return false }
+            return date > sevenDaysAgo
+        }
+        let last7dPointSeriesData: [SeriesData] = last7dExecutions.compactMap { execution in
+            guard let date = execution.startedAt.date else { return nil }
+            return SeriesData(category: execution.startedAt, value: date.timeToDouble, series: "Executions")
+        }
+        let last7dPointChartData = ChartData(title: "Weekly", data: last7dPointSeriesData, type: .point, categoryType: .day)
         await MainActor.run {
-            chartData = [last24ChartData, last250ChartData, durationChartData]
+            chartData = [last7dPointChartData, last24ChartData, last250ChartData, durationChartData]
         }
     }
 }
@@ -347,8 +376,15 @@ struct ChartsView<ViewModel>: View where ViewModel: ChartsViewModelProtocol {
                 LazyVStack {
                     ForEach(viewModel.chartData) { chartData in
                         GroupBox(chartData.title) {
-                            ChartLineMarksView(chartData: chartData)
-                                .frame(minHeight: !chartData.data.isEmpty ? 200 : 0)
+                            VStack {
+                                switch chartData.type {
+                                case .line:
+                                    ChartLineMarksView(chartData: chartData)
+                                case .point:
+                                    ChartPointMarksView(chartData: chartData)
+                                }
+                            }
+                            .frame(minHeight: !chartData.data.isEmpty ? 300 : 0)
                         }
                     }
                     Spacer()
