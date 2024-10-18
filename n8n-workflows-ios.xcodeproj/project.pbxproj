@@ -86,6 +86,7 @@
 			membershipExceptions = (
 				"Common/Extensions/Bundle+Version.swift",
 				"Common/Extensions/Date+String.swift",
+				"Common/Extensions/Double+Formatter.swift",
 				"Common/Extensions/String+Date.swift",
 				"Common/Extensions/UserDefaults+Decodable.swift",
 				Common/KeychainHelper.swift,

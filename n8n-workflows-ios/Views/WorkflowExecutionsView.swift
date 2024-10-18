@@ -45,7 +45,7 @@ struct WorkflowExecutionsView<ViewModel>: View where ViewModel: WorkflowExecutio
                 HStack {
                     Text("")
                     NavigationLink {
-                        ChartsView(viewModel: ChartsViewModel())
+                        ChartsView(viewModel: ChartsViewModel(workflows: [viewModel.workflow]))
                     } label: {
                         Image(systemName: "chart.xyaxis.line")
                     }

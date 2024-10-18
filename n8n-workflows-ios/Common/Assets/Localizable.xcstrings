@@ -7,12 +7,6 @@
     "\n\nIf you have n8n self-hosted, a normal configuration would be accessed via http://ip-address:port or https://your-domain. It is necessary to grant permission to access your local network.\nIf you're using n8n Cloud, the configuration would be accessed through https://appname.app.n8n.cloud\n\n" : {
 
     },
-    "_7d" : {
-
-    },
-    "_24h" : {
-
-    },
     "{}" : {
 
     },
@@ -29,9 +23,6 @@
 
     },
     "%@s" : {
-
-    },
-    "%lfs" : {
 
     },
     "+ Add parameter" : {
@@ -75,9 +66,6 @@
       }
     },
     "API-KEY" : {
-
-    },
-    "appName" : {
 
     },
     "Authentication" : {
@@ -172,6 +160,9 @@
 
     },
     "Name" : {
+
+    },
+    "No data available" : {
 
     },
     "Not supported yet" : {

@@ -39,19 +39,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 }
                 content
                 if viewModel.isLoading {
-                    ZStack {
-                        Color.clear
-                        ZStack {
-                            ProgressView("Loading n8n data...")
-                                .tint(.white)
-                                .foregroundStyle(.white)
-                                .controlSize(.large)
-                                .padding()
-                                .background(.black.opacity(0.7))
-                        }
-                    }
-                    .transition(.opacity.animation(.easeInOut(duration: 0.5)))
-                    .allowsHitTesting(!viewModel.isLoading)
+                    LoadingView(isLoading: viewModel.isLoading)
                 }
             }
             .navigationTitle("n-eight-n Workflows")
@@ -77,7 +65,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     HStack {
                         Text("")
                         NavigationLink {
-                            ChartsView(viewModel: ChartsViewModel())
+                            ChartsView(viewModel: ChartsViewModel(workflows: viewModel.workflows))
                         } label: {
                             Image(systemName: "chart.xyaxis.line")
                         }
