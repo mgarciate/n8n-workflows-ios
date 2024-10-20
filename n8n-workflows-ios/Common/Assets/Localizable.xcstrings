@@ -102,6 +102,9 @@
     "Disables a workflow to prevent it from running during specific events or conditions." : {
 
     },
+    "Done" : {
+
+    },
     "Error in" : {
 
     },
@@ -199,6 +202,9 @@
 
     },
     "Select the **Add Action** button to add the action to the workflow." : {
+
+    },
+    "Select workflows" : {
 
     },
     "Self-hosted" : {

@@ -8,12 +8,27 @@
 import Foundation
 
 final class ChartsViewModel: ChartsViewModelProtocol {
+    private let defaultSelectedWorkflowsCount = 4
     var workflows: [Workflow]
+    private var selectedWorkflows: [Workflow]
+    @Published var selectedWorkflowIds: [String] {
+        didSet {
+            selectedWorkflows = workflows.filter { selectedWorkflowIds.contains($0.id) }
+        }
+    }
     @Published var isLoading: Bool = false
     @Published var chartData: [ChartData] = []
     
     init(workflows: [Workflow]) {
         self.workflows = workflows
+        selectedWorkflows = workflows.filter { $0.active }
+        if selectedWorkflows.count < defaultSelectedWorkflowsCount {
+            let inactiveWorkflows = workflows.filter { !$0.active }
+            let missingCount = defaultSelectedWorkflowsCount - selectedWorkflows.count
+            selectedWorkflows.append(contentsOf: inactiveWorkflows.prefix(missingCount))
+        }
+        selectedWorkflows = Array(selectedWorkflows.prefix(4))
+        selectedWorkflowIds = selectedWorkflows.map { $0.id }
     }
     
     private func groupExecutionsByHour(executions: [Execution], series: String) -> [SeriesData] {
@@ -91,7 +106,7 @@ final class ChartsViewModel: ChartsViewModelProtocol {
         var results: [[Execution]] = []
         await isLoading(true)
         await withTaskGroup(of: [Execution]?.self) { group in
-            for workflow in workflows {
+            for workflow in selectedWorkflows {
                 group.addTask {
                     do {
                         let response: DataResponse<Execution> = try await WorkflowApiRequest().get(endpoint: .executions, params: ["workflowId": workflow.id])
@@ -123,12 +138,13 @@ final class ChartsViewModel: ChartsViewModelProtocol {
         let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         
         for (index, executions) in results.enumerated() {
-            print("Element at index \(index) is \(workflows[index].name)")
-            
+#if DEBUG
+            print("Element at index \(index) is \(selectedWorkflows[index].name)")
+#endif
             let maxLength = 10
-            let series: String = index < workflows.count ?
-            (workflows[index].name.count > maxLength ? String(workflows[index].name.prefix(maxLength)) + "..." : workflows[index].name) :
-            "No name"
+            let series: String = index < selectedWorkflows.count ?
+            (selectedWorkflows[index].name.count > maxLength ? String("\(index + 1) \(selectedWorkflows[index].name.prefix(maxLength))...") : selectedWorkflows[index].name) :
+            String("\(index + 1) No name")
             
             let last24hExecutions = executions.filter {
                 guard let date = $0.startedAt.date,

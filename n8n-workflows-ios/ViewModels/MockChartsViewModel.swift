@@ -9,11 +9,13 @@ import Foundation
 
 final class MockChartsViewModel: ChartsViewModelProtocol {
     var workflows: [Workflow]
+    @Published var selectedWorkflowIds: [String]
     @Published var isLoading: Bool = false
     @Published var chartData: [ChartData] = []
     
     init(workflows: [Workflow]) {
         self.workflows = workflows
+        selectedWorkflowIds = workflows.map { $0.id }
     }
     
     private func groupExecutionsByHour(executions: [Execution]) -> [SeriesData] {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChartsView<ViewModel>: View where ViewModel: ChartsViewModelProtocol {
     @ObservedObject var viewModel: ViewModel
+    @State private var isSelectWorkflowPresented: Bool = false
     
     var body: some View {
         ZStack {
@@ -36,10 +37,29 @@ struct ChartsView<ViewModel>: View where ViewModel: ChartsViewModelProtocol {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear() {
-            Task {
-                await viewModel.fetchData()
+        .sheet(isPresented: $isSelectWorkflowPresented, onDismiss: {
+            fetchDataTask()
+        }) {
+            SelectableWorkflowsView(workflows: viewModel.workflows, selectedIds: $viewModel.selectedWorkflowIds)
+        }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isSelectWorkflowPresented = true
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                }
+                .disabled(viewModel.workflows.count <= 1)
             }
+        }
+        .onAppear() {
+            fetchDataTask()
+        }
+    }
+    
+    private func fetchDataTask() {
+        Task {
+            await viewModel.fetchData()
         }
     }
 }
