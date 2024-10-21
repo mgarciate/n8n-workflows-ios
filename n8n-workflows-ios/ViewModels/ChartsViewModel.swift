@@ -193,16 +193,16 @@ final class ChartsViewModel: ChartsViewModelProtocol {
             )
         }
         
-        let last24hChartData = ChartData(title: "Last 24h", data: last24hSeriesData, type: .line, categoryType: .hour)
-        let last7dChartData = ChartData(title: "Last 7 days (max. 250 executions)", data: last7dSeriesData, type: .line, categoryType: .day)
+        let last24hChartData = ChartData(title: "Hourly Executions (Last 24h)", data: last24hSeriesData, type: .line, categoryType: .hour)
+        let last7dChartData = ChartData(title: "Daily Executions (Last 7d)", data: last7dSeriesData, type: .line, categoryType: .day)
         let durationChartData = ChartData(
             title: "Duration in seconds",
             data: durationSeriesData,
             type: .line,
             categoryType: .value
         )
-        let lastErrorChartData = ChartData(title: "Last errors (max. 250 executions)", data: lastErrorSeriesData, type: .line, categoryType: .day)
-        let last7dPointChartData = ChartData(title: "Weekly", data: last7dPointSeriesData, type: .point, categoryType: .day)
+        let lastErrorChartData = ChartData(title: "Errors in the Last 7d", data: lastErrorSeriesData, type: .line, categoryType: .day)
+        let last7dPointChartData = ChartData(title: "Scatter Plot of Executions (Last 7d)", data: last7dPointSeriesData, type: .point, categoryType: .day)
         
         await MainActor.run {
             chartData = [
