@@ -7,4 +7,5 @@
 
 struct DataResponse<T: Codable>: Codable {
     let data: [T]
+    let nextCursor: String?
 }

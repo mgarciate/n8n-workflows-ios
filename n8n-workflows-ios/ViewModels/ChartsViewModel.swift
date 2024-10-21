@@ -108,15 +108,28 @@ final class ChartsViewModel: ChartsViewModelProtocol {
         await withTaskGroup(of: [Execution]?.self) { group in
             for workflow in selectedWorkflows {
                 group.addTask {
-                    do {
-                        let response: DataResponse<Execution> = try await WorkflowApiRequest().get(endpoint: .executions, params: ["workflowId": workflow.id])
-                        return response.data.reversed()
-                    } catch {
+                    var allData: [Execution] = []
+                    var nextCursor: String? = nil
+                    
+                    repeat {
+                        do {
+                            let params: [String: String] = nextCursor != nil ? ["workflowId": workflow.id, "cursor": nextCursor!] : ["workflowId": workflow.id]
+                            let response: DataResponse<Execution> = try await WorkflowApiRequest().get(endpoint: .executions, params: params)
+                            allData.append(contentsOf: response.data)
+                            nextCursor = response.nextCursor
+                        } catch {
 #if DEBUG
-                        print("Failed to fetch data from \(workflow.id): \(error)")
+                            print("Failed to fetch data from \(workflow.id): \(error)")
 #endif
-                        return nil
-                    }
+                            nextCursor = nil
+                        }
+                        guard let lastDate = allData.last?.startedAt.date,
+                                self.daysBetween(start: lastDate, end: Date()) <= 7 else { break }
+                        guard allData.count < 2000 else { break }
+                        
+                    } while nextCursor != nil
+                    
+                    return allData.isEmpty ? nil : allData.reversed()
                 }
             }
             
@@ -193,11 +206,11 @@ final class ChartsViewModel: ChartsViewModelProtocol {
         
         await MainActor.run {
             chartData = [
-                last7dPointChartData,
                 last24hChartData,
                 last7dChartData,
                 durationChartData,
                 lastErrorChartData,
+                last7dPointChartData,
             ]
         }
     }
