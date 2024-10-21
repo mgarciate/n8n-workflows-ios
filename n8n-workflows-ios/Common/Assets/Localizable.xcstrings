@@ -52,7 +52,7 @@
     "7" : {
 
     },
-    "About workflows" : {
+    "About n-eight-n" : {
 
     },
     "Activate workflow" : {
@@ -86,6 +86,9 @@
     "Credentials" : {
 
     },
+    "Date" : {
+
+    },
     "Deactivate workflow " : {
       "localizations" : {
         "es" : {
@@ -99,10 +102,16 @@
     "Disables a workflow to prevent it from running during specific events or conditions." : {
 
     },
+    "Done" : {
+
+    },
     "Error in" : {
 
     },
     "Executed at" : {
+
+    },
+    "Executions" : {
 
     },
     "For example, you can activate or deactivate your n8n workflows when you arrive at a location (your home?), when you receive an email with a specific subject, when you start an app and want to have a service running on your server and shut it down when the app is closed, when you get in the car, when you connect to a specific Wi-Fi, when your iPhone is running low on battery, etc." : {
@@ -147,10 +156,16 @@
     "My Workflows Manager" : {
 
     },
+    "n-eight-n Workflows" : {
+
+    },
     "n8n (pronounced n-eight-n) helps you to connect any app with an API with any other, and manipulate its data with little or no code.\n\n- Customizable: highly flexible workflows and the option to build custom nodes.\n- Convenient: use the npm or Docker to try out n8n, or the Cloud hosting option if you want us to handle the infrastructure.\n- Privacy-focused: self-host n8n for privacy and security.\n\nCheck the project at: %@" : {
 
     },
     "Name" : {
+
+    },
+    "No data available" : {
 
     },
     "Not supported yet" : {
@@ -189,7 +204,13 @@
     "Select the **Add Action** button to add the action to the workflow." : {
 
     },
+    "Select workflows" : {
+
+    },
     "Self-hosted" : {
+
+    },
+    "Series" : {
 
     },
     "Settings" : {
@@ -219,6 +240,9 @@
     "User" : {
 
     },
+    "value" : {
+
+    },
     "Value" : {
 
     },
@@ -232,9 +256,6 @@
 
     },
     "Workflow" : {
-
-    },
-    "Workflows" : {
 
     }
   },

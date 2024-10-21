@@ -32,7 +32,7 @@ struct AboutN8nView: View {
         .sheet(isPresented: $isOnboardingPresented) {
             OnboardingView()
         }
-        .navigationTitle("About workflows")
+        .navigationTitle("About n-eight-n")
         .padding()
     }
 }

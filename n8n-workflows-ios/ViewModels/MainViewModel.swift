@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 final class MainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = true
     @Published var workflows: [Workflow] = []
@@ -46,6 +44,9 @@ final class MainViewModel: MainViewModelProtocol {
 #if DEBUG
             print("Error", error)
 #endif
+        }
+        await MainActor.run {
+            projects = []
         }
     }
     
