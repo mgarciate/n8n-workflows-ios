@@ -12,10 +12,34 @@ struct Webhook: Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let path: String
+    let httpMethod: HTTPMethod?
 }
 
 extension Webhook {
     static var dummyWebhook: Webhook {
-        Webhook(id: "webhookId1", name: "webhookName1", path: "webhookPath1")
+        Webhook(id: "webhookId1", name: "webhookName1", path: "webhookPath1", httpMethod: .get)
+    }
+}
+
+extension Webhook: AppEntity {
+    static var typeDisplayRepresentation: TypeDisplayRepresentation  = "Webhook"
+    
+    var displayRepresentation: DisplayRepresentation {
+        .init(title: "\(name)", subtitle: "\(path)")
+    }
+    
+    static var defaultQuery = WebhookQuery()
+}
+
+struct WebhookQuery: EntityQuery {
+    func entities(for identifiers: [String]) async throws -> [Webhook] {
+        guard let id = identifiers.first else { return  [] }
+        let response: DataResponse<Workflow> = try await WorkflowApiRequest().get(endpoint: .workflows)
+        guard let webhook = response.data.flatMap({ $0.webhooks }).first(where: { $0.id == id }) else { return [] }
+        return [webhook]
+    }
+    
+    func suggestedEntities() async throws -> [Webhook] {
+        return []
     }
 }

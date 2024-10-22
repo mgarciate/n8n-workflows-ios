@@ -11,7 +11,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     var webhook: Webhook
     @Published var webhookAuthenticationType: WebhookAuthType
     @Published var test: Bool = false
-    @Published var httpMethod: HTTPMethod = .get
+    @Published var httpMethod: HTTPMethod
     @Published var jsonText: String = "{}"
     @Published var queryParams: [QueryParam] = []
     @Published var isAlertPresented: Bool = false
@@ -20,6 +20,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     init(webhook: Webhook) {
         self.webhook = webhook
         webhookAuthenticationType = UserDefaultsHelper.shared.webhookAuthType ?? .noAuth
+        httpMethod = webhook.httpMethod == .post ? .post : .get
     }
     
     func send() async {

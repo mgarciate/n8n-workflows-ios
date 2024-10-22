@@ -11,9 +11,15 @@ import SwiftUI
 final class MockMainViewModel: MainViewModelProtocol {
     @Published var isLoading: Bool = false
     @Published var workflows: [Workflow] = []
-    @Published var tags: [SelectableTag]  = {
+    @Published var tags: [SelectableTag] = {
         (1...5).map { SelectableTag(tag: Tag(id: "tagId\($0)", name: "tagName\($0)"), isSelected: $0 == 2) }
     }()
+    @Published var projects: [Project] = {
+        var projects = [Project.allProjectsObject]
+        projects.append(contentsOf: (1...5).map { Project(id: "projectId\($0)", name: "projectName\($0)", type: .team) } )
+        return projects
+    }()
+    @Published var selectedProjectId: String = Project.allProjectsId
     @Published var isAlertPresented: Bool = false
     @Published var isOnboardingPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
@@ -35,4 +41,6 @@ final class MockMainViewModel: MainViewModelProtocol {
             tags[index].isSelected.toggle()
         }
     }
+    
+    func toggleProject(id: String) async {}
 }

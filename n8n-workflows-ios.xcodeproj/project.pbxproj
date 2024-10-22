@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09DD5E172CBEA51200D708A9 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DD5E162CBEA51200D708A9 /* Charts.framework */; };
 		09FC4D4F2CB5231B00B5D31E /* Watchflows Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -63,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09DD5E162CBEA51200D708A9 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = System/Library/Frameworks/Charts.framework; sourceTree = SDKROOT; };
 		09EBD6ED2C92D01800F05F4B /* n8n-workflows-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "n8n-workflows-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EBD6FD2C92D01A00F05F4B /* n8n-workflows-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EBD7072C92D01A00F05F4B /* n8n-workflows-iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,7 +85,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Common/Extensions/Bundle+Version.swift",
-				"Common/Extensions/Date+String.swift",
+				"Common/Extensions/Date+Formatter.swift",
+				"Common/Extensions/Double+Formatter.swift",
 				"Common/Extensions/String+Date.swift",
 				"Common/Extensions/UserDefaults+Decodable.swift",
 				Common/KeychainHelper.swift,
@@ -91,10 +94,12 @@
 				Common/UserDefaultsHelper.swift,
 				Data/DataResponse.swift,
 				Data/HTTPClient.swift,
+				Data/HTTPMethod.swift,
 				Data/WebhookRequest.swift,
 				Data/WebhookResponse.swift,
 				Data/WorkflowApiRequest.swift,
 				Models/Execution.swift,
+				Models/Project.swift,
 				Models/Tag.swift,
 				Models/Webhook.swift,
 				Models/WebhookAuthType.swift,
@@ -153,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09DD5E172CBEA51200D708A9 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +200,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09DD5E152CBEA51200D708A9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				09DD5E162CBEA51200D708A9 /* Charts.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		09EBD6E42C92D01800F05F4B = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +217,7 @@
 				09FC4D2D2CB5231A00B5D31E /* Watchflows Watch App */,
 				09FC4D3E2CB5231B00B5D31E /* Watchflows Watch AppTests */,
 				09FC4D482CB5231B00B5D31E /* Watchflows Watch AppUITests */,
+				09DD5E152CBEA51200D708A9 /* Frameworks */,
 				09EBD6EE2C92D01800F05F4B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -673,7 +688,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "n8n-workflows-ios/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "My Workflows Manager";
+				INFOPLIST_KEY_CFBundleDisplayName = "n-eight-n Workflows";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -684,7 +699,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -710,7 +725,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "n8n-workflows-ios/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "My Workflows Manager";
+				INFOPLIST_KEY_CFBundleDisplayName = "n-eight-n Workflows";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -721,7 +736,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -821,14 +836,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Watchflows-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Watchflows;
+				INFOPLIST_KEY_CFBundleDisplayName = "n-eight-n Watchflows";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mgarciate.n8n-workflows";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -853,14 +868,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Watchflows-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Watchflows;
+				INFOPLIST_KEY_CFBundleDisplayName = "n-eight-n Watchflows";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mgarciate.n8n-workflows";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
