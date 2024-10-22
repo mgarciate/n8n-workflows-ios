@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import AppIntents
 
 @Model
 final class WebhookConfiguration: Identifiable {
@@ -20,7 +21,8 @@ final class WebhookConfiguration: Identifiable {
     var jsonText: String = "{}"
     var queryParams: [String: String] = [:]
     
-    init(webhookId: String,
+    init(id: String = UUID().uuidString,
+         webhookId: String,
          name: String,
          webhookAuthType: WebhookAuthType = .noAuth,
          webhookAuthParam1: String = "",
@@ -28,6 +30,7 @@ final class WebhookConfiguration: Identifiable {
          httpMethod: HTTPMethod = HTTPMethod.get,
          jsonText: String = "{}",
          queryParams: [String: String] = [:]) {
+        self.id = id
         self.webhookId = webhookId
         self.name = name
         self.webhookAuthType = webhookAuthType.rawValue
@@ -44,5 +47,55 @@ extension WebhookConfiguration {
         get {
             HTTPMethod(rawValue: httpMethod) ?? .get
         }
+    }
+}
+
+struct WebhookConfigurationEntity: AppEntity, Identifiable {
+    var id: String
+    var title: String
+
+    var displayRepresentation: DisplayRepresentation {
+        DisplayRepresentation(title: "titled")
+    }
+
+    static var defaultQuery = WebhookConfigurationQuery()
+
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Webhook Configuration"
+
+    init(id: String, title: String) {
+        self.id = id
+        self.title = title
+    }
+
+    init(webhookConfiguration: WebhookConfiguration) {
+        self.id = webhookConfiguration.id
+        self.title = webhookConfiguration.name
+    }
+}
+
+struct WebhookConfigurationQuery: EntityQuery {
+    
+    func entities(for identifiers: [WebhookConfigurationEntity.ID]) async throws -> [WebhookConfigurationEntity] {
+        // Fetch Items from your SwiftData store based on identifiers and convert them to ItemEntity
+        var entities: [WebhookConfigurationEntity] = []
+
+        // Replace the following with your actual data fetching logic
+        let items = await fetchItemsByIds(identifiers)
+
+        for item in items {
+            entities.append(WebhookConfigurationEntity(webhookConfiguration: item))
+        }
+
+        return entities
+    }
+
+    // Dummy fetch function - replace with actual data fetching logic
+    func fetchItemsByIds(_ ids: [String]) async -> [WebhookConfiguration] {
+        // Fetch items from your data store
+        // For example:
+        // return await Item.fetch(ids: ids)
+
+        // Example items for demonstration purposes
+        return ids.map { WebhookConfiguration(webhookId: "nil", name: "Example Item with ID: \($0)") }
     }
 }

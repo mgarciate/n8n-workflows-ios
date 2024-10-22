@@ -8,7 +8,7 @@
 import AppIntents
 
 // Define the options provider for the webhook parameter
-struct WebhookOptionsProvider: DynamicOptionsProvider {
+fileprivate struct WebhookOptionsProvider: DynamicOptionsProvider {
     @ParameterDependency(\LaunchWebhookIntent.$workflow) var workflow
     
     func results() async throws -> [Webhook] {
