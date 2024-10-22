@@ -5,10 +5,12 @@
 //  Created by mgarciate on 10/10/24.
 //
 
+import Foundation
 import SwiftData
 
 @Model
-final class WebhookConfiguration {
+final class WebhookConfiguration: Identifiable {
+    var id = UUID().uuidString
     var webhookId: String?
     var name: String = "Default"
     var webhookAuthType: String = WebhookAuthType.noAuth.rawValue
@@ -34,5 +36,13 @@ final class WebhookConfiguration {
         self.httpMethod = httpMethod.rawValue
         self.jsonText = jsonText
         self.queryParams = queryParams
+    }
+}
+
+extension WebhookConfiguration {
+    var httpMethodOrDefault: HTTPMethod {
+        get {
+            HTTPMethod(rawValue: httpMethod) ?? .get
+        }
     }
 }

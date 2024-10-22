@@ -9,23 +9,18 @@ import SwiftUI
 
 final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     var webhook: Webhook
-    @Published var webhookAuthenticationType: WebhookAuthType
     @Published var test: Bool = false
-    @Published var httpMethod: HTTPMethod
-    @Published var jsonText: String = "{}"
     @Published var queryParams: [QueryParam] = []
     @Published var isAlertPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
     
     init(webhook: Webhook) {
         self.webhook = webhook
-        webhookAuthenticationType = UserDefaultsHelper.shared.webhookAuthType ?? .noAuth
-        httpMethod = webhook.httpMethod == .post ? .post : .get
     }
     
-    func send() async {
+    func send(with configuration: WebhookConfiguration) async {
         let result: Result<WebhookResponse, ApiError>
-        switch httpMethod {
+        switch configuration.httpMethodOrDefault {
         case .get:
             await MainActor.run {
                 queryParams.removeAll(where: {
@@ -45,10 +40,11 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
                 result = .failure(error)
             }
         case .post:
-            await MainActor.run {
-                if !validateJson() { jsonText = "{}" }
-            }
-            let body = convertJsonTextToDict() ?? [:]
+            // TODO: Delete?
+//            await MainActor.run {
+//                if !validateJson(configuration.jsonText) { jsonText = "{}" }
+//            }
+            let body = convertJsonTextToDict(jsonText: configuration.jsonText) ?? [:]
             do {
                 let response: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: test), body: body)
                 result = .success(response)
@@ -65,13 +61,13 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
         }
     }
     
-    private func convertJsonTextToDict() -> [String: Any]? {
+    private func convertJsonTextToDict(jsonText: String) -> [String: Any]? {
         guard let data = jsonText.data(using: .utf8) else { return nil }
         guard let params = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else { return nil}
         return params
     }
     
-    func validateJson() -> Bool {
-        convertJsonTextToDict() != nil
+    func validateJson(_ jsonText: String) -> Bool {
+        convertJsonTextToDict(jsonText: jsonText) != nil
     }
 }

@@ -23,4 +23,8 @@ enum WebhookAuthType: String, Codable, CaseIterable {
             "None"
         }
     }
+    
+    static func from(_ string: String) -> WebhookAuthType {
+        return WebhookAuthType(rawValue: string) ?? .noAuth
+    }
 }

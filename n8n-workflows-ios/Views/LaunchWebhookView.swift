@@ -29,7 +29,7 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                 Picker("Configuration", selection: $selectedConfiguration) {
                     ForEach(webhookConfigurations, id: \.self) { configuration in
                         VStack {
-                            Text(configuration.name ?? "Default").tag("other")
+                            Text(configuration.name).tag("other")
                         }
                         .tag(configuration.id)
                     }
@@ -37,68 +37,26 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                 .pickerStyle(.menu)
                 .disabled(webhookConfigurations.isEmpty)
                 MyView(webhookConfiguration: $selectedConfiguration)
-                Button("New") {
-                    context.insert(
-                        WebhookConfiguration(
-                            webhookId: viewModel.webhook.id,
-                            name: "New",
-                            httpMethod: HTTPMethod.get
-                        )
-                    )
-                    let webhookConfiguration1 = WebhookConfiguration(
-                        webhookId: "webhookId1",
-                        name: "configuration1"
-                    )
-                    let webhookConfiguration2 = WebhookConfiguration(
-                        webhookId: "webhookId1",
-                        name: "configuration2",
-                        webhookAuthType: .basic,
-                        webhookAuthParam1: "basic1",
-                        webhookAuthParam2: "basic2",
-                        queryParams: ["key": "mykey", "value": "myValue"]
-                    )
-                    let webhookConfiguration3 = WebhookConfiguration(
-                        webhookId: "webhookId1",
-                        name: "configuration3",
-                        webhookAuthType: .basic,
-                        webhookAuthParam1: "basic1",
-                        webhookAuthParam2: "basic2",
-                        httpMethod: HTTPMethod.post,
-                        jsonText: "{\"key\": \"value\"}"
-                    )
-                    let webhookConfiguration4 = WebhookConfiguration(
-                        webhookId: "webhookId2",
-                        name: "configuration1",
-                        webhookAuthType: .basic,
-                        webhookAuthParam1: "basic1",
-                        webhookAuthParam2: "basic2",
-                        queryParams: ["key": "mykey2", "value": "myValue2"]
-                    )
-                    
-                    context.insert(webhookConfiguration1)
-                    context.insert(webhookConfiguration2)
-                    context.insert(webhookConfiguration3)
-                    context.insert(webhookConfiguration4)
-                }
-                Button("onDelete") {
-                    context.delete(selectedConfiguration)
-                }
-                .disabled(webhookConfigurations.count <= 1)
             }
             Section("Webhook request") {
-                Picker("Authentication", selection: $viewModel.webhookAuthenticationType) {
+                Picker("Authentication", selection: Binding(
+                    get: { WebhookAuthType.from(selectedConfiguration.webhookAuthType) },
+                    set: { selectedConfiguration.webhookAuthType = $0.rawValue }
+                )) {
                     ForEach(WebhookAuthType.allCases, id: \.self) { value in
                         Text(value.string)
                     }
                 }
-                .disabled(true)
                 Toggle("Test", isOn: $viewModel.test)
-                Picker("HTTP Method", selection: $viewModel.httpMethod) {
+                Picker("HTTP Method", selection: Binding(
+                    get: { HTTPMethod.from(selectedConfiguration.httpMethod) },
+                    set: { selectedConfiguration.httpMethod = $0.rawValue }
+                )) {
                     ForEach(HTTPMethod.allCases, id: \.self) { value in
-                        Text(value.rawValue)
+                        Text(value.rawValue )
                     }
                 }
-                switch viewModel.httpMethod {
+                switch selectedConfiguration.httpMethodOrDefault {
                 case .get:
                     Text("Query parameters:")
                     ForEach($viewModel.queryParams) { $query in
@@ -112,6 +70,13 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                         }
                     }
                     .onDelete(perform: delete)
+                    .onChange(of: viewModel.queryParams) { oldValue, newValue in
+                        selectedConfiguration.queryParams = [:]
+                        viewModel.queryParams.forEach {
+                            selectedConfiguration.queryParams[$0.key] = $0.value
+                            try? context.save()
+                        }
+                    }
                     Button("+ Add parameter") {
                         viewModel.queryParams.append(QueryParam(key: "", value: ""))
                     }
@@ -119,12 +84,12 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
                 case .post:
                     VStack(alignment: .leading) {
                         Text("HTTP Body (json):")
-                        TextField("{}", text: $viewModel.jsonText, axis: .vertical)
+                        TextField("{}", text: $selectedConfiguration.jsonText, axis: .vertical)
                             .foregroundStyle(.gray)
                             .keyboardType(.asciiCapable)
                             .autocapitalization(.none)
                             .autocorrectionDisabled()
-                        if !viewModel.validateJson() {
+                        if !viewModel.validateJson(selectedConfiguration.jsonText) {
                             Text("Invalid Json")
                                 .foregroundStyle(.red)
                                 .font(.caption.italic())
@@ -136,12 +101,36 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
         .scrollContentBackground(.hidden)
         .navigationTitle(viewModel.webhook.name)
         .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button("", systemImage: "plus") {
+                    let newWebhookConfiguration = WebhookConfiguration(
+                        webhookId: viewModel.webhook.id,
+                        name: "<New>",
+                        httpMethod: HTTPMethod.get
+                    )
+                    context.insert(newWebhookConfiguration)
+                    selectedConfiguration = newWebhookConfiguration
+                }
+            }
+            ToolbarItem(placement: .automatic) {
+                Button("", systemImage: "trash") {
+                    context.delete(selectedConfiguration)
+                    if let firstConfiguration = webhookConfigurations.first {
+                        selectedConfiguration = firstConfiguration
+                    }
+                }
+                .disabled(webhookConfigurations.count <= 1)
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button("", systemImage: "paperplane") {
                     Task {
-                        await viewModel.send()
+                        await viewModel.send(with: selectedConfiguration)
                     }
                 }
+                .disabled(
+                    selectedConfiguration.httpMethodOrDefault == .post &&
+                    !viewModel.validateJson(selectedConfiguration.jsonText)
+                )
             }
         }
         .alert(isPresented: $viewModel.isAlertPresented) {
@@ -160,7 +149,7 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
 //                    do nothing
                 }, secondaryButton: .default(Text("Retry")) {
                     Task {
-                        await viewModel.send()
+                        await viewModel.send(with: selectedConfiguration)
                     }
                 }
                 )

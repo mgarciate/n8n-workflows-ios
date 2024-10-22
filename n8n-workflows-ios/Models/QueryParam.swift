@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct QueryParam: Identifiable {
+struct QueryParam: Identifiable, Equatable {
     let id = UUID().uuidString
     var key: String
     var value: String
