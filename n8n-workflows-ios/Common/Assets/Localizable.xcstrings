@@ -83,9 +83,6 @@
     "Cannot be empty" : {
 
     },
-    "Configuration" : {
-
-    },
     "Create" : {
 
     },
@@ -162,7 +159,7 @@
     "Loading n8n data..." : {
 
     },
-    "Manage webhook configurations" : {
+    "Manage webhook profiles" : {
 
     },
     "My Workflows Manager" : {
@@ -193,6 +190,9 @@
 
     },
     "Password" : {
+
+    },
+    "Profile" : {
 
     },
     "Project" : {
@@ -244,9 +244,6 @@
 
     },
     "This action enables you to launch a webhook by selecting a workflow and then choosing the specific webhook you wish to trigger. Remember to ensure that the workflow is activated when executing a webhook." : {
-
-    },
-    "titled" : {
 
     },
     "Unknown" : {

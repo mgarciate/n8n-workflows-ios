@@ -118,7 +118,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                     Text(value.string)
                 }
             }
-            .onChange(of: viewModel.webhookAuthenticationType) { _ in // Supported from iOS 14
+            .onChange(of: viewModel.webhookAuthenticationType) { _, _ in
                 viewModel.webhookAuthenticationParam1 = ""
                 viewModel.webhookAuthenticationParam2 = ""
             }

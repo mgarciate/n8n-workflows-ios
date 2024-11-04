@@ -11,9 +11,11 @@ import AppIntents
 
 @Model
 final class WebhookConfiguration: Identifiable {
+    static let defaultName = "New profile"
+    
     var id = UUID().uuidString
     var webhookId: String?
-    var name: String = "Default"
+    var name: String = WebhookConfiguration.defaultName
     var webhookAuthType: String = WebhookAuthType.noAuth.rawValue
     var webhookAuthParam1: String = ""
     var webhookAuthParam2: String = ""
@@ -48,6 +50,14 @@ extension WebhookConfiguration {
             HTTPMethod(rawValue: httpMethod) ?? .get
         }
     }
+    
+    static func buildDefaultConfiguration(webhookId: String, index: Int? = nil) -> WebhookConfiguration {
+        WebhookConfiguration(
+            webhookId: webhookId,
+            name: index.map { "\(WebhookConfiguration.defaultName) (\($0))" } ?? WebhookConfiguration.defaultName,
+            httpMethod: HTTPMethod.get
+        )
+    }
 }
 
 struct WebhookConfigurationEntity: AppEntity, Identifiable {
@@ -55,7 +65,7 @@ struct WebhookConfigurationEntity: AppEntity, Identifiable {
     var title: String
 
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "titled")
+        DisplayRepresentation(title: LocalizedStringResource(stringLiteral: title))
     }
 
     static var defaultQuery = WebhookConfigurationQuery()

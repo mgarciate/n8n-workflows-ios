@@ -8,11 +8,24 @@
 import SwiftUI
 import SwiftData
 
-struct MyView: View {
+struct WebhookConfigurationSectionView: View {
     @Binding var webhookConfiguration: WebhookConfiguration
+    let webhookConfigurations: [WebhookConfiguration]
     
     var body: some View {
-        TextField("Name", text: $webhookConfiguration.name)
+        Section("Manage webhook profiles") {
+            Picker("Profile", selection: $webhookConfiguration) {
+                ForEach(webhookConfigurations, id: \.self) { configuration in
+                    VStack {
+                        Text(configuration.name).tag("other")
+                    }
+                    .tag(configuration.id)
+                }
+            }
+            .pickerStyle(.menu)
+            .disabled(webhookConfigurations.isEmpty)
+            TextField("Name", text: $webhookConfiguration.name)
+        }
     }
 }
 
@@ -25,27 +38,59 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
     
     var body: some View {
         List {
-            Section("Manage webhook configurations") {
-                Picker("Configuration", selection: $selectedConfiguration) {
-                    ForEach(webhookConfigurations, id: \.self) { configuration in
-                        VStack {
-                            Text(configuration.name).tag("other")
-                        }
-                        .tag(configuration.id)
-                    }
-                }
-                .pickerStyle(.menu)
-                .disabled(webhookConfigurations.isEmpty)
-                MyView(webhookConfiguration: $selectedConfiguration)
-            }
+            WebhookConfigurationSectionView(webhookConfiguration: $selectedConfiguration, webhookConfigurations: webhookConfigurations)
             Section("Webhook request") {
                 Picker("Authentication", selection: Binding(
                     get: { WebhookAuthType.from(selectedConfiguration.webhookAuthType) },
                     set: { selectedConfiguration.webhookAuthType = $0.rawValue }
                 )) {
                     ForEach(WebhookAuthType.allCases, id: \.self) { value in
-                        Text(value.string)
+                        Text(value == WebhookAuthType.noAuth ? "Default" : value.string)
                     }
+                }
+                .onChange(of: selectedConfiguration.webhookAuthType) { _, _ in
+                    selectedConfiguration.webhookAuthParam1 = ""
+                    selectedConfiguration.webhookAuthParam2 = ""
+                }
+                switch WebhookAuthType(rawValue: selectedConfiguration.webhookAuthType) {
+                case .basic:
+                    TextField("User", text: $selectedConfiguration.webhookAuthParam1)
+                        .autocapitalization(.none)
+                        .autocorrectionDisabled()
+                    if selectedConfiguration.webhookAuthParam1.isEmpty {
+                        Text("Cannot be empty")
+                            .foregroundStyle(.red)
+                            .font(.caption.italic())
+                    }
+                    SecureView(titleKey: "Password", text: $selectedConfiguration.webhookAuthParam2)
+                    if selectedConfiguration.webhookAuthParam2.isEmpty {
+                        Text("Cannot be empty")
+                            .foregroundStyle(.red)
+                            .font(.caption.italic())
+                    }
+                case .header:
+                    TextField("Name", text: $selectedConfiguration.webhookAuthParam1)
+                        .autocapitalization(.none)
+                        .autocorrectionDisabled()
+                    if selectedConfiguration.webhookAuthParam1.isEmpty {
+                        Text("Cannot be empty")
+                            .foregroundStyle(.red)
+                            .font(.caption.italic())
+                    }
+                    TextField("Value", text: $selectedConfiguration.webhookAuthParam2, axis: .vertical)
+                        .autocapitalization(.none)
+                        .autocorrectionDisabled()
+                    if selectedConfiguration.webhookAuthParam2.isEmpty {
+                        Text("Cannot be empty")
+                            .foregroundStyle(.red)
+                            .font(.caption.italic())
+                    }
+                case .jwt:
+                    Text("Not supported yet")
+                        .foregroundStyle(.red)
+                        .font(.caption.italic())
+                case .noAuth, .none:
+                    EmptyView()
                 }
                 Toggle("Test", isOn: $viewModel.test)
                 Picker("HTTP Method", selection: Binding(
@@ -103,11 +148,8 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 Button("", systemImage: "plus") {
-                    let newWebhookConfiguration = WebhookConfiguration(
-                        webhookId: viewModel.webhook.id,
-                        name: "<New>",
-                        httpMethod: HTTPMethod.get
-                    )
+                    let index = webhookConfigurations.count(where: { $0.name.starts(with: WebhookConfiguration.defaultName) })
+                    let newWebhookConfiguration = WebhookConfiguration.buildDefaultConfiguration(webhookId: viewModel.webhook.id, index: index > 0 ? (index + 1) : nil)
                     context.insert(newWebhookConfiguration)
                     selectedConfiguration = newWebhookConfiguration
                 }
@@ -115,6 +157,7 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
             ToolbarItem(placement: .automatic) {
                 Button("", systemImage: "trash") {
                     context.delete(selectedConfiguration)
+                    try? context.save() // Necessary to succeed the next if
                     if let firstConfiguration = webhookConfigurations.first {
                         selectedConfiguration = firstConfiguration
                     }
@@ -174,11 +217,7 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
     
     init(viewModel: ViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        selectedConfiguration = WebhookConfiguration(
-            webhookId: viewModel.webhook.id,
-            name: "New",
-            httpMethod: HTTPMethod.get
-        )
+        selectedConfiguration = WebhookConfiguration.buildDefaultConfiguration(webhookId: viewModel.webhook.id)
         let webhookId = viewModel.webhook.id
         _webhookConfigurations = Query(filter: #Predicate<WebhookConfiguration> {
             $0.webhookId == webhookId
