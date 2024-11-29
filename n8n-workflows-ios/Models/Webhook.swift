@@ -17,7 +17,7 @@ struct Webhook: Codable, Identifiable, Hashable {
 
 extension Webhook {
     static var dummyWebhook: Webhook {
-        Webhook(id: "webhookId", name: "webhookName", path: "webhookPath", httpMethod: .get)
+        Webhook(id: "webhookId1", name: "webhookName1", path: "webhookPath1", httpMethod: .get)
     }
 }
 

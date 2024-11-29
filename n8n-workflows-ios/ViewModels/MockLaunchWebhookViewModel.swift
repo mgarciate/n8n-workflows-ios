@@ -9,21 +9,17 @@ import SwiftUI
 
 final class MockLaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
     var webhook: Webhook
-    @Published var webhookAuthenticationType: WebhookAuthType
     @Published var test: Bool = false
-    @Published var httpMethod: HTTPMethod = .get
-    @Published var jsonText: String = "{}"
     @Published var queryParams: [QueryParam] = []
     @Published var isAlertPresented: Bool = false
     @Published var apiResult: Result<WebhookResponse, ApiError>?
     
     init(webhook: Webhook) {
         self.webhook = webhook
-        webhookAuthenticationType = .noAuth
     }
     
-    func send() {}
-    func validateJson() -> Bool {
+    func send(with configuration: WebhookConfiguration) {}
+    func validateJson(_ jsonText: String) -> Bool {
         true
     }
 }

@@ -65,6 +65,9 @@
         }
       }
     },
+    "Advanced Webhook Launcher" : {
+
+    },
     "API-KEY" : {
 
     },
@@ -78,6 +81,9 @@
 
     },
     "Cannot be empty" : {
+
+    },
+    "Create" : {
 
     },
     "Create an API key\n1. Log in to n8n.\n2. Go to **Settings > n8n API**.\n3. Select **Create an API key**.\n4. Copy **My API Key** and use this key to authenticate your calls." : {
@@ -153,6 +159,9 @@
     "Loading n8n data..." : {
 
     },
+    "Manage webhook profiles" : {
+
+    },
     "My Workflows Manager" : {
 
     },
@@ -181,6 +190,9 @@
 
     },
     "Password" : {
+
+    },
+    "Profile" : {
 
     },
     "Project" : {
@@ -252,7 +264,13 @@
     "Webhook authentication" : {
 
     },
+    "Webhook Configuration" : {
+
+    },
     "Webhook request" : {
+
+    },
+    "WebhookConfigurationEntity" : {
 
     },
     "Workflow" : {

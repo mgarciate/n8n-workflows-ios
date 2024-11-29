@@ -10,5 +10,8 @@ import Foundation
 enum HTTPMethod: String, Codable, CaseIterable {
     case get = "GET"
     case post = "POST"
+    
+    static func from(_ string: String) -> HTTPMethod {
+        return HTTPMethod(rawValue: string) ?? .get
+    }
 }
-
