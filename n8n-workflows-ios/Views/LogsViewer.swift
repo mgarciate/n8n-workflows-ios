@@ -26,36 +26,37 @@ struct LogsViewer: View {
     }
 
     var body: some View {
-        VStack {
-            List(logs, id: \.self) { log in
-                VStack(alignment: .leading) {
-                    Text(log.composedMessage)
-                    HStack {
-                        Text(log.subsystem)
-                        Text(log.date, format: .dateTime)
-                    }.bold()
+        NavigationStack {
+            VStack {
+                List(logs, id: \.self) { log in
+                    VStack(alignment: .leading) {
+                        Text(log.composedMessage)
+                        HStack {
+                            Text("\(log.composedMessage.count)")
+                            Text(log.date, format: .dateTime)
+                        }.bold()
+                    }
+                }
+                .listStyle(.plain)
+                
+                if let logFileURL = logFileURL {
+                    ShareLink(item: logFileURL, preview: SharePreview("Logs File", image: Image(systemName: "doc.text"))) {
+                        Label("Share Logs", systemImage: "square.and.arrow.up")
+                    }
+                } else {
+                    Button(action: generateLogFile) {
+                        Label("Generate Log File", systemImage: "doc.badge.plus")
+                    }
+                    .padding()
                 }
             }
-            .listStyle(.plain)
-            
-            // Botón para generar y compartir el archivo
-            if let logFileURL = logFileURL {
-                ShareLink(item: logFileURL, preview: SharePreview("Logs File", image: Image(systemName: "doc.text"))) {
-                    Label("Share Logs", systemImage: "square.and.arrow.up")
-                }
-            } else {
-                Button(action: generateLogFile) {
-                    Label("Generate Log File", systemImage: "doc.badge.plus")
-                }
-                .padding()
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    dismiss()
-                } label: {
-                    Text("Cancel")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("Cancel")
+                    }
                 }
             }
         }
@@ -63,10 +64,9 @@ struct LogsViewer: View {
     
     private func generateLogFile() {
         let logMessages = logs.map { log in
-            "\(log.date): [\(log.subsystem)] \(log.composedMessage)"
+            "\(log.date): [\(log.level.rawValue)] [\(log.subsystem)] \(log.composedMessage)"
         }.joined(separator: "\n")
         
-        // Guarda el archivo temporalmente
         let fileName = "logs.txt"
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
         

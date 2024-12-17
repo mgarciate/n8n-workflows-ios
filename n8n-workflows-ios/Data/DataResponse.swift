@@ -6,6 +6,6 @@
 //
 
 struct DataResponse<T: Codable>: Codable {
-    @IgnoreFailure var data: [T]
+    let data: [T]
     let nextCursor: String?
 }

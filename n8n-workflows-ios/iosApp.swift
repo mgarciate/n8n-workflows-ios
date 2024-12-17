@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import OSLog
-
-let logger = Logger(subsystem: "com.mgarciate.n8n-workflows", category: "debugging")
 
 @main
 struct iosApp: App {
