@@ -394,10 +394,12 @@ struct SplashView: View {
             MainView(viewModel: MainViewModel())
         }
         .onAppear() {
+            logger.info("app started")
             withAnimation(.easeInOut(duration: 1.5)) {
                 circleIsHiden.toggle()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                logger.info("splash screen completed")
                 isMainViewPresented.toggle()
             }
             Task {

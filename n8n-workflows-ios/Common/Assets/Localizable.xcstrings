@@ -117,6 +117,9 @@
     "For example, you can activate or deactivate your n8n workflows when you arrive at a location (your home?), when you receive an email with a specific subject, when you start an app and want to have a service running on your server and shut it down when the app is closed, when you get in the car, when you connect to a specific Wi-Fi, when your iPhone is running low on battery, etc." : {
 
     },
+    "Generate Log File" : {
+
+    },
     "Host" : {
 
     },
@@ -151,6 +154,12 @@
 
     },
     "Loading n8n data..." : {
+
+    },
+    "Logs" : {
+
+    },
+    "Logs File" : {
 
     },
     "My Workflows Manager" : {
@@ -214,6 +223,12 @@
 
     },
     "Settings" : {
+
+    },
+    "Share Logs" : {
+
+    },
+    "Show logs" : {
 
     },
     "Show onboarding" : {

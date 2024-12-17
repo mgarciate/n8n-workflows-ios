@@ -95,6 +95,7 @@
 				Data/DataResponse.swift,
 				Data/HTTPClient.swift,
 				Data/HTTPMethod.swift,
+				Data/IgnoreFailure.swift,
 				Data/WebhookRequest.swift,
 				Data/WebhookResponse.swift,
 				Data/WorkflowApiRequest.swift,
