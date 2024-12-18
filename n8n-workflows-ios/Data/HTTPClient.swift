@@ -86,7 +86,7 @@ extension HTTPClient {
         var urlRequest = URLRequest(url: url)
         headers.forEach { urlRequest.setValue($0.value, forHTTPHeaderField: $0.key) }
         MyLogger.shared.info("HTTPClient URL: \(urlRequest.url?.absoluteString ?? "NO URL", privacy: .public)")
-        var (data, response) = try await urlSession.data(for: urlRequest)
+        let (data, response) = try await urlSession.data(for: urlRequest)
         let stringData: String = String(data: data, encoding: .utf8) ?? "NO DATA"
         MyLogger.shared.info("HTTPClient DATA: \(stringData, privacy: .public)")
         try validate(data: data, response: response)
