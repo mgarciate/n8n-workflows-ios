@@ -5,14 +5,6 @@
 //  Created by mgarciate on 17/12/24.
 //
 
-import OSLog
-
-public class MyLogger {
-    static let shared = Logger(subsystem: "com.mgarciate.n8n-workflows", category: "debugging")
-
-    private init() { }
-}
-
 @propertyWrapper
 struct IgnoreFailure<Value: Codable>: Codable {
     var wrappedValue: [Value] = []
