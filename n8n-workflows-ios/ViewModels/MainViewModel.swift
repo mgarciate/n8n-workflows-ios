@@ -30,6 +30,7 @@ final class MainViewModel: MainViewModelProtocol {
     
     private func fetchProjects() async {
         do {
+            MyLogger.shared.info("MainViewModel fetchProjects")
             let response: DataResponse<Project> = try await WorkflowApiRequest().get(endpoint: .projects)
             let teamProjects = response.data.filter { $0.type == .team }
             await MainActor.run {
@@ -41,6 +42,7 @@ final class MainViewModel: MainViewModelProtocol {
                 projects.append(contentsOf: teamProjects)
             }
         } catch {
+            MyLogger.shared.error("MainViewModel fetchProjects error \(error, privacy: .public)")
 #if DEBUG
             print("Error", error)
 #endif
@@ -51,6 +53,7 @@ final class MainViewModel: MainViewModelProtocol {
     }
     
     private func fetchTags() async {
+        MyLogger.shared.info("MainViewModel fetchTags")
         let selectedTagIds = tags.filter { $0.isSelected }.map { $0.tag.id }
         do {
             let response: DataResponse<Tag> = try await WorkflowApiRequest().get(endpoint: .tags)
@@ -60,6 +63,7 @@ final class MainViewModel: MainViewModelProtocol {
                 }
             }
         } catch {
+            MyLogger.shared.error("MainViewModel fetchTags error \(error, privacy: .public)")
 #if DEBUG
             print("Error", error)
 #endif
@@ -68,6 +72,7 @@ final class MainViewModel: MainViewModelProtocol {
     
     private func fetchWorkflows() async {
         do {
+            MyLogger.shared.info("MainViewModel fetchWorkflows")
             var params: [String: Any] = [:]
             let selectedTagsName = tags.filter { $0.isSelected }.map { $0.tag.name }
             if !selectedTagsName.isEmpty {
@@ -86,6 +91,7 @@ final class MainViewModel: MainViewModelProtocol {
                 workflows = response.data
             }
         } catch {
+            MyLogger.shared.error("MainViewModel fetchWorkflows error \(error, privacy: .public)")
 #if DEBUG
             print("Error", error)
 #endif
@@ -98,6 +104,7 @@ final class MainViewModel: MainViewModelProtocol {
     }
     
     func fetchData() async {
+        MyLogger.shared.info("MainViewModel fetchData")
         await isLoading(true)
         await fetchProjects()
         await fetchTags()

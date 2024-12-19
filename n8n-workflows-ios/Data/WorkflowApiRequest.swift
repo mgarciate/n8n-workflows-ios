@@ -46,13 +46,15 @@ class WorkflowApiRequest: HTTPClient {
     }
 
     func get<T: Codable>(endpoint: Endpoint, params: [String: Any] = [:]) async throws -> T {
+        MyLogger.shared.info("WorkflowApiRequest GET: \(endpoint.path, privacy: .public) \(params, privacy: .public)")
         var params = params
         params["limit"] = 250
         return try await get(endpoint: endpoint.path, params: params)
     }
 
     func post<T: Codable>(endpoint: Endpoint, body: [String: Any] = [:]) async throws -> T {
-        try await post(endpoint: endpoint.path, body: body)
+        MyLogger.shared.info("WorkflowApiRequest POST: \(endpoint.path, privacy: .public) \(body, privacy: .public)")
+        return try await post(endpoint: endpoint.path, body: body)
     }
 }
 

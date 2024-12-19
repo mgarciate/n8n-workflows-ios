@@ -124,6 +124,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
         .onAppear() {
             Task {
                 do {
+                    MyLogger.shared.info("MainView onAppear")
                     let userConfig = try await UserConfigurationManager.shared.fetchSettings()
                     if let _ = userConfig.hostUrl {
                         UserDefaultsHelper.shared.saveUserConfig(userConfig)
@@ -213,6 +214,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     
     private func fetchDataTask(showLoading: Bool = true) {
         Task {
+            MyLogger.shared.info("MainView fetchDataTask")
             await viewModel.fetchData()
         }
     }

@@ -13,6 +13,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
     @State private var selfhostedPopoverPresented = false
     @State private var apikeyPopoverPresented = false
     @StateObject var viewModel: ViewModel
+    @State private var isLogsViewPresented = false
     
     var body: some View {
         NavigationStack {
@@ -20,6 +21,13 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                 sectionHost
                 sectionCredentials
                 sectionAuthentication
+                Section("Logs") {
+                    Button {
+                        isLogsViewPresented.toggle()
+                    } label: {
+                        Text("Show logs")
+                    }
+                }
             }
             .navigationTitle("Settings")
             .toolbar {
@@ -39,6 +47,9 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                         Text("Cancel")
                     }
                 }
+            }
+            .fullScreenCover(isPresented: $isLogsViewPresented) {
+                LogsViewer()
             }
         }
     }
