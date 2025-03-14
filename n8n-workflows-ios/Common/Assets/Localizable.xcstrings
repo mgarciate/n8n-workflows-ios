@@ -192,6 +192,9 @@
     "Open the **Shortcuts** app.\n\nAt the bottom, select the **Shortcuts** tab and tap + to create a new Shortcut." : {
 
     },
+    "Order" : {
+
+    },
     "Password" : {
 
     },
@@ -235,6 +238,9 @@
 
     },
     "Show onboarding" : {
+
+    },
+    "Sort by" : {
 
     },
     "Step by step" : {

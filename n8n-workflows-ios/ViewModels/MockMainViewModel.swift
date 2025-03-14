@@ -9,6 +9,7 @@
 import SwiftUI
 
 final class MockMainViewModel: MainViewModelProtocol {
+    var userDefaults: UserDefaults = .standard
     @Published var isLoading: Bool = false
     @Published var workflows: [Workflow] = []
     @Published var tags: [SelectableTag] = {
