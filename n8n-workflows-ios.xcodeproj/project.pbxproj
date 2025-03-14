@@ -84,6 +84,7 @@
 		09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"Common/Extensions/Array+Sort.swift",
 				"Common/Extensions/Bundle+Version.swift",
 				"Common/Extensions/Date+Formatter.swift",
 				"Common/Extensions/Double+Formatter.swift",
@@ -112,6 +113,7 @@
 				ViewModels/MockWorkflowExecutionsViewModel.swift,
 				ViewModels/WorkflowExecutionsViewModel.swift,
 				ViewModels/WorkflowExecutionsViewProtocol.swift,
+				Views/SortView.swift,
 			);
 			target = 09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */;
 		};
@@ -683,7 +685,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "n8n-workflows-ios/n8n-workflows-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"n8n-workflows-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
@@ -720,7 +722,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "n8n-workflows-ios/n8n-workflows-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"n8n-workflows-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
@@ -831,7 +833,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Watchflows Watch App/Watchflows Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Watchflows Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;
@@ -863,7 +865,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Watchflows Watch App/Watchflows Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"Watchflows Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = ZR272F7CTF;
 				ENABLE_PREVIEWS = YES;

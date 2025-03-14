@@ -8,6 +8,7 @@
 import SwiftUI
 
 final class MainViewModel: MainViewModelProtocol {
+    var userDefaults: UserDefaults
     @Published var isLoading: Bool = true
     @Published var workflows: [Workflow] = []
     @Published var tags: [SelectableTag] = []
@@ -26,7 +27,9 @@ final class MainViewModel: MainViewModelProtocol {
         return false
     }
     
-    init() {}
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+    }
     
     private func fetchProjects() async {
         do {
@@ -70,6 +73,18 @@ final class MainViewModel: MainViewModelProtocol {
         }
     }
     
+    func sortWorkflows(_ workflows: [Workflow]) -> [Workflow] {
+        let sortOption: WorkflowSortOption = userDefaults.string(forKey: "sort")
+            .flatMap(WorkflowSortOption.init) ?? WorkflowSortOption.defaultValue
+        let sortOrder: SortOrder = userDefaults.string(forKey: "order")
+            .flatMap(SortOrder.init) ?? SortOrder.defaultValue
+        return switch sortOption {
+        case .name: workflows.sortedByLocalizedString(\.name, ascending: sortOrder == .ascending)
+        case .createdAt: workflows.sortedByDateString(\.createdAt, ascending: sortOrder == .ascending)
+        case .updatedAt: workflows.sortedByDateString(\.updatedAt, ascending: sortOrder == .ascending)
+        }
+    }
+    
     private func fetchWorkflows() async {
         do {
             MyLogger.shared.info("MainViewModel fetchWorkflows")
@@ -88,7 +103,7 @@ final class MainViewModel: MainViewModelProtocol {
                     isOnboardingPresented = true
                     UserDefaultsHelper.shared.onboardingDisplayed = true
                 }
-                workflows = response.data
+                workflows = sortWorkflows(response.data)
             }
         } catch {
             MyLogger.shared.error("MainViewModel fetchWorkflows error \(error, privacy: .public)")
