@@ -9,6 +9,7 @@
 import SwiftUI
 
 protocol MainViewModelProtocol: ObservableObject {
+    var userDefaults: UserDefaults { get set }
     var isLoading: Bool { get set }
     var workflows: [Workflow] { get set }
     var tags: [SelectableTag] { get set }

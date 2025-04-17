@@ -9,7 +9,7 @@ import SwiftUI
 
 enum MainActionSheet: Hashable, Identifiable {
     case settings
-    case executions(workflow: Workflow)
+    case sort
     
     var id: Self {
         return self
@@ -18,10 +18,12 @@ enum MainActionSheet: Hashable, Identifiable {
 
 struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
     @Environment(\.scenePhase) var scenePhase
+    @AppStorage("sort") private var selectedSortOption: WorkflowSortOption = WorkflowSortOption.defaultValue
+    @AppStorage("order") private var selectedSortOrder: SortOrder = SortOrder.defaultValue
     
     @StateObject var viewModel: ViewModel
     @State var navigationPath = NavigationPath()
-    @State private var isSettingsPresented = false
+    @State private var actionSheet: MainActionSheet?
     @State private var infoPopoverPresented = false
     @State private var isInactiveOrBackground = false
     
@@ -46,7 +48,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        isSettingsPresented = true
+                        actionSheet = .settings
                     } label: {
                         Image(systemName: "gear")
                     }
@@ -73,11 +75,17 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 }
             }
         }
-        .fullScreenCover(isPresented: $isSettingsPresented, onDismiss: {
+        .fullScreenCover(item: $actionSheet, onDismiss: {
             viewModel.isLoading = true
             fetchDataTask()
-        }) {
-            SettingsView(viewModel: SettingsViewModel())
+        }) { item in
+            switch item {
+            case .settings:
+                SettingsView(viewModel: SettingsViewModel())
+            case .sort:
+                SortView()
+                    .presentationDetents([.medium, .large])
+            }
         }
         .sheet(isPresented: $viewModel.isOnboardingPresented) {
             OnboardingView()
@@ -135,7 +143,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
 #endif
                 }
                 guard !viewModel.shouldShowSettings else {
-                    isSettingsPresented = true
+                    actionSheet = .settings
                     return
                 }
                 fetchDataTask()
@@ -159,27 +167,54 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                 }
             }
             if !viewModel.tags.isEmpty {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 10) {
-                        ForEach(viewModel.tags) { selectableTag in
-                            Text(selectableTag.tag.name)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
-                                .background(Color("Red").opacity(selectableTag.isSelected ? 0.8 : 0.0))
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(selectableTag.isSelected ? .white : Color("Black"))
-                                .cornerRadius(20)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color("Red"), lineWidth: 2)
-                                        .padding(.leading, 1)
-                                )
-                                .frame(height: 40)
-                                .onTapGesture {
-                                    Task {
-                                        await viewModel.toggleTag(id: selectableTag.id)
+                HStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            Button(action: {
+                                actionSheet = .sort
+                            }, label: {
+                                HStack(spacing: 3) {
+                                    Image(systemName: "line.horizontal.3.decrease")
+                                    Text(selectedSortOption.rawValue)
+                                    if selectedSortOrder == .ascending {
+                                        Image(systemName: "arrow.up")
+                                    } else {
+                                        Image(systemName: "arrow.down")
                                     }
                                 }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .font(.system(size: 14, weight: .semibold))
+                            })
+                            .foregroundColor(.white)
+                            .background(Color("Red"))
+                            .cornerRadius(20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color("Red"), lineWidth: 2)
+                                    .padding(.leading, 1)
+                            )
+                            .frame(height: 40)
+                            ForEach(viewModel.tags) { selectableTag in
+                                Text(selectableTag.tag.name)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 16)
+                                    .background(Color("Red").opacity(selectableTag.isSelected ? 0.8 : 0.0))
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(selectableTag.isSelected ? .white : Color("Black"))
+                                    .cornerRadius(20)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color("Red"), lineWidth: 2)
+                                            .padding(.leading, 1)
+                                    )
+                                    .frame(height: 40)
+                                    .onTapGesture {
+                                        Task {
+                                            await viewModel.toggleTag(id: selectableTag.id)
+                                        }
+                                    }
+                            }
                         }
                     }
                 }
