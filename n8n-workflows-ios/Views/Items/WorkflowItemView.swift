@@ -61,7 +61,7 @@ struct WorkflowItemView: View {
                                 }
                             }
                             .buttonStyle(
-                                LaunchWebhookButtonStyle(backgroundColor: Color("Red"))
+                                LaunchWebhookButtonStyle(backgroundColor: Color("Green"))
                             )
                         }
                         ForEach(workflow.webhooks) { webhook in

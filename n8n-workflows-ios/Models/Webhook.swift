@@ -15,7 +15,7 @@ struct Webhook: Codable, Identifiable, Hashable {
     let httpMethod: HTTPMethod?
 }
 
-struct ChatTrigger: Identifiable {
+struct ChatTrigger: Identifiable, Hashable {
     let id: String
 }
 
