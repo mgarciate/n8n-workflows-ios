@@ -8,8 +8,13 @@
 import AppIntents
 
 enum WorkflowNodeType: String {
-    case workflow = "n8n-nodes-base.webhook"
+    case webhook = "n8n-nodes-base.webhook"
+    case chat = "@n8n/n8n-nodes-langchain.chatTrigger"
     case unknown
+}
+
+enum WorkflowNodeAuthentication: String, Codable {
+    case basicAuth
 }
 
 extension WorkflowNodeType: Codable {
@@ -17,8 +22,10 @@ extension WorkflowNodeType: Codable {
         let container = try decoder.singleValueContainer()
         let decodedValues = try container.decode(String.self)
         switch decodedValues {
-        case WorkflowNodeType.workflow.rawValue:
-            self = .workflow
+        case WorkflowNodeType.webhook.rawValue:
+            self = .webhook
+        case WorkflowNodeType.chat.rawValue:
+            self = .chat
         default:
             self = .unknown
         }
@@ -28,6 +35,15 @@ extension WorkflowNodeType: Codable {
 struct WorkflowNodeParameters: Codable, Hashable {
     let path: String?
     let httpMethod: HTTPMethod?
+    let isPublic: Bool?
+    let authentication: WorkflowNodeAuthentication?
+    
+    private enum CodingKeys: String, CodingKey {
+        case path
+        case httpMethod
+        case isPublic = "public"
+        case authentication
+    }
 }
 
 struct WorkflowNode: Codable, Hashable {
@@ -49,11 +65,22 @@ struct Workflow: Codable, Identifiable, Hashable {
 extension Workflow {
     var webhooks: [Webhook] {
         nodes.compactMap {
-            guard $0.type == .workflow,
+            guard $0.type == .webhook,
                   let webhookId = $0.webhookId,
                   let path = $0.parameters?.path,
                   !path.isEmpty else { return nil }
             return Webhook(id: webhookId, name: $0.name, path: path, httpMethod: $0.parameters?.httpMethod)
+        }
+    }
+    
+    var chatTriggers: [ChatTrigger] {
+        nodes.compactMap {
+            guard $0.type == .chat,
+                  let webhookId = $0.webhookId else { return nil }
+            return ChatTrigger(
+                id: webhookId,
+                authentication: $0.parameters?.authentication == .basicAuth ? .basic : .noAuth
+            )
         }
     }
 }
@@ -70,8 +97,9 @@ extension Workflow {
             let createdDate = date
             let updatedDate = date.addingTimeInterval(60) // add 1 minute
             date.addTimeInterval(3600) // add 1 hour
-            let node = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .workflow, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)", httpMethod: .get)) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
-            return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: format(date: createdDate), updatedAt: format(date: updatedDate), nodes: [node])
+            let workflowNode = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .webhook, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)", httpMethod: .get, isPublic: nil, authentication: nil)) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
+            let chatTriggerNode = WorkflowNode(name: "Node name \($0)", type: .chat, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: nil, httpMethod: nil, isPublic: true, authentication: nil))
+            return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: format(date: createdDate), updatedAt: format(date: updatedDate), nodes: [workflowNode, chatTriggerNode])
         }
     }
 }

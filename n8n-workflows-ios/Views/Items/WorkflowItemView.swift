@@ -27,6 +27,7 @@ struct WorkflowItemView: View {
     let workflow: Workflow
     let action: (Bool) -> Void
     let launchWebhook: (Webhook) -> Void
+    let launchChat: (ChatTrigger) -> Void
     
     var body: some View {
         ZStack {
@@ -47,6 +48,22 @@ struct WorkflowItemView: View {
                             Spacer()
                         }
                         .foregroundStyle(.white.opacity(0.7))
+                        ForEach(workflow.chatTriggers) { chat in
+                            Button(action: {
+                                launchChat(chat)
+                            }) {
+                                Label {
+                                    Text("Open chat")
+                                        .padding(.leading, -5)
+                                        .font(.subheadline)
+                                } icon: {
+                                    Image(systemName: "message")
+                                }
+                            }
+                            .buttonStyle(
+                                LaunchWebhookButtonStyle(backgroundColor: Color("Green"))
+                            )
+                        }
                         ForEach(workflow.webhooks) { webhook in
                             Button(action: {
                                 launchWebhook(webhook)
@@ -89,6 +106,8 @@ struct WorkflowItemView: View {
     WorkflowItemView(workflow: Workflow.dummyWorkflows[0], action: { _ in
         
     }, launchWebhook: { webhook in
+        
+    }, launchChat: { chat in
         
     })
 }
