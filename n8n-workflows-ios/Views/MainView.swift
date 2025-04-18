@@ -226,6 +226,8 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
                     }
                 }, launchWebhook: { webhook in
                     navigationPath.append(webhook)
+                }, launchChat: { chat in
+                    
                 })
                 .onTapGesture {
                     navigationPath.append(workflow)
@@ -243,6 +245,9 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             WorkflowExecutionsView(viewModel: WorkflowExecutionsViewModel(workflow: workflow))
         }
         .navigationDestination(for: Webhook.self) { webhook in
+            LaunchWebhookView(viewModel: LaunchWebhookViewModel(webhook: webhook))
+        }
+        .navigationDestination(for: ChatTrigger.self) { chat in
             LaunchWebhookView(viewModel: LaunchWebhookViewModel(webhook: webhook))
         }
     }

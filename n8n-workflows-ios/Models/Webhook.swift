@@ -15,6 +15,10 @@ struct Webhook: Codable, Identifiable, Hashable {
     let httpMethod: HTTPMethod?
 }
 
+struct ChatTrigger: Identifiable {
+    let id: String
+}
+
 extension Webhook {
     static var dummyWebhook: Webhook {
         Webhook(id: "webhookId", name: "webhookName", path: "webhookPath", httpMethod: .get)
