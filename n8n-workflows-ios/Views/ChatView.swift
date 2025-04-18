@@ -10,6 +10,8 @@ import SwiftUI
 
 struct WebView: UIViewRepresentable {
     let url: URL
+    var user: String?
+    var password: String?
     
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
@@ -22,10 +24,12 @@ struct WebView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: WKWebView, context: Context) {
+        guard let user, let password else {
+            uiView.load(URLRequest(url: url))
+            return
+        }
         var request = URLRequest(url: url)
-        let username = "user"
-        let password = "password"
-        if let authString = "\(username):\(password)".data(using: .utf8)?.base64EncodedString() {
+        if let authString = "\(user):\(password)".data(using: .utf8)?.base64EncodedString() {
             request.setValue("Basic \(authString)", forHTTPHeaderField: "Authorization")
         }
         uiView.load(request)
@@ -38,35 +42,53 @@ struct WebView: UIViewRepresentable {
             self.parent = parent
         }
         
-        // Desafío de autenticación (por si la autenticación en cabecera no funciona)
         func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-            let username = "user"
-            let password = "password"
-            if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic {
-                let credential = URLCredential(user: username,
-                                               password: password,
-                                               persistence: .forSession)
-                completionHandler(.useCredential, credential)
-            } else {
+            guard challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodHTTPBasic,
+                  let user = parent.user,
+                  let password = parent.password else {
                 completionHandler(.performDefaultHandling, nil)
+                return
             }
+            let credential = URLCredential(user: user,
+                                           password: password,
+                                           persistence: .forSession)
+            completionHandler(.useCredential, credential)
         }
     }
 }
 
 struct ChatView: View {
-    let url: URL
+    let chat: ChatTrigger
+    
+    private var user: String? {
+        chat.authentication == .basic ? UserDefaultsHelper.shared.webhookAuthParam1 : nil
+    }
+    
+    private var password: String? {
+        chat.authentication == .basic ? UserDefaultsHelper.shared.webhookAuthParam2 : nil
+    }
     
     var body: some View {
-        ZStack {
-            WebView(url: url)
+        if let baseUrl = UserDefaultsHelper.shared.hostUrl,
+           let url = URL(string: baseUrl) {
+            let chatUrl = url
+                .appendingPathComponent("webhook")
+                .appendingPathComponent(chat.id)
+                .appendingPathComponent("chat")
+            WebView(url: chatUrl, user: user, password: password)
                 .edgesIgnoringSafeArea(.bottom)
                 .navigationTitle("Chat")
                 .navigationBarTitleDisplayMode(.inline)
+        } else {
+            ContentUnavailableCompatView(
+                title: "No content available",
+                description: "",
+                systemImage: "message"
+            )
         }
     }
 }
 
 #Preview {
-    ChatView(url: URL(string: "/webhook/c4a01150-dc0d-4340-82ab-4c79f6344a06/chat")!)
+    ChatView(chat: ChatTrigger(id: "", authentication: .noAuth))
 }

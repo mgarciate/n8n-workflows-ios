@@ -13,6 +13,10 @@ enum WorkflowNodeType: String {
     case unknown
 }
 
+enum WorkflowNodeAuthentication: String, Codable {
+    case basicAuth
+}
+
 extension WorkflowNodeType: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -32,11 +36,13 @@ struct WorkflowNodeParameters: Codable, Hashable {
     let path: String?
     let httpMethod: HTTPMethod?
     let isPublic: Bool?
+    let authentication: WorkflowNodeAuthentication?
     
     private enum CodingKeys: String, CodingKey {
         case path
         case httpMethod
         case isPublic = "public"
+        case authentication
     }
 }
 
@@ -71,7 +77,10 @@ extension Workflow {
         nodes.compactMap {
             guard $0.type == .chat,
                   let webhookId = $0.webhookId else { return nil }
-            return ChatTrigger(id: webhookId)
+            return ChatTrigger(
+                id: webhookId,
+                authentication: $0.parameters?.authentication == .basicAuth ? .basic : .noAuth
+            )
         }
     }
 }
@@ -88,8 +97,8 @@ extension Workflow {
             let createdDate = date
             let updatedDate = date.addingTimeInterval(60) // add 1 minute
             date.addTimeInterval(3600) // add 1 hour
-            let workflowNode = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .webhook, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)", httpMethod: .get, isPublic: nil)) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
-            let chatTriggerNode = WorkflowNode(name: "Node name \($0)", type: .chat, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: nil, httpMethod: nil, isPublic: true))
+            let workflowNode = ($0 % 3 == 0) ? WorkflowNode(name: "Node name \($0)", type: .webhook, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: "Node path \($0)", httpMethod: .get, isPublic: nil, authentication: nil)) : WorkflowNode(name: "Node name \($0)", type: nil, webhookId: nil, parameters: nil)
+            let chatTriggerNode = WorkflowNode(name: "Node name \($0)", type: .chat, webhookId: "webhookId\($0)", parameters: WorkflowNodeParameters(path: nil, httpMethod: nil, isPublic: true, authentication: nil))
             return Workflow(id: "id\($0)", name: "workflow name \($0)", active: true, createdAt: format(date: createdDate), updatedAt: format(date: updatedDate), nodes: [workflowNode, chatTriggerNode])
         }
     }

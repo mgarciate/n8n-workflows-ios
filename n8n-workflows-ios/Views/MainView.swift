@@ -248,10 +248,7 @@ struct MainView<ViewModel>: View where ViewModel: MainViewModelProtocol {
             LaunchWebhookView(viewModel: LaunchWebhookViewModel(webhook: webhook))
         }
         .navigationDestination(for: ChatTrigger.self) { chat in
-            if let baseUrl = UserDefaultsHelper.shared.hostUrl,
-               let url = URL(string: "\(baseUrl)/webhook/\(chat.id)/chat") {
-                ChatView(url: url)
-            }
+            ChatView(chat: chat)
         }
     }
     

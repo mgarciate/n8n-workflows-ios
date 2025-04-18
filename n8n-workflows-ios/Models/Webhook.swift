@@ -17,6 +17,7 @@ struct Webhook: Codable, Identifiable, Hashable {
 
 struct ChatTrigger: Identifiable, Hashable {
     let id: String
+    let authentication: WebhookAuthType
 }
 
 extension Webhook {
