@@ -7,11 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		094CC13A2D9191C400FC7115 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 094CC1392D9191C400FC7115 /* WidgetKit.framework */; };
+		094CC13C2D9191C400FC7115 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 094CC13B2D9191C400FC7115 /* SwiftUI.framework */; };
+		094CC1472D9191C500FC7115 /* appwidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 094CC1382D9191C400FC7115 /* appwidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		09DD5E172CBEA51200D708A9 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09DD5E162CBEA51200D708A9 /* Charts.framework */; };
 		09FC4D4F2CB5231B00B5D31E /* Watchflows Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		094CC1452D9191C500FC7115 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09EBD6E52C92D01800F05F4B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 094CC1372D9191C400FC7115;
+			remoteInfo = appwidgetExtension;
+		};
 		09EBD6FE2C92D01A00F05F4B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 09EBD6E52C92D01800F05F4B /* Project object */;
@@ -50,6 +60,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		094CC1482D9191C500FC7115 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				094CC1472D9191C500FC7115 /* appwidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		09FC4D502CB5231B00B5D31E /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,6 +85,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		094CC1382D9191C400FC7115 /* appwidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = appwidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		094CC1392D9191C400FC7115 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		094CC13B2D9191C400FC7115 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		09DD5E162CBEA51200D708A9 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = System/Library/Frameworks/Charts.framework; sourceTree = SDKROOT; };
 		09EBD6ED2C92D01800F05F4B /* n8n-workflows-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "n8n-workflows-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EBD6FD2C92D01A00F05F4B /* n8n-workflows-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +104,25 @@
 				Info.plist,
 			);
 			target = 09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */;
+		};
+		094CC14C2D9191C500FC7115 /* Exceptions for "appwidget" folder in "appwidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 094CC1372D9191C400FC7115 /* appwidgetExtension */;
+		};
+		094CC14E2D9192E600FC7115 /* Exceptions for "n8n-workflows-ios" folder in "appwidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				"Common/Extensions/Date+Formatter.swift",
+				"Common/Extensions/String+Date.swift",
+				Data/DataResponse.swift,
+				Data/IgnoreFailure.swift,
+				Models/Execution.swift,
+			);
+			target = 094CC1372D9191C400FC7115 /* appwidgetExtension */;
 		};
 		09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -120,10 +163,19 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		094CC13D2D9191C400FC7115 /* appwidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				094CC14C2D9191C500FC7115 /* Exceptions for "appwidget" folder in "appwidgetExtension" target */,
+			);
+			path = appwidget;
+			sourceTree = "<group>";
+		};
 		09EBD6EF2C92D01800F05F4B /* n8n-workflows-ios */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				09295BBA2CAC6FA300BA4F56 /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-ios" target */,
+				094CC14E2D9192E600FC7115 /* Exceptions for "n8n-workflows-ios" folder in "appwidgetExtension" target */,
 				09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */,
 			);
 			path = "n8n-workflows-ios";
@@ -157,6 +209,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		094CC1352D9191C400FC7115 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				094CC13C2D9191C400FC7115 /* SwiftUI.framework in Frameworks */,
+				094CC13A2D9191C400FC7115 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		09EBD6EA2C92D01800F05F4B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,6 +268,8 @@
 			isa = PBXGroup;
 			children = (
 				09DD5E162CBEA51200D708A9 /* Charts.framework */,
+				094CC1392D9191C400FC7115 /* WidgetKit.framework */,
+				094CC13B2D9191C400FC7115 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -220,6 +283,7 @@
 				09FC4D2D2CB5231A00B5D31E /* Watchflows Watch App */,
 				09FC4D3E2CB5231B00B5D31E /* Watchflows Watch AppTests */,
 				09FC4D482CB5231B00B5D31E /* Watchflows Watch AppUITests */,
+				094CC13D2D9191C400FC7115 /* appwidget */,
 				09DD5E152CBEA51200D708A9 /* Frameworks */,
 				09EBD6EE2C92D01800F05F4B /* Products */,
 			);
@@ -234,6 +298,7 @@
 				09FC4D2C2CB5231A00B5D31E /* Watchflows Watch App.app */,
 				09FC4D3B2CB5231B00B5D31E /* Watchflows Watch AppTests.xctest */,
 				09FC4D452CB5231B00B5D31E /* Watchflows Watch AppUITests.xctest */,
+				094CC1382D9191C400FC7115 /* appwidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,6 +306,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		094CC1372D9191C400FC7115 /* appwidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 094CC14B2D9191C500FC7115 /* Build configuration list for PBXNativeTarget "appwidgetExtension" */;
+			buildPhases = (
+				094CC1342D9191C400FC7115 /* Sources */,
+				094CC1352D9191C400FC7115 /* Frameworks */,
+				094CC1362D9191C400FC7115 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				094CC13D2D9191C400FC7115 /* appwidget */,
+			);
+			name = appwidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = appwidgetExtension;
+			productReference = 094CC1382D9191C400FC7115 /* appwidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09EBD7112C92D01A00F05F4B /* Build configuration list for PBXNativeTarget "n8n-workflows-ios" */;
@@ -249,11 +336,13 @@
 				09EBD6EA2C92D01800F05F4B /* Frameworks */,
 				09EBD6EB2C92D01800F05F4B /* Resources */,
 				09FC4D502CB5231B00B5D31E /* Embed Watch Content */,
+				094CC1482D9191C500FC7115 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				09FC4D4E2CB5231B00B5D31E /* PBXTargetDependency */,
+				094CC1462D9191C500FC7115 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				09EBD6EF2C92D01800F05F4B /* n8n-workflows-ios */,
@@ -386,9 +475,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
+					094CC1372D9191C400FC7115 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					09EBD6EC2C92D01800F05F4B = {
 						CreatedOnToolsVersion = 16.0;
 					};
@@ -429,6 +521,7 @@
 			projectRoot = "";
 			targets = (
 				09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */,
+				094CC1372D9191C400FC7115 /* appwidgetExtension */,
 				09EBD6FC2C92D01A00F05F4B /* n8n-workflows-iosTests */,
 				09EBD7062C92D01A00F05F4B /* n8n-workflows-iosUITests */,
 				09FC4D2B2CB5231A00B5D31E /* Watchflows Watch App */,
@@ -439,6 +532,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		094CC1362D9191C400FC7115 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		09EBD6EB2C92D01800F05F4B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -484,6 +584,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		094CC1342D9191C400FC7115 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		09EBD6E92C92D01800F05F4B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,6 +636,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		094CC1462D9191C500FC7115 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 094CC1372D9191C400FC7115 /* appwidgetExtension */;
+			targetProxy = 094CC1452D9191C500FC7115 /* PBXContainerItemProxy */;
+		};
 		09EBD6FF2C92D01A00F05F4B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */;
@@ -557,6 +669,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		094CC1492D9191C500FC7115 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 12;
+				DEVELOPMENT_TEAM = ZR272F7CTF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = appwidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = appwidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.appwidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		094CC14A2D9191C500FC7115 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 12;
+				DEVELOPMENT_TEAM = ZR272F7CTF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = appwidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = appwidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.6.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.appwidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		09EBD70F2C92D01A00F05F4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -702,7 +870,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -739,7 +907,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -846,7 +1014,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -878,7 +1046,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mgarciate.n8n-workflows.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -971,6 +1139,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		094CC14B2D9191C500FC7115 /* Build configuration list for PBXNativeTarget "appwidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				094CC1492D9191C500FC7115 /* Debug */,
+				094CC14A2D9191C500FC7115 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		09EBD6E82C92D01800F05F4B /* Build configuration list for PBXProject "n8n-workflows-ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
