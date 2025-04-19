@@ -35,7 +35,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
             }
             let params = Dictionary(uniqueKeysWithValues: queryParams.map { ($0.key, $0.value) })
             do {
-                let response: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: test), params: params)
+                let response: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(path: webhook.path, isTest: test), params: params)
                 result = .success(response)
             } catch {
 #if DEBUG
@@ -50,7 +50,7 @@ final class LaunchWebhookViewModel: LaunchWebhookViewModelProtocol {
             }
             let body = convertJsonTextToDict() ?? [:]
             do {
-                let response: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: test), body: body)
+                let response: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(path: webhook.path, isTest: test), body: body)
                 result = .success(response)
             } catch {
 #if DEBUG

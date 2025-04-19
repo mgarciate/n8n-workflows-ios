@@ -34,9 +34,9 @@ struct LaunchWebhookIntent: AppIntent {
     
     func perform() async throws -> some IntentResult {
         if webhook.httpMethod == .post {
-            let _: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(id: webhook.id, isTest: false), body: [:])
+            let _: WebhookResponse = try await WebhookRequest().post(endpoint: .webhook(path: webhook.path, isTest: false), body: [:])
         } else {
-            let _: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: false))
+            let _: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(path: webhook.path, isTest: false))
         }
         return .result()
     }

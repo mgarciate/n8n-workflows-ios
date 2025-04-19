@@ -16,7 +16,7 @@ final class WorkflowWebhooksViewModel: ObservableObject {
         self.webhook = webhook
         let result: Result<WebhookResponse, ApiError>
         do {
-            let response: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(id: webhook.id, isTest: false), params: [:])
+            let response: WebhookResponse = try await WebhookRequest().get(endpoint: .webhook(path: webhook.path, isTest: false), params: [:])
             result = .success(response)
         } catch {
 #if DEBUG
