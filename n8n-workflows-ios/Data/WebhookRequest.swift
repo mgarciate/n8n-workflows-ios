@@ -9,12 +9,12 @@ import Foundation
 
 class WebhookRequest: HTTPClient {
     enum Endpoint {
-        case webhook(id: String, isTest: Bool = false)
+        case webhook(path: String, isTest: Bool = false)
         
         var path: String {
             switch self {
-            case .webhook(let id, let isTest):
-                return !isTest ? "/webhook/\(id)" : "/webhook-test/\(id)"
+            case .webhook(let path, let isTest):
+                return !isTest ? "/webhook/\(path)" : "/webhook-test/\(path)"
             }
         }
     }
