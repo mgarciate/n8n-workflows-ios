@@ -81,6 +81,13 @@
 			);
 			target = 09EBD6EC2C92D01800F05F4B /* n8n-workflows-ios */;
 		};
+		093B76AD2E352B9C005EBEBE /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-iosTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Common/JWTManager.swift,
+			);
+			target = 09EBD6FC2C92D01A00F05F4B /* n8n-workflows-iosTests */;
+		};
 		09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -90,6 +97,7 @@
 				"Common/Extensions/Double+Formatter.swift",
 				"Common/Extensions/String+Date.swift",
 				"Common/Extensions/UserDefaults+Decodable.swift",
+				Common/JWTManager.swift,
 				Common/KeychainHelper.swift,
 				Common/MyLogger.swift,
 				Common/UserConfigurationManager.swift,
@@ -103,6 +111,7 @@
 				Data/WorkflowApiRequest.swift,
 				Models/ChatTrigger.swift,
 				Models/Execution.swift,
+				Models/JWTAlgorithm.swift,
 				Models/Project.swift,
 				Models/Tag.swift,
 				Models/Webhook.swift,
@@ -125,6 +134,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				09295BBA2CAC6FA300BA4F56 /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-ios" target */,
+				093B76AD2E352B9C005EBEBE /* Exceptions for "n8n-workflows-ios" folder in "n8n-workflows-iosTests" target */,
 				09FC4D5B2CB52F5100B5D31E /* Exceptions for "n8n-workflows-ios" folder in "Watchflows Watch App" target */,
 			);
 			path = "n8n-workflows-ios";
