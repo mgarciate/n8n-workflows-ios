@@ -8,28 +8,30 @@
 import XCTest
 
 final class JWTManagerTests: XCTestCase {
+    
+    let date = Calendar.current.date(from: DateComponents(year: 2025, month: 7, day: 27, hour: 0, minute: 0, second: 0))!
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testCreateJWTTokenHS256() throws {
+        let payload: [String : Any] = [
+            "iat": Int(date.timeIntervalSince1970)
+        ]
+        let jwtToken = JWTManager.generateToken(payload: payload, secret: "a-string-secret-at-least-256-bits-long", algorithm: .HS256)
+        XCTAssertEqual(jwtToken, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NTM1NjcyMDB9.sYISHpeuIdbMcKSiMUkNt_gTx8-nKLcgzRQl9qCavxI")
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testCreateJWTTokenHS384() throws {
+        let payload: [String : Any] = [
+            "iat": Int(date.timeIntervalSince1970)
+        ]
+        let jwtToken = JWTManager.generateToken(payload: payload, secret: "a-string-secret-at-least-256-bits-long", algorithm: .HS384)
+        XCTAssertEqual(jwtToken, "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NTM1NjcyMDB9.rLrcJL4fcHOTjtf-kJG0PCB1KuVqwFWBiAQMwzIOUNV4YVmxRzNdAlHv_oecr96A")
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testCreateJWTTokenHS512() throws {
+        let payload: [String : Any] = [
+            "iat": Int(date.timeIntervalSince1970)
+        ]
+        let jwtToken = JWTManager.generateToken(payload: payload, secret: "a-string-secret-at-least-256-bits-long", algorithm: .HS512)
+        XCTAssertEqual(jwtToken, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NTM1NjcyMDB9.XtDq4FH7OHj0J6PJQZtAX5cXnoreDvQtAcBKSO3qR-BJg7ZdY-edilwnTdhQQI0MAAw050wIvQpenL07osTYDA")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }

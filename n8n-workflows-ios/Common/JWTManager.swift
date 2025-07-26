@@ -11,15 +11,15 @@ import CryptoKit
 struct JWTManager {
     
     static func generateToken(header: [String: Any] = [:],
-                              payload: [String: Any] = [:],
+                              payload: [String: Any],
                               secret: String,
                               algorithm: JWTAlgorithm) -> String? {
-        var header = header
-        header["alg"] = algorithm.rawValue
-        header["typ"] = "JWT"
+        let headerArray: [(String, Any)] = [
+            ("alg", algorithm.rawValue),
+            ("typ", "JWT"),
+        ]
         
-        var payload = payload
-        payload["iat"] = Int(Date().timeIntervalSince1970)
+        let header = Dictionary(headerArray, uniquingKeysWith: { first, _ in first })
         
         guard let headerData = try? JSONSerialization.data(withJSONObject: header, options: []),
               let payloadData = try? JSONSerialization.data(withJSONObject: payload, options: []) else {

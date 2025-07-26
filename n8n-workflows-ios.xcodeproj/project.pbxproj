@@ -85,6 +85,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Common/JWTManager.swift,
+				Models/JWTAlgorithm.swift,
 			);
 			target = 09EBD6FC2C92D01A00F05F4B /* n8n-workflows-iosTests */;
 		};
