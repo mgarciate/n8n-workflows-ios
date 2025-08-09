@@ -172,9 +172,7 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                         Text(value.string)
                     }
                 }
-                TextField("Secret passphrase", text: $viewModel.webhookAuthenticationParam2, axis: .vertical)
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
+                SecureView(titleKey: "Secret passphrase", text: $viewModel.webhookAuthenticationParam2)
                 if viewModel.webhookAuthenticationParam2.isEmpty {
                     Text("Cannot be empty")
                         .foregroundStyle(.red)
