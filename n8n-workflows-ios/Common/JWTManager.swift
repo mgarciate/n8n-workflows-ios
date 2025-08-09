@@ -21,8 +21,8 @@ struct JWTManager {
         
         let header = Dictionary(headerArray, uniquingKeysWith: { first, _ in first })
         
-        guard let headerData = try? JSONSerialization.data(withJSONObject: header, options: []),
-              let payloadData = try? JSONSerialization.data(withJSONObject: payload, options: []) else {
+        guard let headerData = try? JSONSerialization.data(withJSONObject: header, options: [.sortedKeys]),
+              let payloadData = try? JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys]) else {
             return nil
         }
         
