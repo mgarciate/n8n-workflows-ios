@@ -14,19 +14,20 @@ struct LaunchWebhookView<ViewModel>: View where ViewModel: LaunchWebhookViewMode
     var body: some View {
         List {
             Section("Webhook request") {
-                Picker("Authentication", selection: $viewModel.webhookAuthenticationType) {
+                Picker("Authentication", selection: .constant(viewModel.webhook.authType)) {
                     ForEach(WebhookAuthType.allCases, id: \.self) { value in
                         Text(value.string)
                     }
                 }
                 .disabled(true)
                 Toggle("Test", isOn: $viewModel.test)
-                Picker("HTTP Method", selection: $viewModel.httpMethod) {
+                Picker("HTTP Method", selection: .constant(viewModel.webhook.httpMethod)) {
                     ForEach(HTTPMethod.allCases, id: \.self) { value in
                         Text(value.rawValue)
                     }
                 }
-                switch viewModel.httpMethod {
+                .disabled(true)
+                switch viewModel.webhook.httpMethod {
                 case .get:
                     Text("Query parameters:")
                     ForEach($viewModel.queryParams) { $query in

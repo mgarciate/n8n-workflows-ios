@@ -15,6 +15,21 @@ enum WorkflowNodeType: String {
 
 enum WorkflowNodeAuthentication: String, Codable {
     case basicAuth
+    case headerAuth
+    case jwtAuth
+}
+
+extension WorkflowNodeAuthentication {
+    var webhookAuthType: WebhookAuthType {
+        switch self {
+        case .basicAuth:
+            return .basic
+        case .headerAuth:
+            return .header
+        case .jwtAuth:
+            return .jwt
+        }
+    }
 }
 
 extension WorkflowNodeType: Codable {
@@ -69,7 +84,7 @@ extension Workflow {
                   let webhookId = $0.webhookId,
                   let path = $0.parameters?.path,
                   !path.isEmpty else { return nil }
-            return Webhook(id: webhookId, name: $0.name, path: path, httpMethod: $0.parameters?.httpMethod)
+            return Webhook(id: webhookId, name: $0.name, path: path, httpMethod: $0.parameters?.httpMethod ?? .get, authType: $0.parameters?.authentication?.webhookAuthType ?? .noAuth)
         }
     }
     
