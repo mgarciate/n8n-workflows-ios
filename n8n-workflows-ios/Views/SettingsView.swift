@@ -129,8 +129,8 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                     Text(value.string)
                 }
             }
-            .onChange(of: viewModel.webhookAuthenticationType) { _ in // Supported from iOS 14
-                viewModel.webhookAuthenticationParam1 = ""
+            .onChange(of: viewModel.webhookAuthenticationType) { newValue in // Supported from iOS 14
+                viewModel.webhookAuthenticationParam1 = newValue == .jwt ? JWTAlgorithm.HS256.rawValue : ""
                 viewModel.webhookAuthenticationParam2 = ""
             }
             switch viewModel.webhookAuthenticationType {
@@ -167,8 +167,18 @@ struct SettingsView<ViewModel>: View where ViewModel: SettingsViewModelProtocol 
                         .font(.caption.italic())
                 }
             case .jwt:
-                Text("Not supported yet")
-                    .foregroundStyle(.red)
+                Picker("Algorithm", selection: $viewModel.webhookAuthenticationParam1) {
+                    ForEach(JWTAlgorithm.allCases, id: \.rawValue) { value in
+                        Text(value.string)
+                    }
+                }
+                SecureView(titleKey: "Secret passphrase", text: $viewModel.webhookAuthenticationParam2)
+                if viewModel.webhookAuthenticationParam2.isEmpty {
+                    Text("Cannot be empty")
+                        .foregroundStyle(.red)
+                        .font(.caption.italic())
+                }
+                Text("* Supports HMAC-based algorithms: HS256, HS384, and HS512")
                     .font(.caption.italic())
             case .noAuth:
                 EmptyView()

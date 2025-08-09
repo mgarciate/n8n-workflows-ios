@@ -12,12 +12,13 @@ struct Webhook: Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let path: String
-    let httpMethod: HTTPMethod?
+    let httpMethod: HTTPMethod
+    let authType: WebhookAuthType
 }
 
 extension Webhook {
     static var dummyWebhook: Webhook {
-        Webhook(id: "webhookId", name: "webhookName", path: "webhookPath", httpMethod: .get)
+        Webhook(id: "webhookId", name: "webhookName", path: "webhookPath", httpMethod: .post, authType: .jwt)
     }
 }
 

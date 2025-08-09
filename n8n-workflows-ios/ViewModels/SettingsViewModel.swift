@@ -36,12 +36,12 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     
     private func validateWebhookAuth() {
         switch webhookAuthenticationType {
-        case .basic, .header:
+        case .basic, .header, .jwt:
             guard !webhookAuthenticationParam1.isEmpty, !webhookAuthenticationParam2.isEmpty else {
                 resetWebhookAuth()
                 break
             }
-        case .jwt, .noAuth:
+        case .noAuth:
             resetWebhookAuth()
         }
     }

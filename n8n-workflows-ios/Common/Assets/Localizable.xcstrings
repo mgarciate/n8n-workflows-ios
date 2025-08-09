@@ -10,6 +10,9 @@
     "{}" : {
 
     },
+    "* Supports HMAC-based algorithms: HS256, HS384, and HS512" : {
+
+    },
     "**Important:** You can rename the **Shortcut** so that it's more intuitive to launch it by calling Siri. For example, \"Start my custom workout.\"" : {
 
     },
@@ -67,6 +70,9 @@
           }
         }
       }
+    },
+    "Algorithm" : {
+
     },
     "API-KEY" : {
 
@@ -183,9 +189,6 @@
     "No data available" : {
 
     },
-    "Not supported yet" : {
-
-    },
     "OK" : {
 
     },
@@ -217,6 +220,9 @@
 
     },
     "Save" : {
+
+    },
+    "Secret passphrase" : {
 
     },
     "Select a Workflow" : {

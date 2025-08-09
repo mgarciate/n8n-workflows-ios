@@ -9,9 +9,7 @@ import SwiftUI
 
 protocol LaunchWebhookViewModelProtocol: ObservableObject {
     var webhook: Webhook { get }
-    var webhookAuthenticationType: WebhookAuthType { get set }
     var test: Bool { get set }
-    var httpMethod: HTTPMethod { get set }
     var jsonText: String { get set }
     var queryParams: [QueryParam] { get set }
     var isAlertPresented: Bool { get set }

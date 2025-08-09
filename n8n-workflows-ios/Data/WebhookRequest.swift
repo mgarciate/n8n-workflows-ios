@@ -45,7 +45,17 @@ class WebhookRequest: HTTPClient {
                let value = UserDefaultsHelper.shared.webhookAuthParam2 {
                 headers[key] = value
             }
-        case .jwt, .noAuth:
+        case .jwt:
+            let payload: [String : Any] = [
+                "iat": Int(Date().timeIntervalSince1970)
+            ]
+            if let param1 = UserDefaultsHelper.shared.webhookAuthParam1,
+               let algorithm = JWTAlgorithm(rawValue: param1),
+               let passphrase = UserDefaultsHelper.shared.webhookAuthParam2,
+               let token = JWTManager.generateToken(header: [:], payload: payload, secret: passphrase, algorithm: algorithm) {
+                headers["Authorization"] = "Bearer \(token)"
+            }
+        case .noAuth:
             break
         }
     }
