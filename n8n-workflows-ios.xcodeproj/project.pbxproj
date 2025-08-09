@@ -64,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0993BB032E47DB0800CDECE7 /* n8n-workflows-ios.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "n8n-workflows-ios.xctestplan"; sourceTree = "<group>"; };
 		09DD5E162CBEA51200D708A9 /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Charts.framework; path = System/Library/Frameworks/Charts.framework; sourceTree = SDKROOT; };
 		09EBD6ED2C92D01800F05F4B /* n8n-workflows-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "n8n-workflows-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EBD6FD2C92D01A00F05F4B /* n8n-workflows-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "n8n-workflows-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -226,6 +227,7 @@
 		09EBD6E42C92D01800F05F4B = {
 			isa = PBXGroup;
 			children = (
+				0993BB032E47DB0800CDECE7 /* n8n-workflows-ios.xctestplan */,
 				09EBD6EF2C92D01800F05F4B /* n8n-workflows-ios */,
 				09EBD7002C92D01A00F05F4B /* n8n-workflows-iosTests */,
 				09EBD70A2C92D01A00F05F4B /* n8n-workflows-iosUITests */,

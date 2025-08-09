@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "4C6619E3-CE35-49C4-AD68-173816E3A4C8",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:n8n-workflows-ios.xcodeproj",
+      "identifier" : "09EBD6EC2C92D01800F05F4B",
+      "name" : "n8n-workflows-ios"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:n8n-workflows-ios.xcodeproj",
+        "identifier" : "09EBD6FC2C92D01A00F05F4B",
+        "name" : "n8n-workflows-iosTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:n8n-workflows-ios.xcodeproj",
+        "identifier" : "09EBD7062C92D01A00F05F4B",
+        "name" : "n8n-workflows-iosUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
